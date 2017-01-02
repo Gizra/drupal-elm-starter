@@ -19,8 +19,8 @@ decodePusherEventData =
         |> andThen
             (\type_ ->
                 case type_ of
-                    "sensor__create" ->
-                        map SensorCreate decodeSensorCreateData
+                    "sensor__update" ->
+                        map SensorUpdate decodeSensorCreateData
 
                     _ ->
                         fail (type_ ++ " is not a recognized 'type' for PusherEventData.")
