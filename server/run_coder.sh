@@ -33,10 +33,11 @@ code_review () {
 PATTERNS="*.features.inc,*.features.*.inc,*.field_group.inc,*.strongarm.inc,*.ds.inc,*.context.inc,*.pages.inc,*.pages_default.inc,*.views_default.inc,*.file_default_displays.inc,*.facetapi_defaults.inc,*.panels_default.inc"
 
 echo
-echo "${LBLUE}> Sniffing Modules${RESTORE}"
+echo "${LBLUE} > Sniffing Modules${RESTORE}"
 
 code_review sensors/modules/custom $PATTERNS
 
 echo
+echo $HAS_ERRORS
 
 exit $HAS_ERRORS
