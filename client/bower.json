@@ -1,0 +1,16 @@
+{
+  "name": "Sensors",
+  "homepage": "https://github.com/Gizra/sensors",
+  "authors": [],
+  "description": "Sensors",
+  "main": "src/index.html",
+  "license": "BSD-3-Clause",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "copy-button": "sudodoki/copy-button#2.0.0"
+  }
+}

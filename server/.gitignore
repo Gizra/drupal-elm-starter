@@ -1,0 +1,15 @@
+# Drupal profile #
+##################
+sensors/modules/contrib
+sensors/modules/development
+sensors/1
+sensors/themes/contrib
+sensors/libraries
+
+# Temporary "build" files
+www
+
+# Local Configuration
+config.sh
+prepare_db_for_dev.sh
+pantheon-install.sh

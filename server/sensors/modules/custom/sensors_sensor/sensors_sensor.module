@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * Code for the Sensors sensor feature.
+ */
+
+include_once 'sensors_sensor.features.inc';
+
+/**
+ * Implements hook_node_insert().
+ */
+function sensors_sensor_node_insert($node) {
+  sensors_sensor_trigger_pusher_on_sensor_data_change($node);
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function sensors_sensor_node_update($node) {
+  if ($node->type != 'sensor_electricity_data') {
+    return;
+  }
+  // Make sure we get updated data.
+  entity_get_controller('node')->resetCache();
+  sensors_sensor_trigger_pusher_on_sensor_data_change($node);
+}
+
+/**
+ * Trigger a pusher event for a Sensor data.
+ *
+ * @param object $node
+ *   A Sensor data node type.
+ */
+function sensors_sensor_trigger_pusher_on_sensor_data_change($node) {
+  if ($node->type != 'sensor_electricity') {
+    return;
+  }
+
+  if ($node->status == NODE_NOT_PUBLISHED) {
+    // Node is not published.
+    return;
+  }
+
+  $account = user_load($node->uid);
+
+  $handler = restful_get_restful_handler('sensors');
+  $handler->setAccount($account);
+  $output = $handler->get($node->nid);
+
+  $data = [
+    'output' => $output,
+  ];
+
+  sensors_pusher_trigger_event('general', 'sensor_change', $data);
+}

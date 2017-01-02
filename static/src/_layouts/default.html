@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.1/semantic.min.css">
+    <link rel="stylesheet" href="/assets/stylesheets/style.css" />
+  </head>
+  <body>
+
+    {% include sidebar.html %}
+    <div class="pusher">
+        <div class="ui grid container">
+            <div class="ui main grid">
+                {{ content }}
+            </div>
+
+        </div>
+    </div>
+    <script src="/assets/javascript/script.js"></script>
+  </body>
+</html>

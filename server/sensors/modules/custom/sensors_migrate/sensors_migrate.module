@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Populate Sensors content.
+ */
+
+/**
+ * Implements hook_migrate_api().
+ */
+function sensors_migrate_migrate_api() {
+  $migrations = array(
+    // Nodes.
+    'SensorsMigrateSensorElectricity',
+    // Users.
+    'SensorsMigrateUsersMigrate',
+  );
+
+  $api['api'] = 2;
+  foreach ($migrations as $migration) {
+    $api['migrations'][$migration] = array('class_name' => $migration);
+  }
+
+  return $api;
+}

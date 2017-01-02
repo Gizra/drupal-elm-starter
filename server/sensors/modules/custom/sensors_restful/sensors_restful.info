@@ -1,0 +1,8 @@
+name = Sensors RESTFul
+description = "Sensors RESTFul"
+core = 7.x
+package = Sensors
+dependencies[] = restful
+dependencies[] = entity_validator
+
+files[] = plugins/restful/node/SensorsRestfulEntityBaseNode.php

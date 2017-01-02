@@ -1,0 +1,14 @@
+name = "Sensors migration"
+description = "Populate content."
+package = "Sensors"
+core = 7.x
+dependencies[] = migrate
+dependencies[] = migrate_extras
+
+; Handlers
+files[] = handlers/SensorsMigrateBase.php
+files[] = handlers/node/SensorsMigrateIncidentRule.php
+files[] = handlers/node/SensorsMigrateSensorElectricity.php
+files[] = handlers/node/SensorsMigrateSensorElectricityData.php
+files[] = handlers/node/SensorsMigrateSensorIncident.php
+files[] = handlers/user/SensorsMigrateUsersMigrate.php

@@ -1,0 +1,10 @@
+{
+  "name": "Behat tests for Sensors",
+  "description": "Functional testing for Sensors installation profile.",
+  "require": {
+    "drupal/drupal-extension": "~3.0"
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}
