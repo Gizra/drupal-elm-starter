@@ -16,8 +16,7 @@ class SensorsRestfulSensors extends SensorsRestfulEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
-    $field_names = [
-    ];
+    $field_names = [];
 
     foreach ($field_names as $field_name) {
       $public_name = str_replace('field_', '', $field_name);
@@ -33,7 +32,6 @@ class SensorsRestfulSensors extends SensorsRestfulEntityBaseNode {
       ],
       'image_styles' => ['large'],
     ];
-
 
     return $public_fields;
   }
