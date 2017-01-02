@@ -38,5 +38,6 @@ echo "${LBLUE}> Sniffing Modules${RESTORE}"
 code_review sensors/modules/custom $PATTERNS
 
 echo
+echo $HAS_ERRORS
 
 exit $HAS_ERRORS

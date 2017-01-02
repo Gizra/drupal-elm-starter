@@ -16,7 +16,7 @@ PROFILE_TITLE="Sensors"
 
 
 # Modify the URL below to match your local domain the site will be accessible on.
-BASE_DOMAIN_URL="http://127.0.0.1:8080"
+BASE_DOMAIN_URL="http://server.local"
 
 
 # Modify the login details below to be the desired
