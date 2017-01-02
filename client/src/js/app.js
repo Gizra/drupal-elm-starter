@@ -19,7 +19,7 @@ elmApp.ports.pusherKey.subscribe(function(appKey) {
       var channel = pusher.subscribe(channelName);
 
       var eventNames = [
-        'sensor_change',
+        'sensor__create',
       ];
 
       eventNames.forEach(function(eventName) {
