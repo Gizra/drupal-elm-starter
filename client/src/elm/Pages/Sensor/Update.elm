@@ -13,7 +13,7 @@ update backendUrl accessToken user msg sensor =
     case msg of
         HandlePusherEventData event ->
             case event of
-                SensorCreate newSensor ->
+                SensorUpdate newSensor ->
                     -- So, the idea is that we have a new or updated sensor,
                     -- which has already been saved at the server. Note that
                     -- we may have just pushed this change ourselves, so it's

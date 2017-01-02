@@ -18,12 +18,12 @@ decodeTest =
                     json =
                         """
 {
-    "eventType" : "sensor__create",
+    "eventType" : "sensor__update",
     "data" : {
         "sensor": "100",
         "data" : [
             {
-                "label" : "new-sensor",
+                "label" : "new-sensor"
             }
         ]
     }
@@ -37,8 +37,8 @@ decodeTest =
                             { name = "new-sensor"
                             , image = "http://placehold.it/350x150"
                             }
-                                |> SensorCreateData
-                                |> SensorCreate
+                                |> SensorUpdateData
+                                |> SensorUpdate
                         }
                 in
                     Expect.equal (Ok expectedResult) (decodeString decodePusherEvent json)

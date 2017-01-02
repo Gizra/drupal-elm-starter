@@ -49,7 +49,7 @@ function sensors_sensor_trigger_pusher_on_sensor_data_change($node) {
   $output = $handler->get($node->nid);
 
   $data = [
-    'output' => $output,
+    'data' => $output,
   ];
 
   sensors_pusher_trigger_event('general', 'sensor__update', $data);

@@ -10,9 +10,9 @@ type alias PusherEvent =
 
 
 type PusherEventData
-    = SensorCreate SensorCreateData
+    = SensorUpdate SensorUpdateData
 
 
-type alias SensorCreateData =
+type alias SensorUpdateData =
     { sensor : Sensor
     }

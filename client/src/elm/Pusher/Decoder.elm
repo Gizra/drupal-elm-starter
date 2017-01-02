@@ -20,14 +20,14 @@ decodePusherEventData =
             (\type_ ->
                 case type_ of
                     "sensor__update" ->
-                        map SensorUpdate decodeSensorCreateData
+                        map SensorUpdate decodeSensorUpdateData
 
                     _ ->
                         fail (type_ ++ " is not a recognized 'type' for PusherEventData.")
             )
 
 
-decodeSensorCreateData : Decoder SensorCreateData
-decodeSensorCreateData =
-    decode SensorCreateData
+decodeSensorUpdateData : Decoder SensorUpdateData
+decodeSensorUpdateData =
+    decode SensorUpdateData
         |> requiredAt [ "data", "0" ] decodeSensor
