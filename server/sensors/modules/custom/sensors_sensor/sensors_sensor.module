@@ -46,11 +46,7 @@ function sensors_sensor_trigger_pusher_on_sensor_data_change($node) {
 
   $handler = restful_get_restful_handler('sensors');
   $handler->setAccount($account);
-  $output = $handler->get($node->nid);
+  $data = $handler->get($node->nid);
 
-  $data = [
-    'data' => $output,
-  ];
-
-  sensors_pusher_trigger_event('general', 'sensor__update', $data);
+  sensors_pusher_trigger_event('general', 'sensor__update', $data[0]);
 }

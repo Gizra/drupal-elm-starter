@@ -14,5 +14,6 @@ type PusherEventData
 
 
 type alias SensorUpdateData =
-    { sensor : Sensor
+    { sensorId : SensorId
+    , sensor : Sensor
     }

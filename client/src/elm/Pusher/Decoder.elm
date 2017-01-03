@@ -4,6 +4,7 @@ import Json.Decode as Json exposing (Decoder, andThen, at, fail, field, map, map
 import Json.Decode.Pipeline exposing (custom, decode, optional, required, requiredAt)
 import Pusher.Model exposing (..)
 import Sensor.Decoder exposing (decodeSensor)
+import Sensor.Model exposing (Sensor)
 
 
 decodePusherEvent : Decoder PusherEvent
@@ -27,7 +28,7 @@ decodePusherEventData =
             )
 
 
-decodeSensorUpdateData : Decoder SensorUpdateData
+decodeSensorUpdateData : Decoder Sensor
 decodeSensorUpdateData =
-    decode SensorUpdateData
+    decode Sensor
         |> requiredAt [ "data", "0" ] decodeSensor
