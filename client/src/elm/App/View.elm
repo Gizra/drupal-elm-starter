@@ -21,29 +21,21 @@ view model =
             Config.View.view
 
         _ ->
-            let
-                offlineWrapper =
-                    if model.offline then
-                        div [] [ text "App is Offline" ]
-                    else
-                        div [] []
-            in
-                div []
-                    [ div [ class "ui container main" ]
-                        [ viewSidebar model
-                        , div
-                            [ class "pusher" ]
+            div []
+                [ div [ class "ui container main" ]
+                    [ viewSidebar model
+                    , div
+                        [ class "pusher" ]
+                        [ div
+                            [ class "ui grid container" ]
                             [ div
-                                [ class "ui grid container" ]
-                                [ div
-                                    [ class "ui main grid" ]
-                                    [ offlineWrapper
-                                    , viewMainContent model
-                                    ]
+                                [ class "ui main grid" ]
+                                [ viewMainContent model
                                 ]
                             ]
                         ]
                     ]
+                ]
 
 
 viewSidebar : Model -> Html Msg
@@ -70,6 +62,22 @@ viewSidebar model =
                     , onClick <| SetActivePage Dashboard
                     ]
                     [ text "Dashboard" ]
+                , span
+                    [ class "item"
+                    ]
+                    [ text <|
+                        if model.offline then
+                            "Not Connected"
+                        else
+                            "Connected"
+                    , i
+                        [ classList
+                            [ ( "icon wifi", True )
+                            , ( "disabled", model.offline )
+                            ]
+                        ]
+                        []
+                    ]
                 ]
 
         _ ->
