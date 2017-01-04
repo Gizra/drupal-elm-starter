@@ -5,9 +5,11 @@ import App.PageType exposing (Page(..))
 import Config
 import Date
 import Dict
-import Pages.Login.Update
 import ItemManager.Model
 import ItemManager.Update
+import Json.Decode exposing (decodeValue, bool)
+import Json.Encode exposing (Value)
+import Pages.Login.Update
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (minute)
@@ -67,6 +69,12 @@ update msg model =
                     ""
     in
         case msg of
+            HandleOfflineEvent (Ok offline) ->
+                { model | offline = offline } ! []
+
+            HandleOfflineEvent (Err err) ->
+                model ! []
+
             Logout ->
                 ( { emptyModel
                     | accessToken = ""
@@ -207,6 +215,7 @@ subscriptions model =
     Sub.batch
         [ Sub.map MsgItemManager <| ItemManager.Update.subscriptions model.pageItem model.activePage
         , Time.every minute Tick
+        , offline (decodeValue bool >> HandleOfflineEvent)
         ]
 
 
@@ -218,3 +227,8 @@ port accessTokenPort : String -> Cmd msg
 {-| Send Pusher key to JS.
 -}
 port pusherKey : String -> Cmd msg
+
+
+{-| Get a singal if internet connection is lost.
+-}
+port offline : (Value -> msg) -> Sub msg
