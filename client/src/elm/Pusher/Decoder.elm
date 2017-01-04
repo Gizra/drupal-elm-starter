@@ -10,7 +10,7 @@ import Sensor.Model exposing (Sensor)
 decodePusherEvent : Decoder PusherEvent
 decodePusherEvent =
     decode PusherEvent
-        |> requiredAt [ "data", "sensor" ] string
+        |> requiredAt [ "data", "id" ] string
         |> custom decodePusherEventData
 
 

@@ -20,6 +20,7 @@ decodeTest =
 {
     "eventType" : "sensor__update",
     "data" : {
+      "id" : "100",
       "label" : "new-sensor"
     }
 
