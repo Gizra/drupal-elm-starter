@@ -128,55 +128,62 @@ viewAvatar user =
 viewMainContent : Model -> Html Msg
 viewMainContent model =
     let
-        backendUrl =
-            case model.config of
-                Success config ->
-                    config.backendUrl
+        viewContent =
+            case model.activePage of
+                AccessDenied ->
+                    div [] [ text "Access denied" ]
 
-                _ ->
-                    ""
+                Login ->
+                    Html.map PageLogin (Pages.Login.View.view model.user model.pageLogin)
+
+                MyAccount ->
+                    Pages.MyAccount.View.view model.user
+
+                PageNotFound ->
+                    -- We don't need to pass any cmds, so we can call the view directly
+                    Pages.PageNotFound.View.view
+
+                Dashboard ->
+                    -- We get the user information before diving down a level, since
+                    -- Pages.LiveSession can't do anything sensible without a user, and it is
+                    -- at this higher level that we could present a UI related to loading
+                    -- the user information.
+                    case model.user of
+                        Success user ->
+                            Html.map MsgItemManager <|
+                                ItemManager.View.viewItems model.currentDate user model.pageItem
+
+                        _ ->
+                            div []
+                                [ i [ class "notched circle loading icon" ] [] ]
+
+                Item id ->
+                    -- We get the user information before diving down a level, since
+                    -- Pages.LiveSession can't do anything sensible without a user, and it is
+                    -- at this higher level that we could present a UI related to loading
+                    -- the user information.
+                    case model.user of
+                        Success user ->
+                            Html.map MsgItemManager <|
+                                ItemManager.View.viewPageItem model.currentDate id user model.pageItem
+
+                        _ ->
+                            div []
+                                [ i [ class "notched circle loading icon" ] [] ]
     in
-        case model.activePage of
-            AccessDenied ->
-                div [] [ text "Access denied" ]
+        case model.user of
+            NotAsked ->
+                if String.isEmpty model.accessToken then
+                    viewContent
+                else
+                    -- User might be logged in, so no need to present the login form.
+                    -- So we first just show a throbber
+                    div []
+                        [ i [ class "icon loading spinner" ] []
+                        ]
 
-            Login ->
-                Html.map PageLogin (Pages.Login.View.view model.user model.pageLogin)
-
-            MyAccount ->
-                Pages.MyAccount.View.view model.user
-
-            PageNotFound ->
-                -- We don't need to pass any cmds, so we can call the view directly
-                Pages.PageNotFound.View.view
-
-            Dashboard ->
-                -- We get the user information before diving down a level, since
-                -- Pages.LiveSession can't do anything sensible without a user, and it is
-                -- at this higher level that we could present a UI related to loading
-                -- the user information.
-                case model.user of
-                    Success user ->
-                        Html.map MsgItemManager <|
-                            ItemManager.View.viewItems model.currentDate user model.pageItem
-
-                    _ ->
-                        div []
-                            [ i [ class "notched circle loading icon" ] [] ]
-
-            Item id ->
-                -- We get the user information before diving down a level, since
-                -- Pages.LiveSession can't do anything sensible without a user, and it is
-                -- at this higher level that we could present a UI related to loading
-                -- the user information.
-                case model.user of
-                    Success user ->
-                        Html.map MsgItemManager <|
-                            ItemManager.View.viewPageItem model.currentDate id user model.pageItem
-
-                    _ ->
-                        div []
-                            [ i [ class "notched circle loading icon" ] [] ]
+            _ ->
+                viewContent
 
 
 {-| Get menu items classes. This function gets the active page and checks if
