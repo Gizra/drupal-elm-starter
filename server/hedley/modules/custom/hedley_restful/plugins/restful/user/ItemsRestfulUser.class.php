@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains \HedleyRestfulUser.
+ * Contains \ItemsRestfulUser .
  */
 
 /**
- * Class HedleyRestfulUser.
+ * Class ItemsRestfulUser .
  */
-class HedleyRestfulUser extends \RestfulEntityBaseUser {
+class ItemsRestfulUser extends \RestfulEntityBaseUser {
 
   /**
    * Overrides \RestfulEntityBaseUser::publicFieldsInfo().

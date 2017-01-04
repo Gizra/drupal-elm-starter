@@ -6,12 +6,12 @@
  */
 
 $plugin = array(
-  'label' => t('Hedley'),
-  'resource' => 'hedley',
-  'name' => 'hedley',
+  'label' => t('Items'),
+  'resource' => 'items',
+  'name' => 'items',
   'entity_type' => 'node',
   'bundle' => 'item',
   'description' => t('Exports the Hedley electricity bundle.'),
-  'class' => 'HedleyRestfulHedley',
+  'class' => 'HedleyRestfulItems',
   'authentication_types' => TRUE,
 );
