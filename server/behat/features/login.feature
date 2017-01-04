@@ -3,7 +3,7 @@ Feature: User login
   As an anonymous user
   We need to be able to login to the site
 
-  @javascript
+  @javascript @wip
   Scenario: Login to site, and check access to the homepage.
     Given I login with user "admin"
      When I visit "/#/dashboard/1/events"

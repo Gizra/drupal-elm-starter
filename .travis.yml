@@ -1,13 +1,8 @@
-sudo: false
+sudo: require
 
 language: php
 php:
   - 5.6
-
-mysql:
-  database: drupal
-  username: root
-  encoding: utf8
 
 env:
   - BUILD_SERVER=1
@@ -17,23 +12,16 @@ env:
   - CODE_REVIEW=1
     REVIEW_STANDARD="DrupalPractice"
 
-node_js:
-  - "4.1"
-
-addons:
-  apt:
-    packages:
-    - net-tools
+services:
+  - docker
 
 cache:
   directories:
-    - client/elm-stuff/build-artifacts
-    - client/elm-stuff/packages
-    - client/sysconfcpus
+    - sysconfcpus
 
 before_install:
   - composer self-update
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 install:
   - $TRAVIS_BUILD_DIR/ci-scripts/install_client.sh
@@ -42,9 +30,14 @@ install:
 
 before_script:
   - $TRAVIS_BUILD_DIR/ci-scripts/prepare_client.sh
-  - $TRAVIS_BUILD_DIR/ci-scripts/prepare_server.sh
 
 script:
   - $TRAVIS_BUILD_DIR/ci-scripts/test_client.sh
   - $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh
   - $TRAVIS_BUILD_DIR/ci-scripts/test_server.sh
+
+cache:
+  directories:
+    - client/elm-stuff/build-artifacts
+    - client/elm-stuff/packages
+    - client/sysconfcpus
