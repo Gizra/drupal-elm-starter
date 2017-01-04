@@ -18,7 +18,7 @@ function sensors_sensor_node_insert($node) {
  * Implements hook_node_update().
  */
 function sensors_sensor_node_update($node) {
-  if ($node->type != 'sensor_electricity_data') {
+  if ($node->type != 'sensor_electricity') {
     return;
   }
   // Make sure we get updated data.
@@ -46,11 +46,7 @@ function sensors_sensor_trigger_pusher_on_sensor_data_change($node) {
 
   $handler = restful_get_restful_handler('sensors');
   $handler->setAccount($account);
-  $output = $handler->get($node->nid);
+  $data = $handler->get($node->nid);
 
-  $data = [
-    'output' => $output,
-  ];
-
-  sensors_pusher_trigger_event('general', 'sensor_change', $data);
+  sensors_pusher_trigger_event('general', 'sensor__update', $data[0]);
 }

@@ -2,10 +2,8 @@ module Pusher.Test exposing (all)
 
 import Date
 import Dict
-import DispatchMessage.Model
 import Expect
 import Json.Decode exposing (decodeString)
-import Incident.Model exposing (..)
 import Pusher.Decoder exposing (..)
 import Pusher.Model exposing (..)
 import Test exposing (Test, describe, test)
@@ -20,16 +18,10 @@ decodeTest =
                     json =
                         """
 {
-    "eventType" : "sensor__create",
+    "eventType" : "sensor__update",
     "data" : {
-        "sensor": "100",
-        "incidents" : {
-            "2" : {
-                "type" : "non_responsive",
-                "status": "resolved",
-                "created": "2016-12-13T11:32:54+02:00"
-            }
-        }
+      "id" : "100",
+      "label" : "new-sensor"
     }
 
 }
@@ -38,18 +30,10 @@ decodeTest =
                     expectedResult =
                         { sensorId = "100"
                         , data =
-                            Dict.fromList
-                                [ ( "2"
-                                  , { bundle = IncidentNonResponsive
-                                    , status = IncidentStatusResolved
-                                    , created = Date.fromTime 1481621574000
-                                    , showSendTextMessage = False
-                                    , dispatchMessage = DispatchMessage.Model.emptyModel
-                                    }
-                                  )
-                                ]
-                                |> PusherEventIncidentData
-                                |> PusherEventIncident
+                            { name = "new-sensor"
+                            , image = "http://placehold.it/350x150"
+                            }
+                                |> SensorUpdate
                         }
                 in
                     Expect.equal (Ok expectedResult) (decodeString decodePusherEvent json)
