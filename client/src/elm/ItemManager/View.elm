@@ -1,7 +1,7 @@
 module ItemManager.View
     exposing
         ( viewPageItem
-        , viewHedley
+        , viewItems
         )
 
 import Config.Model exposing (BackendUrl)
@@ -10,25 +10,25 @@ import Pages.Item.View
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Pages.Hedley.View
-import Item.Model exposing (ItemId, HedleyDict)
+import Pages.Items.View
+import Item.Model exposing (ItemId, ItemsDict)
 import ItemManager.Model exposing (..)
-import ItemManager.Utils exposing (getItem, unwrapHedleyDict)
+import ItemManager.Utils exposing (getItem, unwrapItemsDict)
 import RemoteData exposing (RemoteData(..))
 import User.Model exposing (User)
 import Utils.WebData exposing (viewError)
 
 
-{-| Show all Hedley page.
+{-| Show all Items page.
 -}
-viewHedley : Date -> User -> Model -> Html Msg
-viewHedley currentDate user model =
+viewItems : Date -> User -> Model -> Html Msg
+viewItems currentDate user model =
     let
-        hedley =
-            unwrapHedleyDict model.hedley
+        items =
+            unwrapItemsDict model.items
     in
         div []
-            [ Html.map MsgPagesHedley <| Pages.Hedley.View.view currentDate user hedley model.hedleyPage
+            [ Html.map MsgPagesItems <| Pages.Items.View.view currentDate user items model.itemsPage
             ]
 
 

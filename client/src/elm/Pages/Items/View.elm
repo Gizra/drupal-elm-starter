@@ -1,4 +1,4 @@
-module Pages.Hedley.View exposing (view)
+module Pages.Items.View exposing (view)
 
 import App.PageType exposing (Page(..))
 import Date exposing (Date)
@@ -6,34 +6,34 @@ import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, onClick, onInput, onWithOptions)
-import Pages.Hedley.Model exposing (Model, Msg(..))
-import Item.Model exposing (Item, ItemId, HedleyDict)
+import Pages.Items.Model exposing (Model, Msg(..))
+import Item.Model exposing (Item, ItemId, ItemsDict)
 import Table exposing (..)
 import User.Model exposing (User)
 
 
-view : Date -> User -> HedleyDict -> Model -> Html Msg
-view currentDate currentUser hedley model =
+view : Date -> User -> ItemsDict -> Model -> Html Msg
+view currentDate currentUser items model =
     let
         lowerQuery =
             String.toLower model.query
 
-        acceptableHedley =
+        acceptableItems =
             Dict.filter
                 (\itemId item ->
                     (String.contains lowerQuery << String.toLower << .name) item
                 )
-                hedley
+                items
                 |> Dict.toList
 
         searchResult =
-            if List.isEmpty acceptableHedley then
-                div [ class "ui segment" ] [ text "No hedley found" ]
+            if List.isEmpty acceptableItems then
+                div [ class "ui segment" ] [ text "No items found" ]
             else
-                Table.view config model.tableState acceptableHedley
+                Table.view config model.tableState acceptableItems
     in
         div []
-            [ h1 [] [ text "Hedley" ]
+            [ h1 [] [ text "Items" ]
             , div [ class "ui input" ]
                 [ input
                     [ placeholder "Search by Name"

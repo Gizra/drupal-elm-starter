@@ -1,30 +1,30 @@
 module ItemManager.Utils
     exposing
         ( getItem
-        , wrapHedleyDict
-        , unwrapHedleyDict
+        , wrapItemsDict
+        , unwrapItemsDict
         )
 
 import Dict exposing (Dict)
-import Item.Model exposing (Item, ItemId, HedleyDict)
+import Item.Model exposing (Item, ItemId, ItemsDict)
 import ItemManager.Model as ItemManager
 import RemoteData exposing (RemoteData(..), WebData)
 
 
 getItem : ItemId -> ItemManager.Model -> WebData Item
 getItem id model =
-    Dict.get id model.hedley
+    Dict.get id model.items
         |> Maybe.withDefault NotAsked
 
 
-wrapHedleyDict : HedleyDict -> Dict ItemId (WebData Item)
-wrapHedleyDict =
+wrapItemsDict : ItemsDict -> Dict ItemId (WebData Item)
+wrapItemsDict =
     Dict.map (\_ item -> Success item)
 
 
-unwrapHedleyDict : Dict ItemId (WebData Item) -> HedleyDict
-unwrapHedleyDict wrappedHedleyDict =
-    wrappedHedleyDict
+unwrapItemsDict : Dict ItemId (WebData Item) -> ItemsDict
+unwrapItemsDict wrappedItemsDict =
+    wrappedItemsDict
         |> Dict.foldl
             (\itemId wrappedItem accum ->
                 case wrappedItem of

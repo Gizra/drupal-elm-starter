@@ -1,7 +1,7 @@
 module Item.Decoder
     exposing
         ( decodeItem
-        , decodeHedleyDict
+        , decodeItemsDict
         )
 
 import Json.Decode exposing (Decoder, andThen, dict, fail, field, int, list, map, map2, nullable, string, succeed)
@@ -17,6 +17,6 @@ decodeItem =
         |> optional "image" string "http://placehold.it/350x150"
 
 
-decodeHedleyDict : Decoder HedleyDict
-decodeHedleyDict =
+decodeItemsDict : Decoder ItemsDict
+decodeItemsDict =
     decodeListAsDict decodeItem

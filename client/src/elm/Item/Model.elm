@@ -2,7 +2,7 @@ module Item.Model
     exposing
         ( Item
         , ItemId
-        , HedleyDict
+        , ItemsDict
         )
 
 import Dict exposing (Dict)
@@ -18,5 +18,5 @@ type alias Item =
     }
 
 
-type alias HedleyDict =
+type alias ItemsDict =
     Dict ItemId Item

@@ -25,7 +25,7 @@ delta2url previous current =
         PageItem id ->
             Just <| UrlChange NewEntry ("#item/" ++ id)
 
-        Hedley ->
+        Items ->
             Just <| UrlChange NewEntry "#"
 
 
@@ -42,7 +42,7 @@ location2messages location =
 parseUrl : Parser (Msg -> c) c
 parseUrl =
     oneOf
-        [ map (SetActivePage Hedley) (s "")
+        [ map (SetActivePage Items) (s "")
         , map (\id -> SetActivePage <| PageItem (toString id)) (s "item" </> int)
         , map (SetActivePage Login) (s "login")
         , map (SetActivePage MyAccount) (s "my-account")

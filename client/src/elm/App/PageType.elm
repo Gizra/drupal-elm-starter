@@ -14,4 +14,4 @@ type Page
     | MyAccount
     | PageNotFound
     | PageItem ItemId
-    | Hedley
+    | Items

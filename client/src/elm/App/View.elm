@@ -11,7 +11,7 @@ import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
 import ItemManager.View exposing (..)
-import ItemManager.Utils exposing (unwrapHedleyDict)
+import ItemManager.Utils exposing (unwrapItemsDict)
 import RemoteData exposing (RemoteData(..), WebData)
 
 
@@ -59,15 +59,15 @@ viewSidebar model =
                     [ text "Sign Out" ]
                 , a
                     [ class "item"
-                    , onClick <| SetActivePage Hedley
+                    , onClick <| SetActivePage Items
                     ]
                     [ text "Dashboard"
                     ]
                 , a
                     [ class "item"
-                    , onClick <| SetActivePage Hedley
+                    , onClick <| SetActivePage Items
                     ]
-                    [ text "Hedley" ]
+                    [ text "Items" ]
                 ]
 
         _ ->
@@ -157,7 +157,7 @@ viewMainContent model =
                 -- We don't need to pass any cmds, so we can call the view directly
                 Pages.PageNotFound.View.view
 
-            Hedley ->
+            Items ->
                 -- We get the user information before diving down a level, since
                 -- Pages.LiveSession can't do anything sensible without a user, and it is
                 -- at this higher level that we could present a UI related to loading
@@ -165,7 +165,7 @@ viewMainContent model =
                 case model.user of
                     Success user ->
                         Html.map MsgItemManager <|
-                            ItemManager.View.viewHedley model.currentDate user model.pageItem
+                            ItemManager.View.viewItems model.currentDate user model.pageItem
 
                     _ ->
                         div []

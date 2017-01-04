@@ -1,4 +1,4 @@
-module Pages.Hedley.Model exposing (..)
+module Pages.Items.Model exposing (..)
 
 import App.PageType exposing (Page(..))
 import Table

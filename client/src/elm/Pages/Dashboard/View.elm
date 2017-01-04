@@ -7,20 +7,20 @@ import Item.Model exposing (Item, ItemId)
 import User.Model exposing (User)
 
 
-view : User -> HedleyDict -> Html Msg
-view currentUser hedley =
+view : User -> ItemsDict -> Html Msg
+view currentUser items =
     div []
         [ h1 [ class "ui header" ] [ text "Dashboard" ]
         , div [ class "ui divider" ] []
-        , viewActiveIncidents hedley
+        , viewActiveIncidents items
         ]
 
 
-viewActiveIncidents : HedleyDict -> Html Msg
-viewActiveIncidents hedley =
+viewActiveIncidents : ItemsDict -> Html Msg
+viewActiveIncidents items =
     let
         orderedIncidentes =
-            getOrderedIncidents hedley
+            getOrderedIncidents items
     in
         -- @todo: Filter out
         if (List.isEmpty orderedIncidentes) then

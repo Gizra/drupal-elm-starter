@@ -9,9 +9,9 @@ import Json.Encode exposing (Value)
 import HttpBuilder exposing (get, withQueryParams)
 import Pages.Item.Model
 import Pages.Item.Update
-import Pages.Hedley.Update
+import Pages.Items.Update
 import Item.Model exposing (Item, ItemId)
-import ItemManager.Decoder exposing (decodeItemFromResponse, decodeHedleyFromResponse)
+import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
 import Pusher.Decoder exposing (decodePusherEvent)
@@ -54,7 +54,7 @@ update currentDate backendUrl accessToken user msg model =
                     ( model, Cmd.none, Nothing )
 
         Unsubscribe id ->
-            ( { model | hedley = Dict.remove id model.hedley }
+            ( { model | items = Dict.remove id model.items }
             , Cmd.none
             , Nothing
             )
@@ -62,7 +62,7 @@ update currentDate backendUrl accessToken user msg model =
         FetchAll ->
             let
                 ( val, cmds ) =
-                    fetchAllHedleyFromBackend backendUrl accessToken model
+                    fetchAllItemsFromBackend backendUrl accessToken model
             in
                 ( val, cmds, Nothing )
 
@@ -73,7 +73,7 @@ update currentDate backendUrl accessToken user msg model =
                         ( subModel, subCmd, redirectPage ) =
                             Pages.Item.Update.update backendUrl accessToken user subMsg item
                     in
-                        ( { model | hedley = Dict.insert id (Success subModel) model.hedley }
+                        ( { model | items = Dict.insert id (Success subModel) model.items }
                         , Cmd.map (MsgPagesItem id) subCmd
                         , redirectPage
                         )
@@ -89,23 +89,23 @@ update currentDate backendUrl accessToken user msg model =
                     -- data and the pusher messages to know.)
                     ( model, Cmd.none, Nothing )
 
-        MsgPagesHedley subMsg ->
+        MsgPagesItems subMsg ->
             let
                 ( subModel, subCmd, redirectPage ) =
-                    Pages.Hedley.Update.update backendUrl accessToken user subMsg (unwrapHedleyDict model.hedley) model.hedleyPage
+                    Pages.Items.Update.update backendUrl accessToken user subMsg (unwrapItemsDict model.items) model.itemsPage
             in
-                ( { model | hedleyPage = subModel }
-                , Cmd.map MsgPagesHedley subCmd
+                ( { model | itemsPage = subModel }
+                , Cmd.map MsgPagesItems subCmd
                 , redirectPage
                 )
 
-        HandleFetchedHedley (Ok hedley) ->
-            ( { model | hedley = wrapHedleyDict hedley }
+        HandleFetchedItems (Ok items) ->
+            ( { model | items = wrapItemsDict items }
             , Cmd.none
             , Nothing
             )
 
-        HandleFetchedHedley (Err err) ->
+        HandleFetchedItems (Err err) ->
             ( model, Cmd.none, Nothing )
 
         HandleFetchedItem itemId (Ok item) ->
@@ -114,7 +114,7 @@ update currentDate backendUrl accessToken user msg model =
                 -- @todo: Pass the activePage here, so we can fetch
                 -- data only when really needed.
                 updatedModel =
-                    { model | hedley = Dict.insert itemId (Success item) model.hedley }
+                    { model | items = Dict.insert itemId (Success item) model.items }
             in
                 ( updatedModel
                 , Cmd.none
@@ -122,7 +122,7 @@ update currentDate backendUrl accessToken user msg model =
                 )
 
         HandleFetchedItem itemId (Err err) ->
-            ( { model | hedley = Dict.insert itemId (Failure err) model.hedley }
+            ( { model | items = Dict.insert itemId (Failure err) model.items }
             , Cmd.none
             , Nothing
             )
@@ -156,22 +156,22 @@ fetchItemFromBackend : BackendUrl -> String -> ItemId -> Model -> ( Model, Cmd M
 fetchItemFromBackend backendUrl accessToken itemId model =
     let
         command =
-            HttpBuilder.get (backendUrl ++ "/api/hedley/" ++ itemId)
+            HttpBuilder.get (backendUrl ++ "/api/items/" ++ itemId)
                 |> withQueryParams [ ( "access_token", accessToken ) ]
                 |> sendWithHandler decodeItemFromResponse (HandleFetchedItem itemId)
     in
-        ( { model | hedley = Dict.insert itemId Loading model.hedley }
+        ( { model | items = Dict.insert itemId Loading model.items }
         , command
         )
 
 
-fetchAllHedleyFromBackend : BackendUrl -> String -> Model -> ( Model, Cmd Msg )
-fetchAllHedleyFromBackend backendUrl accessToken model =
+fetchAllItemsFromBackend : BackendUrl -> String -> Model -> ( Model, Cmd Msg )
+fetchAllItemsFromBackend backendUrl accessToken model =
     let
         command =
-            HttpBuilder.get (backendUrl ++ "/api/hedley")
+            HttpBuilder.get (backendUrl ++ "/api/items")
                 |> withQueryParams [ ( "access_token", accessToken ) ]
-                |> sendWithHandler decodeHedleyFromResponse HandleFetchedHedley
+                |> sendWithHandler decodeItemsFromResponse HandleFetchedItems
     in
         -- @todo: Move WebData to wrap dict?
         ( model

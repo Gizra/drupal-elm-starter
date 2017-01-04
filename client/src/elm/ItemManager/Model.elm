@@ -3,13 +3,13 @@ module ItemManager.Model exposing (..)
 import Dict exposing (Dict)
 import Http
 import Pages.Item.Model
-import Pages.Hedley.Model
+import Pages.Items.Model
 import Pusher.Model exposing (PusherEvent)
 import RemoteData exposing (RemoteData(..), WebData)
-import Item.Model exposing (Item, ItemId, HedleyDict)
+import Item.Model exposing (Item, ItemId, ItemsDict)
 
 
-{-| We track any Hedley we are currently subscribed to.
+{-| We track any Items we are currently subscribed to.
 
 In theory, we'll only typically have one at a time. However, the logic of
 subscribing and unsubscribing will be required in any event. Thus, it's
@@ -22,8 +22,8 @@ derive it from fetching a `Item` through `WebData` ... it's simplest to
 just stay within the `WebData` container.
 -}
 type alias Model =
-    { hedley : Dict ItemId (WebData Item)
-    , hedleyPage : Pages.Hedley.Model.Model
+    { items : Dict ItemId (WebData Item)
+    , itemsPage : Pages.Items.Model.Model
     }
 
 
@@ -40,14 +40,14 @@ type Msg
     | Unsubscribe ItemId
     | FetchAll
     | MsgPagesItem ItemId Pages.Item.Model.Msg
-    | MsgPagesHedley Pages.Hedley.Model.Msg
+    | MsgPagesItems Pages.Items.Model.Msg
     | HandleFetchedItem ItemId (Result Http.Error Item)
-    | HandleFetchedHedley (Result Http.Error HedleyDict)
+    | HandleFetchedItems (Result Http.Error ItemsDict)
     | HandlePusherEvent (Result String PusherEvent)
 
 
 emptyModel : Model
 emptyModel =
-    { hedley = Dict.empty
-    , hedleyPage = Pages.Hedley.Model.emptyModel
+    { items = Dict.empty
+    , itemsPage = Pages.Items.Model.emptyModel
     }
