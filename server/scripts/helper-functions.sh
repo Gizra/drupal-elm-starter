@@ -242,7 +242,7 @@ function convert_csv_to_sql {
     drush dl csv2sql --yes
   fi
 
-  csv_files="profiles/sensors/modules/custom/sensors_migrate/csv/*/*.csv"
+  csv_files="profiles/hedley/modules/custom/hedley_migrate/csv/*/*.csv"
 
   for csv in $csv_files
   do
@@ -261,7 +261,7 @@ function import_demo_content {
   MIGRATE_UI=$(drush pm-list --pipe --type=module | grep "^migrate_ui$")
   MIGRATE_EXTRAS=$(drush pm-list --pipe --type=module | grep "^migrate_extras$")
   if [ $MIGRATE_UI ] && [ $MIGRATE_EXTRAS ]; then
-    drush en -y sensors_migrate
+    drush en -y hedley_migrate
     drush en -y migrate migrate_ui migrate_extras
     drush mi --all --user=1
   else

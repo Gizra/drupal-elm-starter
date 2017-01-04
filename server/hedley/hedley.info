@@ -1,0 +1,46 @@
+name = Hedley
+description = Hedley
+version = VERSION
+core = 7.x
+
+; Core
+dependencies[] = block
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dblog
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = taxonomy
+dependencies[] = file
+
+; Contrib modules
+dependencies[] = admin_menu_toolbar
+dependencies[] = admin_views
+dependencies[] = auto_entitylabel
+dependencies[] = composer_manager
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = entity
+dependencies[] = entity_token
+dependencies[] = entityreference
+dependencies[] = entity_validator
+dependencies[] = features
+dependencies[] = flag
+dependencies[] = libraries
+dependencies[] = message
+dependencies[] = module_filter
+dependencies[] = restful
+dependencies[] = restful_token_auth
+dependencies[] = strongarm
+dependencies[] = token
+dependencies[] = views
+dependencies[] = views_bulk_operations
+
+; Hedley
+dependencies[] = hedley_pusher
+dependencies[] = hedley_restful
+dependencies[] = hedley_item
+dependencies[] = hedley_user

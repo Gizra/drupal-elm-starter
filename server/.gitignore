@@ -1,10 +1,10 @@
 # Drupal profile #
 ##################
-sensors/modules/contrib
-sensors/modules/development
-sensors/1
-sensors/themes/contrib
-sensors/libraries
+hedley/modules/contrib
+hedley/modules/development
+hedley/1
+hedley/themes/contrib
+hedley/libraries
 
 # Temporary "build" files
 www

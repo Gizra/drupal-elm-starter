@@ -1,8 +1,8 @@
 {
-  "name": "Sensors",
-  "homepage": "https://github.com/Gizra/sensors",
+  "name": "Hedley",
+  "homepage": "https://github.com/Gizra/hedley",
   "authors": [],
-  "description": "Sensors",
+  "description": "Hedley",
   "main": "src/index.html",
   "license": "BSD-3-Clause",
   "ignore": [

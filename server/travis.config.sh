@@ -10,9 +10,9 @@
 
 
 # The profile used to install the platform.
-PROFILE_NAME="sensors"
+PROFILE_NAME="hedley"
 # The human name of the install profile
-PROFILE_TITLE="Sensors"
+PROFILE_TITLE="Hedley"
 
 
 # Modify the URL below to match your local domain the site will be accessible on.

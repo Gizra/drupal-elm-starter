@@ -4,14 +4,14 @@ module App.PageType exposing (Page(..))
 -}
 
 
-type alias SensorId =
+type alias ItemId =
     String
 
 
 type Page
     = AccessDenied
+    | Dashboard
+    | Item ItemId
     | Login
     | MyAccount
     | PageNotFound
-    | PageSensor SensorId
-    | Sensors

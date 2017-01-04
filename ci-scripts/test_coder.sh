@@ -37,7 +37,7 @@ IGNORED_PATTERNS="*.features.inc,*.features.*.inc,*.field_group.inc,*.strongarm.
 echo
 echo "${LBLUE}> Sniffing Modules${RESTORE}"
 
-for dir in $TRAVIS_BUILD_DIR/server/sensors/modules/custom/*/ ; do
+for dir in $TRAVIS_BUILD_DIR/server/hedley/modules/custom/*/ ; do
   code_review $dir $IGNORED_PATTERNS
 done
 

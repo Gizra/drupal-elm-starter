@@ -1,0 +1,5 @@
+name = Hedley Pusher
+core = 7.x
+description = "Hedley Pusher integration."
+package = Hedley
+dependencies[] = composer_manager

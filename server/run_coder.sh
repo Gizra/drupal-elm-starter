@@ -35,7 +35,7 @@ PATTERNS="*.features.inc,*.features.*.inc,*.field_group.inc,*.strongarm.inc,*.ds
 echo
 echo "${LBLUE} > Sniffing Modules${RESTORE}"
 
-code_review sensors/modules/custom $PATTERNS
+code_review hedley/modules/custom $PATTERNS
 
 echo
 echo $HAS_ERRORS

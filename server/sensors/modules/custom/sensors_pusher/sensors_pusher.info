@@ -1,5 +1,0 @@
-name = Sensors Pusher
-core = 7.x
-description = "Sensors Pusher integration."
-package = Sensors
-dependencies[] = composer_manager
