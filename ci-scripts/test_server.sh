@@ -12,9 +12,4 @@ if [ -z ${BUILD_SERVER+x} ] || [ "$BUILD_SERVER" -ne 1 ]; then
  exit 0;
 fi
 
-echo "Starting behat tests:"
-echo
-
-# Run behat tests
-cd $TRAVIS_BUILD_DIR/server/behat
-./bin/behat --tags=~@wip
+docker run -it -p 8080:80 server
