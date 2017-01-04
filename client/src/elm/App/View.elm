@@ -21,20 +21,29 @@ view model =
             Config.View.view
 
         _ ->
-            div []
-                [ div [ class "ui container main" ]
-                    [ viewSidebar model
-                    , div
-                        [ class "pusher" ]
-                        [ div
-                            [ class "ui grid container" ]
+            let
+                offlineWrapper =
+                    if model.offline then
+                        div [] [ text "App is Offline" ]
+                    else
+                        div [] []
+            in
+                div []
+                    [ div [ class "ui container main" ]
+                        [ viewSidebar model
+                        , div
+                            [ class "pusher" ]
                             [ div
-                                [ class "ui main grid" ]
-                                [ viewMainContent model ]
+                                [ class "ui grid container" ]
+                                [ div
+                                    [ class "ui main grid" ]
+                                    [ offlineWrapper
+                                    , viewMainContent model
+                                    ]
+                                ]
                             ]
                         ]
                     ]
-                ]
 
 
 viewSidebar : Model -> Html Msg
