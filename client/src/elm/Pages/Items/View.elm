@@ -28,7 +28,12 @@ view currentDate currentUser items model =
 
         searchResult =
             if List.isEmpty acceptableItems then
-                div [ class "ui segment" ] [ text "No items found" ]
+                if Dict.isEmpty items then
+                    -- No items are present, so it means we are fethcing
+                    -- them.
+                    div [] []
+                else
+                    div [ class "ui segment" ] [ text "No items found" ]
             else
                 Table.view config model.tableState acceptableItems
     in
