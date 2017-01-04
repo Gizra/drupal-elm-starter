@@ -1,35 +1,35 @@
-module SensorManager.Utils
+module ItemManager.Utils
     exposing
-        ( getSensor
-        , wrapSensorsDict
-        , unwrapSensorsDict
+        ( getItem
+        , wrapHedleyDict
+        , unwrapHedleyDict
         )
 
 import Dict exposing (Dict)
-import Sensor.Model exposing (Sensor, SensorId, SensorsDict)
-import SensorManager.Model as SensorManager
+import Item.Model exposing (Item, ItemId, HedleyDict)
+import ItemManager.Model as ItemManager
 import RemoteData exposing (RemoteData(..), WebData)
 
 
-getSensor : SensorId -> SensorManager.Model -> WebData Sensor
-getSensor id model =
-    Dict.get id model.sensors
+getItem : ItemId -> ItemManager.Model -> WebData Item
+getItem id model =
+    Dict.get id model.hedley
         |> Maybe.withDefault NotAsked
 
 
-wrapSensorsDict : SensorsDict -> Dict SensorId (WebData Sensor)
-wrapSensorsDict =
-    Dict.map (\_ sensor -> Success sensor)
+wrapHedleyDict : HedleyDict -> Dict ItemId (WebData Item)
+wrapHedleyDict =
+    Dict.map (\_ item -> Success item)
 
 
-unwrapSensorsDict : Dict SensorId (WebData Sensor) -> SensorsDict
-unwrapSensorsDict wrappedSensorsDict =
-    wrappedSensorsDict
+unwrapHedleyDict : Dict ItemId (WebData Item) -> HedleyDict
+unwrapHedleyDict wrappedHedleyDict =
+    wrappedHedleyDict
         |> Dict.foldl
-            (\sensorId wrappedSensor accum ->
-                case wrappedSensor of
-                    Success sensor ->
-                        ( sensorId, sensor ) :: accum
+            (\itemId wrappedItem accum ->
+                case wrappedItem of
+                    Success item ->
+                        ( itemId, item ) :: accum
 
                     _ ->
                         accum

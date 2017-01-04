@@ -3,24 +3,24 @@ module Pages.Dashboard.View exposing (view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Sensor.Model exposing (Sensor, SensorId)
+import Item.Model exposing (Item, ItemId)
 import User.Model exposing (User)
 
 
-view : User -> SensorsDict -> Html Msg
-view currentUser sensors =
+view : User -> HedleyDict -> Html Msg
+view currentUser hedley =
     div []
         [ h1 [ class "ui header" ] [ text "Dashboard" ]
         , div [ class "ui divider" ] []
-        , viewActiveIncidents sensors
+        , viewActiveIncidents hedley
         ]
 
 
-viewActiveIncidents : SensorsDict -> Html Msg
-viewActiveIncidents sensors =
+viewActiveIncidents : HedleyDict -> Html Msg
+viewActiveIncidents hedley =
     let
         orderedIncidentes =
-            getOrderedIncidents sensors
+            getOrderedIncidents hedley
     in
         -- @todo: Filter out
         if (List.isEmpty orderedIncidentes) then
@@ -31,8 +31,8 @@ viewActiveIncidents sensors =
         else
             div [ class "ui cards" ]
                 (List.map
-                    (\{ sensorId, sensor, incidentId, incident } ->
-                        Html.map (MsgIncident sensorId incidentId) (Incident.View.view ( sensorId, sensor ) ( incidentId, incident ) IncidentViewFull)
+                    (\{ itemId, item, incidentId, incident } ->
+                        Html.map (MsgIncident itemId incidentId) (Incident.View.view ( itemId, item ) ( incidentId, incident ) IncidentViewFull)
                     )
                     orderedIncidentes
                 )

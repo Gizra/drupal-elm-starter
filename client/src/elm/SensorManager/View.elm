@@ -1,42 +1,42 @@
-module SensorManager.View
+module ItemManager.View
     exposing
-        ( viewPageSensor
-        , viewSensors
+        ( viewPageItem
+        , viewHedley
         )
 
 import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
-import Pages.Sensor.View
+import Pages.Item.View
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Pages.Sensors.View
-import Sensor.Model exposing (SensorId, SensorsDict)
-import SensorManager.Model exposing (..)
-import SensorManager.Utils exposing (getSensor, unwrapSensorsDict)
+import Pages.Hedley.View
+import Item.Model exposing (ItemId, HedleyDict)
+import ItemManager.Model exposing (..)
+import ItemManager.Utils exposing (getItem, unwrapHedleyDict)
 import RemoteData exposing (RemoteData(..))
 import User.Model exposing (User)
 import Utils.WebData exposing (viewError)
 
 
-{-| Show all Sensors page.
+{-| Show all Hedley page.
 -}
-viewSensors : Date -> User -> Model -> Html Msg
-viewSensors currentDate user model =
+viewHedley : Date -> User -> Model -> Html Msg
+viewHedley currentDate user model =
     let
-        sensors =
-            unwrapSensorsDict model.sensors
+        hedley =
+            unwrapHedleyDict model.hedley
     in
         div []
-            [ Html.map MsgPagesSensors <| Pages.Sensors.View.view currentDate user sensors model.sensorsPage
+            [ Html.map MsgPagesHedley <| Pages.Hedley.View.view currentDate user hedley model.hedleyPage
             ]
 
 
-{-| Show the Sensor page.
+{-| Show the Item page.
 -}
-viewPageSensor : Date -> SensorId -> User -> Model -> Html Msg
-viewPageSensor currentDate id user model =
-    case getSensor id model of
+viewPageItem : Date -> ItemId -> User -> Model -> Html Msg
+viewPageItem currentDate id user model =
+    case getItem id model of
         NotAsked ->
             -- This shouldn't happen, but if it does, we provide
             -- a button to load the editor
@@ -44,7 +44,7 @@ viewPageSensor currentDate id user model =
                 [ class "ui button"
                 , onClick <| Subscribe id
                 ]
-                [ text "Re-load Sensor" ]
+                [ text "Re-load Item" ]
 
         Loading ->
             div [] []
@@ -59,6 +59,6 @@ viewPageSensor currentDate id user model =
                     [ text "Retry" ]
                 ]
 
-        Success sensor ->
+        Success item ->
             div []
-                [ Html.map (MsgPagesSensor id) <| Pages.Sensor.View.view currentDate user id sensor ]
+                [ Html.map (MsgPagesItem id) <| Pages.Item.View.view currentDate user id item ]

@@ -1,19 +1,19 @@
-module SensorManager.Decoder
+module ItemManager.Decoder
     exposing
-        ( decodeSensorFromResponse
-        , decodeSensorsFromResponse
+        ( decodeItemFromResponse
+        , decodeHedleyFromResponse
         )
 
 import Json.Decode exposing (at, Decoder)
-import Sensor.Model exposing (Sensor, SensorsDict)
-import Sensor.Decoder exposing (decodeSensor, decodeSensorsDict)
+import Item.Model exposing (Item, HedleyDict)
+import Item.Decoder exposing (decodeItem, decodeHedleyDict)
 
 
-decodeSensorFromResponse : Decoder Sensor
-decodeSensorFromResponse =
-    at [ "data", "0" ] decodeSensor
+decodeItemFromResponse : Decoder Item
+decodeItemFromResponse =
+    at [ "data", "0" ] decodeItem
 
 
-decodeSensorsFromResponse : Decoder SensorsDict
-decodeSensorsFromResponse =
-    at [ "data" ] decodeSensorsDict
+decodeHedleyFromResponse : Decoder HedleyDict
+decodeHedleyFromResponse =
+    at [ "data" ] decodeHedleyDict

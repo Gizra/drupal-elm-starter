@@ -1,4 +1,4 @@
-module Pages.Sensors.View exposing (view)
+module Pages.Hedley.View exposing (view)
 
 import App.PageType exposing (Page(..))
 import Date exposing (Date)
@@ -6,34 +6,34 @@ import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, onClick, onInput, onWithOptions)
-import Pages.Sensors.Model exposing (Model, Msg(..))
-import Sensor.Model exposing (Sensor, SensorId, SensorsDict)
+import Pages.Hedley.Model exposing (Model, Msg(..))
+import Item.Model exposing (Item, ItemId, HedleyDict)
 import Table exposing (..)
 import User.Model exposing (User)
 
 
-view : Date -> User -> SensorsDict -> Model -> Html Msg
-view currentDate currentUser sensors model =
+view : Date -> User -> HedleyDict -> Model -> Html Msg
+view currentDate currentUser hedley model =
     let
         lowerQuery =
             String.toLower model.query
 
-        acceptableSensors =
+        acceptableHedley =
             Dict.filter
-                (\sensorId sensor ->
-                    (String.contains lowerQuery << String.toLower << .name) sensor
+                (\itemId item ->
+                    (String.contains lowerQuery << String.toLower << .name) item
                 )
-                sensors
+                hedley
                 |> Dict.toList
 
         searchResult =
-            if List.isEmpty acceptableSensors then
-                div [ class "ui segment" ] [ text "No sensors found" ]
+            if List.isEmpty acceptableHedley then
+                div [ class "ui segment" ] [ text "No hedley found" ]
             else
-                Table.view config model.tableState acceptableSensors
+                Table.view config model.tableState acceptableHedley
     in
         div []
-            [ h1 [] [ text "Sensors" ]
+            [ h1 [] [ text "Hedley" ]
             , div [ class "ui input" ]
                 [ input
                     [ placeholder "Search by Name"
@@ -45,19 +45,19 @@ view currentDate currentUser sensors model =
             ]
 
 
-config : Table.Config ( SensorId, Sensor ) Msg
+config : Table.Config ( ItemId, Item ) Msg
 config =
     Table.customConfig
-        { toId = \( sensorId, _ ) -> sensorId
+        { toId = \( itemId, _ ) -> itemId
         , toMsg = SetTableState
         , columns =
             [ Table.veryCustomColumn
                 { name = "Name"
                 , viewData =
-                    \( sensorId, sensor ) ->
+                    \( itemId, item ) ->
                         Table.HtmlDetails []
-                            [ a [ href "#", onClick <| SetRedirectPage <| PageSensor sensorId ]
-                                [ text sensor.name ]
+                            [ a [ href "#", onClick <| SetRedirectPage <| PageItem itemId ]
+                                [ text item.name ]
                             ]
                 , sorter = Table.increasingOrDecreasingBy <| Tuple.second >> .name
                 }

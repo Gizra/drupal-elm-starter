@@ -1,4 +1,4 @@
-module Pages.Sensor.Model
+module Pages.Item.Model
     exposing
         ( Msg(..)
         )

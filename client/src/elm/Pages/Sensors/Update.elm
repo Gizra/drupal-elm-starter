@@ -1,14 +1,14 @@
-module Pages.Sensors.Update exposing (update)
+module Pages.Hedley.Update exposing (update)
 
 import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
 import User.Model exposing (..)
-import Pages.Sensors.Model exposing (Model, Msg(..))
-import Sensor.Model exposing (SensorsDict)
+import Pages.Hedley.Model exposing (Model, Msg(..))
+import Item.Model exposing (HedleyDict)
 
 
-update : BackendUrl -> String -> User -> Msg -> SensorsDict -> Model -> ( Model, Cmd Msg, Maybe Page )
-update backendUrl accessToken user msg sensors model =
+update : BackendUrl -> String -> User -> Msg -> HedleyDict -> Model -> ( Model, Cmd Msg, Maybe Page )
+update backendUrl accessToken user msg hedley model =
     case msg of
         SetRedirectPage page ->
             ( model, Cmd.none, Just page )

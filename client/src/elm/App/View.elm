@@ -10,8 +10,8 @@ import User.Model exposing (..)
 import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
-import SensorManager.View exposing (..)
-import SensorManager.Utils exposing (unwrapSensorsDict)
+import ItemManager.View exposing (..)
+import ItemManager.Utils exposing (unwrapHedleyDict)
 import RemoteData exposing (RemoteData(..), WebData)
 
 
@@ -59,15 +59,15 @@ viewSidebar model =
                     [ text "Sign Out" ]
                 , a
                     [ class "item"
-                    , onClick <| SetActivePage Sensors
+                    , onClick <| SetActivePage Hedley
                     ]
                     [ text "Dashboard"
                     ]
                 , a
                     [ class "item"
-                    , onClick <| SetActivePage Sensors
+                    , onClick <| SetActivePage Hedley
                     ]
-                    [ text "Sensors" ]
+                    [ text "Hedley" ]
                 ]
 
         _ ->
@@ -157,29 +157,29 @@ viewMainContent model =
                 -- We don't need to pass any cmds, so we can call the view directly
                 Pages.PageNotFound.View.view
 
-            Sensors ->
+            Hedley ->
                 -- We get the user information before diving down a level, since
                 -- Pages.LiveSession can't do anything sensible without a user, and it is
                 -- at this higher level that we could present a UI related to loading
                 -- the user information.
                 case model.user of
                     Success user ->
-                        Html.map MsgSensorManager <|
-                            SensorManager.View.viewSensors model.currentDate user model.pageSensor
+                        Html.map MsgItemManager <|
+                            ItemManager.View.viewHedley model.currentDate user model.pageItem
 
                     _ ->
                         div []
                             [ i [ class "notched circle loading icon" ] [] ]
 
-            PageSensor id ->
+            PageItem id ->
                 -- We get the user information before diving down a level, since
                 -- Pages.LiveSession can't do anything sensible without a user, and it is
                 -- at this higher level that we could present a UI related to loading
                 -- the user information.
                 case model.user of
                     Success user ->
-                        Html.map MsgSensorManager <|
-                            SensorManager.View.viewPageSensor model.currentDate id user model.pageSensor
+                        Html.map MsgItemManager <|
+                            ItemManager.View.viewPageItem model.currentDate id user model.pageItem
 
                     _ ->
                         div []

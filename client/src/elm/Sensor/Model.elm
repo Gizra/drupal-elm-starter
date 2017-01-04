@@ -1,22 +1,22 @@
-module Sensor.Model
+module Item.Model
     exposing
-        ( Sensor
-        , SensorId
-        , SensorsDict
+        ( Item
+        , ItemId
+        , HedleyDict
         )
 
 import Dict exposing (Dict)
 
 
-type alias SensorId =
+type alias ItemId =
     String
 
 
-type alias Sensor =
+type alias Item =
     { name : String
     , image : String
     }
 
 
-type alias SensorsDict =
-    Dict SensorId Sensor
+type alias HedleyDict =
+    Dict ItemId Item

@@ -1,27 +1,27 @@
-module Pages.Sensor.Update exposing (update)
+module Pages.Item.Update exposing (update)
 
 import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
 import User.Model exposing (..)
-import Pages.Sensor.Model exposing (Msg(..))
+import Pages.Item.Model exposing (Msg(..))
 import Pusher.Model exposing (PusherEventData(..))
-import Sensor.Model exposing (Sensor)
+import Item.Model exposing (Item)
 
 
-update : BackendUrl -> String -> User -> Msg -> Sensor -> ( Sensor, Cmd Msg, Maybe Page )
-update backendUrl accessToken user msg sensor =
+update : BackendUrl -> String -> User -> Msg -> Item -> ( Item, Cmd Msg, Maybe Page )
+update backendUrl accessToken user msg item =
     case msg of
         HandlePusherEventData event ->
             case event of
-                SensorUpdate newSensor ->
-                    -- So, the idea is that we have a new or updated sensor,
+                ItemUpdate newItem ->
+                    -- So, the idea is that we have a new or updated item,
                     -- which has already been saved at the server. Note that
                     -- we may have just pushed this change ourselves, so it's
                     -- already reflected here.
-                    ( newSensor
+                    ( newItem
                     , Cmd.none
                     , Nothing
                     )
 
         SetRedirectPage page ->
-            ( sensor, Cmd.none, Just page )
+            ( item, Cmd.none, Just page )

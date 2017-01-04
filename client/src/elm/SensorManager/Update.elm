@@ -1,4 +1,4 @@
-port module SensorManager.Update exposing (update, subscriptions)
+port module ItemManager.Update exposing (update, subscriptions)
 
 import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
@@ -7,13 +7,13 @@ import Dict exposing (Dict)
 import Json.Decode exposing (decodeValue)
 import Json.Encode exposing (Value)
 import HttpBuilder exposing (get, withQueryParams)
-import Pages.Sensor.Model
-import Pages.Sensor.Update
-import Pages.Sensors.Update
-import Sensor.Model exposing (Sensor, SensorId)
-import SensorManager.Decoder exposing (decodeSensorFromResponse, decodeSensorsFromResponse)
-import SensorManager.Model exposing (..)
-import SensorManager.Utils exposing (..)
+import Pages.Item.Model
+import Pages.Item.Update
+import Pages.Hedley.Update
+import Item.Model exposing (Item, ItemId)
+import ItemManager.Decoder exposing (decodeItemFromResponse, decodeHedleyFromResponse)
+import ItemManager.Model exposing (..)
+import ItemManager.Utils exposing (..)
 import Pusher.Decoder exposing (decodePusherEvent)
 import RemoteData exposing (RemoteData(..))
 import User.Model exposing (User)
@@ -26,11 +26,11 @@ update currentDate backendUrl accessToken user msg model =
         Subscribe id ->
             -- Note that we're waiting to get the response from the server
             -- before we subscribe to the Pusher events.
-            case getSensor id model of
+            case getItem id model of
                 NotAsked ->
                     let
                         ( updatedModel, updatedCmds ) =
-                            fetchSensorFromBackend backendUrl accessToken id model
+                            fetchItemFromBackend backendUrl accessToken id model
                     in
                         ( updatedModel
                         , updatedCmds
@@ -43,7 +43,7 @@ update currentDate backendUrl accessToken user msg model =
                 Failure _ ->
                     let
                         ( val, cmds ) =
-                            fetchSensorFromBackend backendUrl accessToken id model
+                            fetchItemFromBackend backendUrl accessToken id model
                     in
                         ( val
                         , cmds
@@ -54,7 +54,7 @@ update currentDate backendUrl accessToken user msg model =
                     ( model, Cmd.none, Nothing )
 
         Unsubscribe id ->
-            ( { model | sensors = Dict.remove id model.sensors }
+            ( { model | hedley = Dict.remove id model.hedley }
             , Cmd.none
             , Nothing
             )
@@ -62,24 +62,24 @@ update currentDate backendUrl accessToken user msg model =
         FetchAll ->
             let
                 ( val, cmds ) =
-                    fetchAllSensorsFromBackend backendUrl accessToken model
+                    fetchAllHedleyFromBackend backendUrl accessToken model
             in
                 ( val, cmds, Nothing )
 
-        MsgPagesSensor id subMsg ->
-            case getSensor id model of
-                Success sensor ->
+        MsgPagesItem id subMsg ->
+            case getItem id model of
+                Success item ->
                     let
                         ( subModel, subCmd, redirectPage ) =
-                            Pages.Sensor.Update.update backendUrl accessToken user subMsg sensor
+                            Pages.Item.Update.update backendUrl accessToken user subMsg item
                     in
-                        ( { model | sensors = Dict.insert id (Success subModel) model.sensors }
-                        , Cmd.map (MsgPagesSensor id) subCmd
+                        ( { model | hedley = Dict.insert id (Success subModel) model.hedley }
+                        , Cmd.map (MsgPagesItem id) subCmd
                         , redirectPage
                         )
 
                 _ ->
-                    -- We've received a message for a Sensor which we either
+                    -- We've received a message for a Item which we either
                     -- aren't subscribed to, or dont' have initial data for yet.
                     -- This normally wouldn't happen, though we may needd to think
                     -- about synchronization between obtaining our initial data and
@@ -89,40 +89,40 @@ update currentDate backendUrl accessToken user msg model =
                     -- data and the pusher messages to know.)
                     ( model, Cmd.none, Nothing )
 
-        MsgPagesSensors subMsg ->
+        MsgPagesHedley subMsg ->
             let
                 ( subModel, subCmd, redirectPage ) =
-                    Pages.Sensors.Update.update backendUrl accessToken user subMsg (unwrapSensorsDict model.sensors) model.sensorsPage
+                    Pages.Hedley.Update.update backendUrl accessToken user subMsg (unwrapHedleyDict model.hedley) model.hedleyPage
             in
-                ( { model | sensorsPage = subModel }
-                , Cmd.map MsgPagesSensors subCmd
+                ( { model | hedleyPage = subModel }
+                , Cmd.map MsgPagesHedley subCmd
                 , redirectPage
                 )
 
-        HandleFetchedSensors (Ok sensors) ->
-            ( { model | sensors = wrapSensorsDict sensors }
+        HandleFetchedHedley (Ok hedley) ->
+            ( { model | hedley = wrapHedleyDict hedley }
             , Cmd.none
             , Nothing
             )
 
-        HandleFetchedSensors (Err err) ->
+        HandleFetchedHedley (Err err) ->
             ( model, Cmd.none, Nothing )
 
-        HandleFetchedSensor sensorId (Ok sensor) ->
+        HandleFetchedItem itemId (Ok item) ->
             let
-                -- Let Sensor settings fetch own data.
+                -- Let Item settings fetch own data.
                 -- @todo: Pass the activePage here, so we can fetch
                 -- data only when really needed.
                 updatedModel =
-                    { model | sensors = Dict.insert sensorId (Success sensor) model.sensors }
+                    { model | hedley = Dict.insert itemId (Success item) model.hedley }
             in
                 ( updatedModel
                 , Cmd.none
                 , Nothing
                 )
 
-        HandleFetchedSensor sensorId (Err err) ->
-            ( { model | sensors = Dict.insert sensorId (Failure err) model.sensors }
+        HandleFetchedItem itemId (Err err) ->
+            ( { model | hedley = Dict.insert itemId (Failure err) model.hedley }
             , Cmd.none
             , Nothing
             )
@@ -132,9 +132,9 @@ update currentDate backendUrl accessToken user msg model =
                 Ok event ->
                     let
                         subMsg =
-                            Pages.Sensor.Model.HandlePusherEventData event.data
+                            Pages.Item.Model.HandlePusherEventData event.data
                     in
-                        update currentDate backendUrl accessToken user (MsgPagesSensor event.sensorId subMsg) model
+                        update currentDate backendUrl accessToken user (MsgPagesItem event.itemId subMsg) model
 
                 Err err ->
                     let
@@ -145,33 +145,33 @@ update currentDate backendUrl accessToken user msg model =
                         ( model, Cmd.none, Nothing )
 
 
-{-| A single port for all messages coming in from pusher for a `Sensor` ... they
-will flow in once `subscribeSensor` is called. We'll wrap the structures on
+{-| A single port for all messages coming in from pusher for a `Item` ... they
+will flow in once `subscribeItem` is called. We'll wrap the structures on
 the Javascript side so that we can dispatch them from here.
 -}
-port pusherSensorMessages : (Value -> msg) -> Sub msg
+port pusherItemMessages : (Value -> msg) -> Sub msg
 
 
-fetchSensorFromBackend : BackendUrl -> String -> SensorId -> Model -> ( Model, Cmd Msg )
-fetchSensorFromBackend backendUrl accessToken sensorId model =
+fetchItemFromBackend : BackendUrl -> String -> ItemId -> Model -> ( Model, Cmd Msg )
+fetchItemFromBackend backendUrl accessToken itemId model =
     let
         command =
-            HttpBuilder.get (backendUrl ++ "/api/sensors/" ++ sensorId)
+            HttpBuilder.get (backendUrl ++ "/api/hedley/" ++ itemId)
                 |> withQueryParams [ ( "access_token", accessToken ) ]
-                |> sendWithHandler decodeSensorFromResponse (HandleFetchedSensor sensorId)
+                |> sendWithHandler decodeItemFromResponse (HandleFetchedItem itemId)
     in
-        ( { model | sensors = Dict.insert sensorId Loading model.sensors }
+        ( { model | hedley = Dict.insert itemId Loading model.hedley }
         , command
         )
 
 
-fetchAllSensorsFromBackend : BackendUrl -> String -> Model -> ( Model, Cmd Msg )
-fetchAllSensorsFromBackend backendUrl accessToken model =
+fetchAllHedleyFromBackend : BackendUrl -> String -> Model -> ( Model, Cmd Msg )
+fetchAllHedleyFromBackend backendUrl accessToken model =
     let
         command =
-            HttpBuilder.get (backendUrl ++ "/api/sensors")
+            HttpBuilder.get (backendUrl ++ "/api/hedley")
                 |> withQueryParams [ ( "access_token", accessToken ) ]
-                |> sendWithHandler decodeSensorsFromResponse HandleFetchedSensors
+                |> sendWithHandler decodeHedleyFromResponse HandleFetchedHedley
     in
         -- @todo: Move WebData to wrap dict?
         ( model
@@ -181,4 +181,4 @@ fetchAllSensorsFromBackend backendUrl accessToken model =
 
 subscriptions : Model -> Page -> Sub Msg
 subscriptions model activePage =
-    pusherSensorMessages (decodeValue decodePusherEvent >> HandlePusherEvent)
+    pusherItemMessages (decodeValue decodePusherEvent >> HandlePusherEvent)

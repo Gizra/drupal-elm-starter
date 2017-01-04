@@ -6,8 +6,8 @@ import Config
 import Date
 import Dict
 import Pages.Login.Update
-import SensorManager.Model
-import SensorManager.Update
+import ItemManager.Model
+import ItemManager.Update
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (minute)
@@ -76,15 +76,15 @@ update msg model =
                 , accessTokenPort ""
                 )
 
-            MsgSensorManager subMsg ->
+            MsgItemManager subMsg ->
                 case model.user of
                     Success user ->
                         let
                             ( val, cmds, redirectPage ) =
-                                SensorManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageSensor
+                                ItemManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageItem
 
                             modelUpdated =
-                                { model | pageSensor = val }
+                                { model | pageItem = val }
 
                             ( modelUpdatedWithSetPage, setPageCmds ) =
                                 Maybe.map
@@ -96,7 +96,7 @@ update msg model =
                         in
                             ( modelUpdatedWithSetPage
                             , Cmd.batch
-                                [ Cmd.map MsgSensorManager cmds
+                                [ Cmd.map MsgItemManager cmds
                                 , setPageCmds
                                 ]
                             )
@@ -127,7 +127,7 @@ update msg model =
                                         case modelUpdated.activePage of
                                             Login ->
                                                 -- Redirect to the dashboard.
-                                                Sensors
+                                                Hedley
 
                                             _ ->
                                                 -- Keep the active page.
@@ -158,13 +158,13 @@ update msg model =
                     ( modelUpdated, command ) =
                         -- For a few, we also delegate some initialization
                         case activePage of
-                            Sensors ->
-                                -- If we're showing a `Sensors` page, make sure we `Subscribe`
-                                update (MsgSensorManager SensorManager.Model.FetchAll) model
+                            Hedley ->
+                                -- If we're showing a `Hedley` page, make sure we `Subscribe`
+                                update (MsgItemManager ItemManager.Model.FetchAll) model
 
-                            PageSensor id ->
-                                -- If we're showing a `Sensor`, make sure we `Subscribe`
-                                update (MsgSensorManager (SensorManager.Model.Subscribe id)) model
+                            PageItem id ->
+                                -- If we're showing a `Item`, make sure we `Subscribe`
+                                update (MsgItemManager (ItemManager.Model.Subscribe id)) model
 
                             _ ->
                                 ( model, Cmd.none )
@@ -205,7 +205,7 @@ setActivePageAccess user page =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ Sub.map MsgSensorManager <| SensorManager.Update.subscriptions model.pageSensor model.activePage
+        [ Sub.map MsgItemManager <| ItemManager.Update.subscriptions model.pageItem model.activePage
         , Time.every minute Tick
         ]
 

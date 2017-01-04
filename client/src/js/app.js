@@ -19,7 +19,7 @@ elmApp.ports.pusherKey.subscribe(function(appKey) {
       var channel = pusher.subscribe(channelName);
 
       var eventNames = [
-        'sensor__update',
+        'item__update',
       ];
 
       eventNames.forEach(function(eventName) {
@@ -30,7 +30,7 @@ elmApp.ports.pusherKey.subscribe(function(appKey) {
                 eventType: eventName,
                 data: data
             };
-            elmApp.ports.pusherSensorMessages.send(event);
+            elmApp.ports.pusherItemMessages.send(event);
         });
       });
   }
