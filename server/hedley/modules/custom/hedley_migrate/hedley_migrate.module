@@ -11,9 +11,9 @@
 function hedley_migrate_migrate_api() {
   $migrations = array(
     // Nodes.
-    'HedleyMigrateItemElectricity',
+    'HedleyMigrateItems',
     // Users.
-    'HedleyMigrateUsersMigrate',
+    'HedleyMigrateUsers',
   );
 
   $api['api'] = 2;

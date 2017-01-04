@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains \HedleyMigrateUsersMigrate.
+ * Contains \HedleyMigrateUsers.
  */
 
 /**
- * Class HedleyMigrateUsersMigrate.
+ * Class HedleyMigrateUsers.
  */
-class HedleyMigrateUsersMigrate extends HedleyMigrateBase {
+class HedleyMigrateUsers extends HedleyMigrateBase {
 
   public $entityType = 'user';
 

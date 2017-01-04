@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Contains \HedleyMigrateItemElectricity.
+ * Contains \HedleyMigrateItems.
  */
 
 /**
- * Class HedleyMigrateItemElectricity.
+ * Class HedleyMigrateItems.
  */
-class HedleyMigrateItemElectricity extends HedleyMigrateBase {
+class HedleyMigrateItems extends HedleyMigrateBase {
 
   public $entityType = 'node';
   public $bundle = 'item';
@@ -20,7 +20,7 @@ class HedleyMigrateItemElectricity extends HedleyMigrateBase {
     parent::__construct($arguments);
     $this->description = t('Import Item electricity from the CSV.');
     $this->dependencies = [
-      'HedleyMigrateUsersMigrate',
+      'HedleyMigrateUsers',
     ];
 
     $column_names = [
@@ -63,7 +63,7 @@ class HedleyMigrateItemElectricity extends HedleyMigrateBase {
       ->defaultValue($this->getMigrateDirectory() . '/images/');
 
     $this->addFieldMapping('uid', 'author')
-      ->sourceMigration('HedleyMigrateUsersMigrate')
+      ->sourceMigration('HedleyMigrateUsers')
       ->defaultValue(1);
   }
 
