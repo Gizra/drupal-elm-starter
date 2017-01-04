@@ -10,8 +10,8 @@ mysql:
   encoding: utf8
 
 env:
-  # - BUILD_SERVER=1
-  # - BUILD_CLIENT=1
+  - BUILD_SERVER=1
+  - BUILD_CLIENT=1
   - CODE_REVIEW=1
     REVIEW_STANDARD="Drupal"
   - CODE_REVIEW=1
