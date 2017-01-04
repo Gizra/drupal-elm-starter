@@ -11,7 +11,8 @@ import User.Model exposing (..)
 
 
 type Msg
-    = Logout
+    = HandleOfflineEvent (Result String Bool)
+    | Logout
     | MsgItemManager ItemManager.Model.Msg
     | PageLogin Pages.Login.Model.Msg
     | SetActivePage Page
@@ -24,6 +25,7 @@ type alias Model =
     , activePage : Page
     , config : RemoteData String Config.Model.Model
     , currentDate : Date
+    , offline : Bool
     , pageLogin : Pages.Login.Model.Model
     , pageItem : ItemManager.Model.Model
     , user : WebData User
@@ -42,6 +44,7 @@ emptyModel =
     , activePage = Login
     , config = NotAsked
     , currentDate = Date.fromTime 0
+    , offline = False
     , pageLogin = Pages.Login.Model.emptyModel
     , pageItem = ItemManager.Model.emptyModel
     , user = NotAsked

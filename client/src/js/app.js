@@ -35,3 +35,11 @@ elmApp.ports.pusherKey.subscribe(function(appKey) {
       });
   }
 });
+
+Offline.on('down', function() {
+    elmApp.ports.offline.send (true);
+});
+
+Offline.on('up', function() {
+    elmApp.ports.offline.send (false);
+});

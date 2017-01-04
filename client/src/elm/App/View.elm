@@ -30,7 +30,8 @@ view model =
                             [ class "ui grid container" ]
                             [ div
                                 [ class "ui main grid" ]
-                                [ viewMainContent model ]
+                                [ viewMainContent model
+                                ]
                             ]
                         ]
                     ]
@@ -61,6 +62,22 @@ viewSidebar model =
                     , onClick <| SetActivePage Dashboard
                     ]
                     [ text "Dashboard" ]
+                , span
+                    [ class "item"
+                    ]
+                    [ text <|
+                        if model.offline then
+                            "Not Connected"
+                        else
+                            "Connected"
+                    , i
+                        [ classList
+                            [ ( "icon wifi", True )
+                            , ( "disabled", model.offline )
+                            ]
+                        ]
+                        []
+                    ]
                 ]
 
         _ ->
