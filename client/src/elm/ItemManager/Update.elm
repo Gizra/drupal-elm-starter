@@ -106,7 +106,11 @@ update currentDate backendUrl accessToken user msg model =
             )
 
         HandleFetchedItems (Err err) ->
-            ( model, Cmd.none, Nothing )
+            let
+                _ =
+                    Debug.log "HandleFetchedItems" err
+            in
+                ( model, Cmd.none, Nothing )
 
         HandleFetchedItem itemId (Ok item) ->
             let
@@ -173,7 +177,6 @@ fetchAllItemsFromBackend backendUrl accessToken model =
                 |> withQueryParams [ ( "access_token", accessToken ) ]
                 |> sendWithHandler decodeItemsFromResponse HandleFetchedItems
     in
-        -- @todo: Move WebData to wrap dict?
         ( model
         , command
         )

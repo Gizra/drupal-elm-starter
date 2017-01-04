@@ -11,7 +11,7 @@ $plugin = array(
   'name' => 'items',
   'entity_type' => 'node',
   'bundle' => 'item',
-  'description' => t('Exports the Hedley electricity bundle.'),
+  'description' => t('Exports the Items bundle.'),
   'class' => 'HedleyRestfulItems',
   'authentication_types' => TRUE,
 );
