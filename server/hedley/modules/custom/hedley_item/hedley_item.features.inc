@@ -19,7 +19,7 @@ function hedley_item_ctools_plugin_api($module = NULL, $api = NULL) {
 function hedley_item_node_info() {
   $items = array(
     'item' => array(
-      'name' => t('Item electricity'),
+      'name' => t('Item'),
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',

@@ -18,7 +18,7 @@ class HedleyMigrateItems extends HedleyMigrateBase {
    */
   public function __construct($arguments) {
     parent::__construct($arguments);
-    $this->description = t('Import Item electricity from the CSV.');
+    $this->description = t('Import Item from the CSV.');
     $this->dependencies = [
       'HedleyMigrateUsers',
     ];
@@ -33,7 +33,7 @@ class HedleyMigrateItems extends HedleyMigrateBase {
       $columns[] = [$column_name, $column_name];
     }
 
-    $source_file = $this->getMigrateDirectory() . '/csv/item-electricity.csv';
+    $source_file = $this->getMigrateDirectory() . '/csv/item.csv';
     $options = array('header_rows' => 1);
     $this->source = new MigrateSourceCSV($source_file, $columns, $options);
 
