@@ -18,7 +18,7 @@ update backendUrl accessToken user msg sensor =
                     -- which has already been saved at the server. Note that
                     -- we may have just pushed this change ourselves, so it's
                     -- already reflected here.
-                    ( newSensor.sensor
+                    ( newSensor
                     , Cmd.none
                     , Nothing
                     )

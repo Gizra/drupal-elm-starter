@@ -32,7 +32,6 @@ decodeTest =
                             { name = "new-sensor"
                             , image = "http://placehold.it/350x150"
                             }
-                                |> SensorUpdateData
                                 |> SensorUpdate
                         }
                 in

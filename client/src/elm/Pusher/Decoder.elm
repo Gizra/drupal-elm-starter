@@ -30,5 +30,4 @@ decodePusherEventData =
 
 decodeSensorUpdateData : Decoder Sensor
 decodeSensorUpdateData =
-    decode Sensor
-        |> requiredAt [ "data", "0" ] decodeSensor
+    field "data" decodeSensor
