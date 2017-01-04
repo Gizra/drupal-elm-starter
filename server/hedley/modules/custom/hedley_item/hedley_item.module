@@ -44,7 +44,7 @@ function hedley_item_trigger_pusher_on_item_data_change($node) {
 
   $account = user_load($node->uid);
 
-  $handler = restful_get_restful_handler('hedley');
+  $handler = restful_get_restful_handler('items');
   $handler->setAccount($account);
   $data = $handler->get($node->nid);
 
