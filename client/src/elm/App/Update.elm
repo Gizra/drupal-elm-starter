@@ -127,7 +127,7 @@ update msg model =
                                         case modelUpdated.activePage of
                                             Login ->
                                                 -- Redirect to the dashboard.
-                                                Items
+                                                Dashboard
 
                                             _ ->
                                                 -- Keep the active page.
@@ -158,11 +158,11 @@ update msg model =
                     ( modelUpdated, command ) =
                         -- For a few, we also delegate some initialization
                         case activePage of
-                            Items ->
+                            Dashboard ->
                                 -- If we're showing a `Items` page, make sure we `Subscribe`
                                 update (MsgItemManager ItemManager.Model.FetchAll) model
 
-                            PageItem id ->
+                            Item id ->
                                 -- If we're showing a `Item`, make sure we `Subscribe`
                                 update (MsgItemManager (ItemManager.Model.Subscribe id)) model
 

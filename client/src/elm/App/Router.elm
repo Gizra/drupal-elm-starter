@@ -22,10 +22,10 @@ delta2url previous current =
         PageNotFound ->
             Just <| UrlChange NewEntry "/#404"
 
-        PageItem id ->
+        Item id ->
             Just <| UrlChange NewEntry ("#item/" ++ id)
 
-        Items ->
+        Dashboard ->
             Just <| UrlChange NewEntry "#"
 
 
@@ -42,8 +42,8 @@ location2messages location =
 parseUrl : Parser (Msg -> c) c
 parseUrl =
     oneOf
-        [ map (SetActivePage Items) (s "")
-        , map (\id -> SetActivePage <| PageItem (toString id)) (s "item" </> int)
+        [ map (SetActivePage Dashboard) (s "")
+        , map (\id -> SetActivePage <| Item (toString id)) (s "item" </> int)
         , map (SetActivePage Login) (s "login")
         , map (SetActivePage MyAccount) (s "my-account")
         ]

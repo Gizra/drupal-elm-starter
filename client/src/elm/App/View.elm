@@ -11,7 +11,6 @@ import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
 import ItemManager.View exposing (..)
-import ItemManager.Utils exposing (unwrapItemsDict)
 import RemoteData exposing (RemoteData(..), WebData)
 
 
@@ -59,15 +58,9 @@ viewSidebar model =
                     [ text "Sign Out" ]
                 , a
                     [ class "item"
-                    , onClick <| SetActivePage Items
+                    , onClick <| SetActivePage Dashboard
                     ]
-                    [ text "Dashboard"
-                    ]
-                , a
-                    [ class "item"
-                    , onClick <| SetActivePage Items
-                    ]
-                    [ text "Items" ]
+                    [ text "Dashboard" ]
                 ]
 
         _ ->
@@ -157,7 +150,7 @@ viewMainContent model =
                 -- We don't need to pass any cmds, so we can call the view directly
                 Pages.PageNotFound.View.view
 
-            Items ->
+            Dashboard ->
                 -- We get the user information before diving down a level, since
                 -- Pages.LiveSession can't do anything sensible without a user, and it is
                 -- at this higher level that we could present a UI related to loading
@@ -171,7 +164,7 @@ viewMainContent model =
                         div []
                             [ i [ class "notched circle loading icon" ] [] ]
 
-            PageItem id ->
+            Item id ->
                 -- We get the user information before diving down a level, since
                 -- Pages.LiveSession can't do anything sensible without a user, and it is
                 -- at this higher level that we could present a UI related to loading

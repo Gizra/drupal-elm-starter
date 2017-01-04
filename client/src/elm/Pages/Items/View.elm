@@ -56,7 +56,7 @@ config =
                 , viewData =
                     \( itemId, item ) ->
                         Table.HtmlDetails []
-                            [ a [ href "#", onClick <| SetRedirectPage <| PageItem itemId ]
+                            [ a [ href "#", onClick <| SetRedirectPage <| App.PageType.Item itemId ]
                                 [ text item.name ]
                             ]
                 , sorter = Table.increasingOrDecreasingBy <| Tuple.second >> .name

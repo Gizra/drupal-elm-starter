@@ -10,8 +10,8 @@ type alias ItemId =
 
 type Page
     = AccessDenied
+    | Dashboard
+    | Item ItemId
     | Login
     | MyAccount
     | PageNotFound
-    | PageItem ItemId
-    | Items
