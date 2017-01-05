@@ -4,17 +4,17 @@ import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
 import Dict exposing (Dict)
-import Json.Decode exposing (decodeValue)
-import Json.Encode exposing (Value)
-import HttpBuilder exposing (get, withQueryParams)
-import Pages.Item.Model
-import Pages.Item.Update
-import Pages.Items.Update
 import Item.Model exposing (Item, ItemId)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
+import Json.Decode exposing (decodeValue)
+import Json.Encode exposing (Value)
+import HttpBuilder exposing (get, withQueryParams)
+import Pages.Item.Update
+import Pages.Items.Update
 import Pusher.Decoder exposing (decodePusherEvent)
+import Pusher.Model exposing (PusherEventData(..))
 import RemoteData exposing (RemoteData(..))
 import User.Model exposing (User)
 import Utils.WebData exposing (sendWithHandler)
@@ -134,11 +134,14 @@ update currentDate backendUrl accessToken user msg model =
         HandlePusherEvent result ->
             case result of
                 Ok event ->
-                    let
-                        subMsg =
-                            Pages.Item.Model.HandlePusherEventData event.data
-                    in
-                        update currentDate backendUrl accessToken user (MsgPagesItem event.itemId subMsg) model
+                    case event.data of
+                        ItemUpdate data ->
+                            -- For now we just update the item in the items Dict. But this
+                            -- can be used to pipe the pushed data to child components.
+                            ( { model | items = Dict.insert event.itemId (Success data) model.items }
+                            , Cmd.none
+                            , Nothing
+                            )
 
                 Err err ->
                     let
