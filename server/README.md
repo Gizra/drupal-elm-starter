@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/Gizra/hedley.svg)](https://travis-ci.org/Gizra/hedley)
-
 # Drupal 7 - Install Profile Hedley
 
 This is a starting base to create Drupal 7 websites using an install profile.
