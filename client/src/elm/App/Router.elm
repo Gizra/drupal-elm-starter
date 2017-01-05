@@ -23,10 +23,10 @@ delta2url previous current =
             Just <| UrlChange NewEntry "/#404"
 
         Item id ->
-            Just <| UrlChange NewEntry ("#item/" ++ id)
+            Just <| UrlChange NewEntry ("/#item/" ++ id)
 
         Dashboard ->
-            Just <| UrlChange NewEntry "#"
+            Just <| UrlChange NewEntry "/#"
 
 
 location2messages : Location -> List Msg
