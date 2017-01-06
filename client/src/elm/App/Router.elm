@@ -14,19 +14,19 @@ delta2url previous current =
             Nothing
 
         Login ->
-            Just <| UrlChange NewEntry "/#login"
+            Just <| UrlChange NewEntry "#login"
 
         MyAccount ->
-            Just <| UrlChange NewEntry "/#my-account"
+            Just <| UrlChange NewEntry "#my-account"
 
         PageNotFound ->
-            Just <| UrlChange NewEntry "/#404"
+            Just <| UrlChange NewEntry "#404"
 
         Item id ->
-            Just <| UrlChange NewEntry ("/#item/" ++ id)
+            Just <| UrlChange NewEntry ("#item/" ++ id)
 
         Dashboard ->
-            Just <| UrlChange NewEntry "/#"
+            Just <| UrlChange NewEntry ""
 
 
 location2messages : Location -> List Msg
