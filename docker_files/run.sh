@@ -27,34 +27,6 @@ function check_last_command() {
 ROOT_DIR="/var/www/html/Server"
 
 # -------------------------------------------------- #
-# Install Firefox (iceweasel).
-# -------------------------------------------------- #
-print_message "Install firefox."
-apt-get update
-apt-get -qq -y install iceweasel > /dev/null
-check_last_command
-
-# -------------------------------------------------- #
-# Install headless GUI for browser.'Xvfb is a display server that performs graphical operations in memory'
-# -------------------------------------------------- #
-print_message "Installing XVFB (headless GUI for Firefox)."
-apt-get install xvfb -y
-apt-get install openjdk-7-jre-headless -y
-Xvfb :99 -ac &
-check_last_command
-export DISPLAY=:99
-sleep 5
-
-# -------------------------------------------------- #
-# Install Selenium.
-# -------------------------------------------------- #
-print_message  "Install Selenium."
-wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
-java -jar selenium-server-standalone-2.53.0.jar > /dev/null 2>&1 &
-check_last_command
-sleep 10
-
-# -------------------------------------------------- #
 # Start MySQL.
 # -------------------------------------------------- #
 print_message "Start MySQL."
