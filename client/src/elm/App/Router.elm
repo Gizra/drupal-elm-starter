@@ -26,7 +26,8 @@ delta2url previous current =
             Just <| UrlChange NewEntry ("#item/" ++ id)
 
         Dashboard ->
-            Just <| UrlChange NewEntry ""
+            -- Hack to allow dashboard to change the URL.
+            Just <| UrlChange NewEntry "# "
 
 
 location2messages : Location -> List Msg
