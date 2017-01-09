@@ -59,9 +59,5 @@ drush $PANTHEON_ALIAS migrate-register --user=1 --strict=0
 drush $PANTHEON_ALIAS mi --all --user=1 --strict=0
 drush $PANTHEON_ALIAS dis migrate --yes  --strict=0
 
-printf "${GREEN} Generating dummy item data${NORMAL}\n"
-drush $PANTHEON_ALIAS scr ./profiles/hedley/modules/custom/hedley_data/dummy_data/create_dummy_data.php --item_nid=1
-drush $PANTHEON_ALIAS scr ./profiles/hedley/modules/custom/hedley_data/dummy_data/create_dummy_data.php --item_nid=2
-
 printf "${GREEN}Open site in browser.${NORMAL}\n"
 drush $PANTHEON_ALIAS uli
