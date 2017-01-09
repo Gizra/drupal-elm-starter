@@ -8,15 +8,31 @@ local : Model
 local =
     { backendUrl = "http://localhost/drupal-elm-starter/server/www"
     , name = "local"
-    , pusherKey = "ba4608c38aa09c23227b"
+    , pusherKey = ""
     }
 
 
-production : Model
-production =
+devPantheon : Model
+devPantheon =
     { backendUrl = "https://dev-drupal-elm-starter.pantheonsite.io"
-    , name = "gh-pages"
-    , pusherKey = "f0d7df56f0d4928ea6d8"
+    , name = "devPantheon"
+    , pusherKey = ""
+    }
+
+
+testPantheon : Model
+testPantheon =
+    { backendUrl = "https://test-drupal-elm-starter.pantheonsite.io"
+    , name = "testPantheon"
+    , pusherKey = ""
+    }
+
+
+livePantheon : Model
+livePantheon =
+    { backendUrl = "https://live-drupal-elm-starter.pantheonsite.io"
+    , name = "livePantheon"
+    , pusherKey = ""
     }
 
 
@@ -24,5 +40,7 @@ configs : Dict String Model
 configs =
     Dict.fromList
         [ ( "localhost", local )
-        , ( "dev-drupal-elm-starter.pantheonsite.io", production )
+        , ( "dev-drupal-elm-starter.pantheonsite.io", devPantheon )
+        , ( "test-drupal-elm-starter.pantheonsite.io", testPantheon )
+        , ( "live-drupal-elm-starter.pantheonsite.io", livePantheon )
         ]
