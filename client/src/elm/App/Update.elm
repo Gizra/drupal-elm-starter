@@ -10,6 +10,7 @@ import ItemManager.Update
 import Json.Decode exposing (decodeValue, bool)
 import Json.Encode exposing (Value)
 import Pages.Login.Update
+import Pusher.Model exposing (PusherConfig, pusherEvents)
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (minute)
@@ -24,7 +25,7 @@ init flags =
                 Just config ->
                     let
                         defaultCmds =
-                            [ pusherKey config.pusherKey
+                            [ pusherConfig <| PusherConfig config.pusherKey pusherEvents
                             , Task.perform SetCurrentDate Date.now
                             ]
 
@@ -224,9 +225,9 @@ subscriptions model =
 port accessTokenPort : String -> Cmd msg
 
 
-{-| Send Pusher key to JS.
+{-| Send Pusher configuration (key and events) to JS.
 -}
-port pusherKey : String -> Cmd msg
+port pusherConfig : PusherConfig -> Cmd msg
 
 
 {-| Get a singal if internet connection is lost.

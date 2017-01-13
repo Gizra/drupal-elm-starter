@@ -8,8 +8,9 @@ elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
 });
 
 
-elmApp.ports.pusherKey.subscribe(function(appKey) {
-  var pusher = new Pusher(appKey, {
+elmApp.ports.pusherConfig.subscribe(function(config) {
+  console.log(config);
+  var pusher = new Pusher(config.key, {
     cluster: 'eu'
   });
 
@@ -18,9 +19,7 @@ elmApp.ports.pusherKey.subscribe(function(appKey) {
   if (!pusher.channel(channelName)) {
       var channel = pusher.subscribe(channelName);
 
-      var eventNames = [
-        'item__update',
-      ];
+      var eventNames = config.events;
 
       eventNames.forEach(function(eventName) {
         channel.bind(eventName, function (data) {
