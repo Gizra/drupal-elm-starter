@@ -11,19 +11,19 @@ type alias PusherEvent =
 
 type alias PusherConfig =
     { key : String
-    , events : List PusherEventType
+    , events : List String
     }
 
 
-type alias PusherEventType =
-    String
+type PusherEventType
+    = ItemUpdate
 
 
 type PusherEventData
     = ItemUpdate Item
 
 
-pusherEvents : List PusherEventType
+pusherEvents : List String
 pusherEvents =
     [ "item__update"
     ]
