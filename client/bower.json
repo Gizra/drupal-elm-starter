@@ -12,6 +12,7 @@
   ],
   "dependencies": {
     "copy-button": "sudodoki/copy-button#2.0.0",
-    "offline": "0.7.18"
+    "offline": "0.7.18",
+    "semantic": "semantic-ui#2.2.7"
   }
 }
