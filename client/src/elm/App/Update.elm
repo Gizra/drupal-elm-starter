@@ -10,6 +10,7 @@ import ItemManager.Update
 import Json.Decode exposing (bool, decodeValue)
 import Json.Encode exposing (Value)
 import Pages.Login.Update
+import Pusher.Model
 import Pusher.Utils exposing (getClusterName)
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
@@ -25,7 +26,11 @@ init flags =
                 Just config ->
                     let
                         defaultCmds =
-                            [ pusherKey ( config.pusherKey.key, getClusterName config.pusherKey.cluster )
+                            [ pusherKey
+                                ( config.pusherKey.key
+                                , getClusterName config.pusherKey.cluster
+                                , Pusher.Model.eventNames
+                                )
                             , Task.perform SetCurrentDate Date.now
                             ]
 
@@ -227,7 +232,7 @@ port accessTokenPort : String -> Cmd msg
 
 {-| Send Pusher key and cluster to JS.
 -}
-port pusherKey : ( String, String ) -> Cmd msg
+port pusherKey : ( String, String, List String ) -> Cmd msg
 
 
 {-| Get a singal if internet connection is lost.

@@ -23,3 +23,10 @@ type alias PusherEvent =
 
 type PusherEventData
     = ItemUpdate Item
+
+
+{-| Return the event names that should be added via JS.
+-}
+eventNames : List String
+eventNames =
+    [ "item__update" ]
