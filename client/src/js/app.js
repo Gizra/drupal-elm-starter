@@ -9,8 +9,8 @@ elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
 
 
 elmApp.ports.pusherKey.subscribe(function(appKey) {
-  var pusher = new Pusher(appKey, {
-    cluster: 'eu'
+  var pusher = new Pusher(appKey[0], {
+    cluster: appKey[1]
   });
 
   var channelName = 'general';
@@ -18,9 +18,7 @@ elmApp.ports.pusherKey.subscribe(function(appKey) {
   if (!pusher.channel(channelName)) {
       var channel = pusher.subscribe(channelName);
 
-      var eventNames = [
-        'item__update',
-      ];
+      var eventNames = appKey[2];
 
       eventNames.forEach(function(eventName) {
         channel.bind(eventName, function (data) {
