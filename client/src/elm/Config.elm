@@ -2,13 +2,14 @@ module Config exposing (..)
 
 import Config.Model as Config exposing (Model)
 import Dict exposing (..)
+import Pusher.Model exposing (Cluster(..), PusherAppKey)
 
 
 local : Model
 local =
     { backendUrl = "http://localhost/drupal-elm-starter/server/www"
     , name = "local"
-    , pusherKey = ""
+    , pusherKey = PusherAppKey "" UsEast1
     }
 
 
@@ -16,7 +17,7 @@ devPantheon : Model
 devPantheon =
     { backendUrl = "https://dev-drupal-elm-starter.pantheonsite.io"
     , name = "devPantheon"
-    , pusherKey = ""
+    , pusherKey = PusherAppKey "" UsEast1
     }
 
 
@@ -24,7 +25,7 @@ testPantheon : Model
 testPantheon =
     { backendUrl = "https://test-drupal-elm-starter.pantheonsite.io"
     , name = "testPantheon"
-    , pusherKey = ""
+    , pusherKey = PusherAppKey "" UsEast1
     }
 
 
@@ -32,7 +33,7 @@ livePantheon : Model
 livePantheon =
     { backendUrl = "https://live-drupal-elm-starter.pantheonsite.io"
     , name = "livePantheon"
-    , pusherKey = ""
+    , pusherKey = PusherAppKey "" UsEast1
     }
 
 

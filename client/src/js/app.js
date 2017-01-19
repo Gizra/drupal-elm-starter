@@ -9,8 +9,8 @@ elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
 
 
 elmApp.ports.pusherKey.subscribe(function(appKey) {
-  var pusher = new Pusher(appKey, {
-    cluster: 'eu'
+  var pusher = new Pusher(appKey[0], {
+    cluster: appKey[1]
   });
 
   var channelName = 'general';
