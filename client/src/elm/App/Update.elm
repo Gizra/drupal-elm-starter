@@ -5,6 +5,7 @@ import App.PageType exposing (Page(..))
 import Config
 import Date
 import Dict
+import Http
 import ItemManager.Model
 import ItemManager.Update
 import Json.Decode exposing (bool, decodeValue)
@@ -21,6 +22,14 @@ import User.Model exposing (..)
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
+        user =
+            if (String.isEmpty flags.accessToken) then
+                -- This isn't really a netowrk error, but we mark the user as
+                -- Failure, so we know we have an anonymous user at hand.
+                Failure <| Http.NetworkError
+            else
+                NotAsked
+
         ( config, cmds, activePage ) =
             case (Dict.get flags.hostname Config.configs) of
                 Just config ->
@@ -58,6 +67,7 @@ init flags =
             | accessToken = flags.accessToken
             , activePage = activePage
             , config = config
+            , user = user
           }
         , Cmd.batch cmds
         )
@@ -209,11 +219,16 @@ setActivePageAccess user page =
             else
                 page
 
-        _ ->
-            if page == MyAccount then
-                AccessDenied
-            else
+        Failure _ ->
+            if page == Login then
                 page
+            else if page == PageNotFound then
+                page
+            else
+                AccessDenied
+
+        _ ->
+            page
 
 
 subscriptions : Model -> Sub Msg
