@@ -5,6 +5,7 @@ import App.PageType exposing (Page(..))
 import App.Update exposing (..)
 import App.View exposing (view)
 import Expect
+import Http
 import Test exposing (describe, test, Test)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text, tag)
@@ -34,7 +35,7 @@ setActivePageTest =
 
 getPageAsAnonymous : Page -> Page
 getPageAsAnonymous page =
-    update (SetActivePage page) emptyModel
+    update (SetActivePage page) { emptyModel | user = Failure Http.NetworkError }
         |> Tuple.first
         |> .activePage
 
