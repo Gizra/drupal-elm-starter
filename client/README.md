@@ -23,7 +23,3 @@ In order to view the tests on the browser Start elm reactor (elm-reactor) and na
 1. Execute tests with `./node_modules/.bin/wdio wdio.conf.js`
 
 Note: You will have 3 terminal tabs open: One with `gulp`, the other with the selenium standalone server and the third with the executed tests.
-
-## License
-
-MIT
