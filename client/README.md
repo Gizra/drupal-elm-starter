@@ -1,7 +1,3 @@
-[![Build Status](https://travis-ci.org/Gizra/elm-spa-example.svg?branch=master)](https://travis-ci.org/Gizra/elm-spa-example)
-
-> elm v0.18 single page application (SPA) with a Drupal backend
-
 ## Installation
 
 Make sure the following are installed:
