@@ -43,7 +43,7 @@ view user model =
         Html.form
             [ onSubmit TryLogin
             , action "javascript:void(0);"
-            , class "ui stacked segment"
+            , class "ui stacked segment login-form"
             ]
             [ div [ inputClasses ]
                 [ input
@@ -51,6 +51,7 @@ view user model =
                     , placeholder "Name"
                     , onInput SetName
                     , value model.loginForm.name
+                    , name "username"
                     ]
                     []
                 , input
@@ -58,6 +59,7 @@ view user model =
                     , placeholder "Password"
                     , onInput SetPassword
                     , value model.loginForm.pass
+                    , name "password"
                     ]
                     []
                   -- Submit button
