@@ -38,7 +38,7 @@ view currentDate currentUser items model =
                 Table.view config model.tableState acceptableItems
     in
         div []
-            [ h1 [] [ text "Items" ]
+            [ h1 [ class "ui header" ] [ text "Items" ]
             , div [ class "ui input" ]
                 [ input
                     [ placeholder "Search by Name"
