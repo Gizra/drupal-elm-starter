@@ -17,6 +17,11 @@ body {
         .ui.secondary.pointing.fluid.menu h2 {
             margin: calc(2rem - .14285em) 0 1rem;
         }
+
+        & > div:nth-child(2) {
+            // Allow the main content to be full width.
+            width: 100%;
+        }
     }
 
     &.fixed.inverted.main.menu {

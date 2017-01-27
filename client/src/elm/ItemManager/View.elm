@@ -4,7 +4,6 @@ module ItemManager.View
         , viewItems
         )
 
-import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
 import Pages.Item.View
 import Html exposing (..)
@@ -27,9 +26,7 @@ viewItems currentDate user model =
         items =
             unwrapItemsDict model.items
     in
-        div []
-            [ Html.map MsgPagesItems <| Pages.Items.View.view currentDate user items model.itemsPage
-            ]
+        Html.map MsgPagesItems <| Pages.Items.View.view currentDate user items model.itemsPage
 
 
 {-| Show the Item page.
