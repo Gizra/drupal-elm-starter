@@ -37,7 +37,7 @@ view model =
                                 [ viewSidebar model Left
                                 , div
                                     [ class "ui main grid" ]
-                                    [ viewResponsiveTopMenu
+                                    [ viewTopMenu
                                     , viewMainContent model
                                     ]
                                 ]
@@ -45,8 +45,10 @@ view model =
                         ]
 
 
-viewResponsiveTopMenu : Html Msg
-viewResponsiveTopMenu =
+{-| Responsive top menu.
+-}
+viewTopMenu : Html Msg
+viewTopMenu =
     div
         [ class "ui fixed inverted main menu" ]
         [ div

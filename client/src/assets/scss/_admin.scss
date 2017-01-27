@@ -1,0 +1,263 @@
+/* MAIN STYLES */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #F5F5F5 !important;
+}
+
+.ui {
+  &.main.grid {
+    left: 18.75%;
+    position: relative;
+    width: 81.25%;
+    .ui.secondary.pointing.fluid.menu h2 {
+      margin: calc(2rem - .14285em) 0 1rem;
+    }
+  }
+  &.fixed.inverted.main.menu {
+    display: none;
+  }
+  &.left.fixed.vertical.inverted.menu {
+    padding-left: 0;
+    padding-right: 0;
+    a.item:first-child {
+      padding-bottom: 30px;
+      padding-top: 60px;
+    }
+  }
+  &.sidebar.inverted.vertical.menu a.item:first-child {
+    padding-bottom: 15px;
+    padding-top: 30px;
+  }
+}
+
+/* LOGIN STYLES */
+
+[data-page="login"] .ui.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  width: 465px;
+}
+
+.dashboard.brand.icon {
+  width: 100%;
+  margin-bottom: 36px;
+}
+
+[data-page="login"] .ui.container .ui.segment {
+  padding: 35px;
+}
+
+p {
+  &.signup {
+    padding-top: 25px;
+  }
+  &.dashboard {
+    font-size: 12px;
+    padding-top: 10px;
+    text-transform: uppercase;
+  }
+  &.signup, &.dashboard {
+    color: #999999;
+    text-align: center;
+  }
+}
+
+/* PRODUCTS STYLES */
+
+.ui {
+  &.striped.table {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  &.main.grid .products.column {
+    padding: 1rem 0;
+    .basic.segment {
+      padding: 1rem 0;
+    }
+  }
+  &.divided.product.items {
+    width: 100%;
+    img {
+      height: 187px;
+      width: 150px;
+    }
+  }
+}
+
+/* CUSTOMER STYLES */
+
+.customer.statistics, .feedback.segments {
+  width: 100%;
+}
+
+/* EMPLOYEES STYLES */
+
+.ui {
+  &.mobile.cards {
+    display: none;
+  }
+  &.dashboard {
+    &.segment {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 171px;
+    }
+    &.statistic {
+      .value {
+        color: #FFFFFF;
+      }
+      .label {
+        color: #F5F5F5;
+      }
+    }
+  }
+}
+
+/* DASHBOARD STYLES */
+
+.top-table.column {
+  width: 33.33333333% !important;
+  .ui.segment:last-child {
+    height: 219px;
+  }
+}
+
+.doughnut-chart.column {
+  .ui.segment:last-child {
+    height: 219px;
+  }
+  width: 66.66666666% !important;
+}
+
+ul {
+  &#dashboard_legend {
+    display: inline-block;
+    vertical-align: top;
+  }
+  &.doughnut-legend {
+    list-style-type: none;
+  }
+}
+
+.doughnut-legend li span {
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  height: 12px;
+  width: 12px;
+}
+
+/* SMARTPHONE */
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+  .ui {
+    &.mobile.cards {
+      display: flex;
+    }
+    &.special.three.cards {
+      display: none;
+    }
+    &.main.grid .row {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+  .top-table.column .ui.segment:last-child, .doughnut-chart.column .ui.segment:last-child {
+    height: auto;
+  }
+  .ui {
+    &.special.three.cards .card .content {
+      a.header, div.header {
+        font-size: 1em;
+      }
+    }
+    &.four.customer.statistics .statistic .value {
+      font-size: 1.5em;
+    }
+    &.grid {
+      .nine.wide.products.column {
+        padding: 0;
+        width: 100% !important;
+      }
+      .seven.wide.products.column {
+        padding: 0;
+        width: 100% !important;
+        .ui.basic.right.aligned.segment {
+          text-align: left;
+        }
+      }
+      .ui.three.column.row .dashboard-stat.column {
+        margin-bottom: 30px;
+        width: 100% !important;
+      }
+    }
+  }
+  .top-table.column, .doughnut-chart.column {
+    margin-bottom: 30px;
+    width: 100% !important;
+  }
+  .ui {
+    &.grid {
+      .four.wide.sales.column, .twelve.wide.sales.column {
+        margin-bottom: 30px;
+        width: 100% !important;
+      }
+    }
+    &.header.datetime {
+      margin: 3rem 0 1rem;
+    }
+    &.left.fixed.vertical.inverted.menu {
+      display: none;
+    }
+    &.fixed.inverted.main.menu {
+      display: block;
+    }
+    &.main.grid {
+      left: 0%;
+      margin: 0 auto;
+      padding: 2.75rem 0 0;
+      position: relative;
+      width: 100%;
+    }
+  }
+}
+
+/* TABLET */
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .ui {
+    &.header.datetime {
+      margin: 3rem 0 1rem;
+    }
+    &.left.fixed.vertical.inverted.menu {
+      display: none;
+    }
+    &.fixed.inverted.main.menu {
+      display: block;
+    }
+    &.main.grid {
+      left: 0%;
+      padding-top: 2.75rem !important;
+      position: relative;
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .ui {
+    &.fixed.inverted.main.menu {
+      display: none;
+    }
+    &.left.fixed.vertical.inverted.menu {
+      display: block;
+    }
+  }
+}
