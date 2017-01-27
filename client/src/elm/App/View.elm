@@ -82,13 +82,10 @@ viewSidebar model sidebar =
                         ]
                         [ h4
                             [ class "ui grey header" ]
-                            [ text user.name ]
+                            [ viewAvatar user
+                            , text user.name
+                            ]
                         ]
-                    , a
-                        [ class "item"
-                        , onClick Logout
-                        ]
-                        [ text "Sign Out" ]
                     , a
                         [ class "item"
                         , onClick <| SetActivePage Dashboard
@@ -110,40 +107,15 @@ viewSidebar model sidebar =
                             ]
                             []
                         ]
+                    , a
+                        [ class "item"
+                        , onClick Logout
+                        ]
+                        [ text "Sign Out" ]
                     ]
 
         _ ->
             div [] []
-
-
-navbarAnonymous : Model -> List (Html Msg)
-navbarAnonymous model =
-    [ a
-        [ classByPage Login model.activePage
-        , onClick <| SetActivePage Login
-        ]
-        [ text "Login" ]
-    , viewPageNotFoundItem model.activePage
-    ]
-
-
-navbarAuthenticated : Model -> List (Html Msg)
-navbarAuthenticated model =
-    [ a
-        [ classByPage MyAccount model.activePage
-        , onClick <| SetActivePage MyAccount
-        ]
-        [ text "My Account" ]
-    , viewPageNotFoundItem model.activePage
-    , div [ class "right menu" ]
-        [ viewAvatar model.user
-        , a
-            [ class "ui item"
-            , onClick <| Logout
-            ]
-            [ text "Logout" ]
-        ]
-    ]
 
 
 viewPageNotFoundItem : Page -> Html Msg
@@ -155,23 +127,13 @@ viewPageNotFoundItem activePage =
         [ text "404 page" ]
 
 
-viewAvatar : WebData User -> Html Msg
+viewAvatar : User -> Html Msg
 viewAvatar user =
-    case user of
-        Success user_ ->
-            a
-                [ onClick <| SetActivePage MyAccount
-                , class "ui item"
-                ]
-                [ img
-                    [ class "ui avatar image"
-                    , src user_.avatarUrl
-                    ]
-                    []
-                ]
-
-        _ ->
-            div [] []
+    img
+        [ class "ui avatar image"
+        , src user.avatarUrl
+        ]
+        []
 
 
 viewMainContent : Model -> Html Msg
