@@ -145,13 +145,6 @@ p {
     }
 
     .ui {
-        &.grid {
-            .four.wide.sales.column,
-            .twelve.wide.sales.column {
-                margin-bottom: 30px;
-                width: 100% !important;
-            }
-        }
 
         &.header:first-child {
             margin: 3rem 0 1rem;
