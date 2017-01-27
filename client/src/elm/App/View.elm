@@ -21,64 +21,94 @@ view model =
             Config.View.view
 
         _ ->
-            div []
-                [ div [ class "ui container main" ]
-                    [ viewSidebar model
-                    , div
-                        [ class "pusher" ]
-                        [ div
-                            [ class "ui grid container" ]
+            case model.activePage of
+                Login ->
+                    viewMainContent model
+
+                _ ->
+                    div []
+                        -- Sidebar menu - responsive only
+                        [ viewSidebar model Top
+                        , div
+                            [ class "pusher" ]
                             [ div
-                                [ class "ui main grid" ]
-                                [ viewMainContent model
+                                [ class "ui grid container" ]
+                                -- Non-responsive menu
+                                [ viewSidebar model Left
+                                , div
+                                    [ class "ui main grid" ]
+                                    [ viewResponsiveTopMenu
+                                    , viewMainContent model
+                                    ]
                                 ]
                             ]
                         ]
-                    ]
+
+
+viewResponsiveTopMenu : Html Msg
+viewResponsiveTopMenu =
+    div
+        [ class "ui fixed inverted main menu" ]
+        [ div
+            [ class "ui container" ]
+            [ a
+                [ class "launch icon item sidebar-toggle" ]
+                [ i [ class "sidebar icon" ] []
                 ]
+            ]
+        ]
 
 
-viewSidebar : Model -> Html Msg
-viewSidebar model =
+viewSidebar : Model -> Sidebar -> Html Msg
+viewSidebar model sidebar =
     case model.user of
         Success user ->
-            div
-                [ class "ui visible sidebar inverted vertical menu" ]
-                [ a
-                    [ class "item"
-                    , onClick <| SetActivePage MyAccount
-                    ]
-                    [ h4
-                        [ class "ui grey header" ]
-                        [ text user.name ]
-                    ]
-                , a
-                    [ class "item"
-                    , onClick Logout
-                    ]
-                    [ text "Sign Out" ]
-                , a
-                    [ class "item"
-                    , onClick <| SetActivePage Dashboard
-                    ]
-                    [ text "Dashboard" ]
-                , span
-                    [ class "item"
-                    ]
-                    [ text <|
-                        if model.offline then
-                            "Not Connected"
-                        else
-                            "Connected"
-                    , i
-                        [ classList
-                            [ ( "icon wifi", True )
-                            , ( "disabled", model.offline )
-                            ]
+            let
+                wrapperClasses =
+                    case sidebar of
+                        Top ->
+                            "ui sidebar inverted vertical menu"
+
+                        Left ->
+                            "ui left fixed vertical inverted menu"
+            in
+                div
+                    [ class wrapperClasses ]
+                    [ a
+                        [ class "item"
+                        , onClick <| SetActivePage MyAccount
                         ]
-                        []
+                        [ h4
+                            [ class "ui grey header" ]
+                            [ text user.name ]
+                        ]
+                    , a
+                        [ class "item"
+                        , onClick Logout
+                        ]
+                        [ text "Sign Out" ]
+                    , a
+                        [ class "item"
+                        , onClick <| SetActivePage Dashboard
+                        ]
+                        [ text "Dashboard" ]
+                    , span
+                        [ class "item"
+                        ]
+                        [ text <|
+                            if model.offline then
+                                "Not Connected"
+                            else
+                                "Connected"
+                        , i
+                            [ classList
+                                [ ( "icon wifi", True )
+                                , ( "disabled", model.offline )
+                                ]
+                            ]
+                            []
+                        ]
                     ]
-                ]
 
         _ ->
             div [] []

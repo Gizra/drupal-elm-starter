@@ -1,4 +1,11 @@
-module App.Model exposing (emptyModel, Flags, Msg(..), Model)
+module App.Model
+    exposing
+        ( emptyModel
+        , Flags
+        , Msg(..)
+        , Model
+        , Sidebar(..)
+        )
 
 import App.PageType exposing (Page(..))
 import Config.Model
@@ -36,6 +43,11 @@ type alias Flags =
     { accessToken : String
     , hostname : String
     }
+
+
+type Sidebar
+    = Top
+    | Left
 
 
 emptyModel : Model
