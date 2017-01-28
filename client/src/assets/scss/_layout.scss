@@ -1,4 +1,3 @@
-/* MAIN STYLES */
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +19,7 @@ body {
     width: 81.25%;
 
     .ui.secondary.pointing.fluid.menu h2 {
-      margin: calc(2rem - 0.14285em) 0 1rem;
+      margin: 2.5rem 0 1rem;
     }
 
     & > div:nth-child(2) {
@@ -49,24 +48,11 @@ body {
   }
 }
 
-/* DASHBOARD STYLES */
-.top-table.column {
-  width: 33.33333333% !important;
-
-  .ui.segment:last-child {
-    height: 219px;
-  }
-}
-
 /* SMARTPHONE */
 @media only screen and (min-width: 320px) and (max-width: 767px) {
   .ui {
     &.mobile.cards {
       display: flex;
-    }
-
-    &.special.three.cards {
-      display: none;
     }
 
     &.main.grid .row {
@@ -75,53 +61,8 @@ body {
     }
   }
 
-  .doughnut-chart.column .ui.segment:last-child,
-  .top-table.column .ui.segment:last-child {
-    height: auto;
-  }
-
   .ui {
-    &.special.three.cards .card .content {
-      a.header,
-      div.header {
-        font-size: 1em;
-      }
-    }
-
-    &.four.customer.statistics .statistic .value {
-      font-size: 1.5em;
-    }
-
-    &.grid {
-      .nine.wide.products.column {
-        padding: 0;
-        width: 100% !important;
-      }
-
-      .seven.wide.products.column {
-        padding: 0;
-        width: 100% !important;
-
-        .ui.basic.right.aligned.segment {
-          text-align: left;
-        }
-      }
-
-      .ui.three.column.row .dashboard-stat.column {
-        margin-bottom: 30px;
-        width: 100% !important;
-      }
-    }
-  }
-
-  .doughnut-chart.column,
-  .top-table.column {
-    margin-bottom: 30px;
-    width: 100% !important;
-  }
-
-  .ui {
-    &.header:first-child {
+    &.header {
       margin: 3rem 0 1rem;
     }
 
@@ -146,7 +87,7 @@ body {
 /* TABLET */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .ui {
-    &.header:first-child {
+    &.header {
       margin: 3rem 0 1rem;
     }
 
