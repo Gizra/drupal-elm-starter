@@ -13,9 +13,15 @@ view currentDate currentUser itemId item =
     div []
         [ div
             [ class "ui secondary pointing fluid menu" ]
-            [ h1
+            [ h2
                 [ class "ui header" ]
                 [ text item.name ]
+            , div
+                [ class "right menu" ]
+                [ a
+                    [ class "ui active item" ]
+                    [ text "Overview" ]
+                ]
             ]
         , div []
             [ img [ src item.image ] []
