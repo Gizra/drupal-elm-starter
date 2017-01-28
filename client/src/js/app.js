@@ -1,6 +1,6 @@
 var elmApp = Elm.Main.fullscreen({
-    accessToken : localStorage.getItem('accessToken') || '',
-    hostname : window.location.hostname
+    accessToken: localStorage.getItem('accessToken') || '',
+    hostname: window.location.hostname
 });
 
 elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
@@ -9,35 +9,35 @@ elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
 
 
 elmApp.ports.pusherKey.subscribe(function(appKey) {
-  var pusher = new Pusher(appKey[0], {
-    cluster: appKey[1]
-  });
+    var pusher = new Pusher(appKey[0], {
+        cluster: appKey[1]
+    });
 
-  var channelName = 'general';
+    var channelName = 'general';
 
-  if (!pusher.channel(channelName)) {
-      var channel = pusher.subscribe(channelName);
+    if (!pusher.channel(channelName)) {
+        var channel = pusher.subscribe(channelName);
 
-      var eventNames = appKey[2];
+        var eventNames = appKey[2];
 
-      eventNames.forEach(function(eventName) {
-        channel.bind(eventName, function (data) {
-            // We wrap the data with some information which will
-            // help us dispatch it on the Elm side
-            var event = {
-                eventType: eventName,
-                data: data
-            };
-            elmApp.ports.pusherItemMessages.send(event);
+        eventNames.forEach(function(eventName) {
+            channel.bind(eventName, function(data) {
+                // We wrap the data with some information which will
+                // help us dispatch it on the Elm side
+                var event = {
+                    eventType: eventName,
+                    data: data
+                };
+                elmApp.ports.pusherItemMessages.send(event);
+            });
         });
-      });
-  }
+    }
 });
 
 Offline.on('down', function() {
-    elmApp.ports.offline.send (true);
+    elmApp.ports.offline.send(true);
 });
 
 Offline.on('up', function() {
-    elmApp.ports.offline.send (false);
+    elmApp.ports.offline.send(false);
 });

@@ -11,6 +11,17 @@ import Utils.WebData exposing (viewError)
 
 view : WebData User -> Model -> Html Msg
 view user model =
+    div [ class "ui container login" ]
+        [ div
+            [ class "ui segment" ]
+            [ i [ class "huge grey dashboard brand icon" ] []
+            , viewForm user model
+            ]
+        ]
+
+
+viewForm : WebData User -> Model -> Html Msg
+viewForm user model =
     let
         spinner =
             i [ class "notched circle loading icon" ] []
@@ -26,46 +37,44 @@ view user model =
                 _ ->
                     ( False, False )
 
-        inputClasses =
-            classList
-                [ ( "ui action input", True )
-                , ( "error", isError )
-                ]
-
         error =
             case user of
                 Failure err ->
-                    div [ class "ui error" ] [ viewError err ]
+                    div [ class "ui error message" ] [ viewError err ]
 
                 _ ->
                     div [] []
     in
-        Html.form
-            [ onSubmit TryLogin
-            , action "javascript:void(0);"
-            , class "ui stacked segment login-form"
-            ]
-            [ div [ inputClasses ]
-                [ input
-                    [ type_ "text"
-                    , placeholder "Name"
-                    , onInput SetName
-                    , value model.loginForm.name
-                    , name "username"
+        div []
+            [ Html.form
+                [ onSubmit TryLogin
+                , action "javascript:void(0);"
+                , class "ui form login-form"
+                ]
+                [ div [ class "field" ]
+                    [ input
+                        [ type_ "text"
+                        , name "username"
+                        , placeholder "Username"
+                        , onInput SetName
+                        , value model.loginForm.name
+                        ]
+                        []
                     ]
-                    []
-                , input
-                    [ type_ "password"
-                    , placeholder "Password"
-                    , onInput SetPassword
-                    , value model.loginForm.pass
-                    , name "password"
+                , div [ class "field" ]
+                    [ input
+                        [ type_ "password"
+                        , placeholder "Password"
+                        , name "password"
+                        , onInput SetPassword
+                        , value model.loginForm.pass
+                        ]
+                        []
                     ]
-                    []
                   -- Submit button
                 , button
                     [ disabled isLoading
-                    , class "ui primary button"
+                    , class "ui large fluid primary button"
                     ]
                     [ span [ hidden <| not isLoading ] [ spinner ]
                     , span [ hidden isLoading ] [ text "Login" ]

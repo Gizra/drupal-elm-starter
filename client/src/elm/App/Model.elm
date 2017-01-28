@@ -1,4 +1,11 @@
-module App.Model exposing (emptyModel, Flags, Msg(..), Model)
+module App.Model
+    exposing
+        ( emptyModel
+        , Flags
+        , Msg(..)
+        , Model
+        , Sidebar(..)
+        )
 
 import App.PageType exposing (Page(..))
 import Config.Model
@@ -18,6 +25,7 @@ type Msg
     | SetActivePage Page
     | SetCurrentDate Date
     | Tick Time
+    | ToggleSideBar
 
 
 type alias Model =
@@ -28,6 +36,7 @@ type alias Model =
     , offline : Bool
     , pageLogin : Pages.Login.Model.Model
     , pageItem : ItemManager.Model.Model
+    , sidebarOpen : Bool
     , user : WebData User
     }
 
@@ -36,6 +45,11 @@ type alias Flags =
     { accessToken : String
     , hostname : String
     }
+
+
+type Sidebar
+    = Top
+    | Left
 
 
 emptyModel : Model
@@ -47,5 +61,6 @@ emptyModel =
     , offline = False
     , pageLogin = Pages.Login.Model.emptyModel
     , pageItem = ItemManager.Model.emptyModel
+    , sidebarOpen = False
     , user = NotAsked
     }

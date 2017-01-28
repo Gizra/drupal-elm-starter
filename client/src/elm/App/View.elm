@@ -21,97 +21,120 @@ view model =
             Config.View.view
 
         _ ->
-            div []
-                [ div [ class "ui container main" ]
-                    [ viewSidebar model
-                    , div
-                        [ class "pusher" ]
-                        [ div
-                            [ class "ui grid container" ]
-                            [ div
-                                [ class "ui main grid" ]
-                                [ viewMainContent model
+            case model.activePage of
+                Login ->
+                    viewMainContent model
+
+                _ ->
+                    let
+                        mainAttributes =
+                            if model.sidebarOpen then
+                                [ class "pusher dimmed"
+                                , onClick ToggleSideBar
+                                ]
+                            else
+                                [ class "pusher"
+                                ]
+                    in
+                        div [ class "pushable" ]
+                            -- Sidebar menu - responsive only
+                            [ viewSidebar model Top
+                            , div
+                                mainAttributes
+                                [ div
+                                    [ class "ui grid container" ]
+                                    -- Non-responsive menu
+                                    [ viewSidebar model Left
+                                    , div
+                                        [ class "ui main grid" ]
+                                        [ viewTopMenu
+                                        , viewMainContent model
+                                        ]
+                                    ]
                                 ]
                             ]
-                        ]
-                    ]
+
+
+{-| Responsive top menu.
+-}
+viewTopMenu : Html Msg
+viewTopMenu =
+    div
+        [ class "ui fixed inverted main menu" ]
+        [ div
+            [ class "ui container" ]
+            [ a
+                [ class "launch icon item sidebar-toggle"
+                , onClick ToggleSideBar
                 ]
+                [ i [ class "sidebar icon" ] []
+                ]
+            ]
+        ]
 
 
-viewSidebar : Model -> Html Msg
-viewSidebar model =
+viewSidebar : Model -> Sidebar -> Html Msg
+viewSidebar model sidebar =
     case model.user of
         Success user ->
-            div
-                [ class "ui visible sidebar inverted vertical menu" ]
-                [ a
-                    [ class "item"
-                    , onClick <| SetActivePage MyAccount
-                    ]
-                    [ h4
-                        [ class "ui grey header" ]
-                        [ text user.name ]
-                    ]
-                , a
-                    [ class "item"
-                    , onClick Logout
-                    ]
-                    [ text "Sign Out" ]
-                , a
-                    [ class "item"
-                    , onClick <| SetActivePage Dashboard
-                    ]
-                    [ text "Dashboard" ]
-                , span
-                    [ class "item"
-                    ]
-                    [ text <|
-                        if model.offline then
-                            "Not Connected"
-                        else
-                            "Connected"
-                    , i
-                        [ classList
-                            [ ( "icon wifi", True )
-                            , ( "disabled", model.offline )
+            let
+                wrapperClasses =
+                    case sidebar of
+                        Top ->
+                            let
+                                visibleClass =
+                                    if model.sidebarOpen then
+                                        " visible"
+                                    else
+                                        ""
+                            in
+                                String.concat [ "ui sidebar inverted vertical menu", visibleClass ]
+
+                        Left ->
+                            "ui left fixed vertical inverted menu"
+            in
+                div
+                    [ class wrapperClasses ]
+                    [ a
+                        [ class "item"
+                        , onClick <| SetActivePage MyAccount
+                        ]
+                        [ h4
+                            [ class "ui grey header" ]
+                            [ viewAvatar user
+                            , text user.name
                             ]
                         ]
-                        []
+                    , a
+                        [ class "item"
+                        , onClick <| SetActivePage Dashboard
+                        ]
+                        [ text "Dashboard" ]
+                    , span
+                        [ class "item"
+                        ]
+                        [ text <|
+                            if model.offline then
+                                "Not Connected"
+                            else
+                                "Connected"
+                        , i
+                            [ classList
+                                [ ( "icon wifi", True )
+                                , ( "disabled", model.offline )
+                                ]
+                            ]
+                            []
+                        ]
+                    , a
+                        [ class "item"
+                        , onClick Logout
+                        ]
+                        [ text "Sign Out" ]
                     ]
-                ]
 
         _ ->
             div [] []
-
-
-navbarAnonymous : Model -> List (Html Msg)
-navbarAnonymous model =
-    [ a
-        [ classByPage Login model.activePage
-        , onClick <| SetActivePage Login
-        ]
-        [ text "Login" ]
-    , viewPageNotFoundItem model.activePage
-    ]
-
-
-navbarAuthenticated : Model -> List (Html Msg)
-navbarAuthenticated model =
-    [ a
-        [ classByPage MyAccount model.activePage
-        , onClick <| SetActivePage MyAccount
-        ]
-        [ text "My Account" ]
-    , viewPageNotFoundItem model.activePage
-    , div [ class "right menu" ]
-        [ viewAvatar model.user
-        , a
-            [ class "ui item"
-            , onClick <| Logout
-            ]
-            [ text "Logout" ]
-        ]
-    ]
 
 
 viewPageNotFoundItem : Page -> Html Msg
@@ -123,23 +146,13 @@ viewPageNotFoundItem activePage =
         [ text "404 page" ]
 
 
-viewAvatar : WebData User -> Html Msg
+viewAvatar : User -> Html Msg
 viewAvatar user =
-    case user of
-        Success user_ ->
-            a
-                [ onClick <| SetActivePage MyAccount
-                , class "ui item"
-                ]
-                [ img
-                    [ class "ui avatar image"
-                    , src user_.avatarUrl
-                    ]
-                    []
-                ]
-
-        _ ->
-            div [] []
+    img
+        [ class "ui avatar image"
+        , src user.avatarUrl
+        ]
+        []
 
 
 viewMainContent : Model -> Html Msg

@@ -193,7 +193,11 @@ update msg model =
                             _ ->
                                 ( model, Cmd.none )
                 in
-                    ( { modelUpdated | activePage = setActivePageAccess model.user activePage }
+                    -- Close the sidebar in case it was opened.
+                    ( { modelUpdated
+                        | activePage = setActivePageAccess model.user activePage
+                        , sidebarOpen = False
+                      }
                     , command
                     )
 
@@ -202,6 +206,9 @@ update msg model =
 
             Tick _ ->
                 model ! [ Task.perform SetCurrentDate Date.now ]
+
+            ToggleSideBar ->
+                { model | sidebarOpen = not model.sidebarOpen } ! []
 
 
 {-| Determine is a page can be accessed by a user (anonymous or authenticated),
