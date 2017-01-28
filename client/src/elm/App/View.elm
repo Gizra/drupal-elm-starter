@@ -26,23 +26,30 @@ view model =
                     viewMainContent model
 
                 _ ->
-                    div []
-                        -- Sidebar menu - responsive only
-                        [ viewSidebar model Top
-                        , div
-                            [ class "pusher" ]
-                            [ div
-                                [ class "ui grid container" ]
-                                -- Non-responsive menu
-                                [ viewSidebar model Left
-                                , div
-                                    [ class "ui main grid" ]
-                                    [ viewTopMenu
-                                    , viewMainContent model
+                    let
+                        wrapperPusherClasses =
+                            classList
+                                [ ( "pusher", True )
+                                , ( "dimmed sidebar-open", model.sidebarOpen )
+                                ]
+                    in
+                        div [ class "pushable" ]
+                            -- Sidebar menu - responsive only
+                            [ viewSidebar model Top
+                            , div
+                                [ wrapperPusherClasses ]
+                                [ div
+                                    [ class "ui grid container" ]
+                                    -- Non-responsive menu
+                                    [ viewSidebar model Left
+                                    , div
+                                        [ class "ui main grid" ]
+                                        [ viewTopMenu
+                                        , viewMainContent model
+                                        ]
                                     ]
                                 ]
                             ]
-                        ]
 
 
 {-| Responsive top menu.
@@ -69,7 +76,14 @@ viewSidebar model sidebar =
                 wrapperClasses =
                     case sidebar of
                         Top ->
-                            "ui sidebar inverted vertical menu"
+                            let
+                                visibleClass =
+                                    if model.sidebarOpen then
+                                        " visible"
+                                    else
+                                        ""
+                            in
+                                String.concat [ "ui sidebar inverted vertical menu", visibleClass ]
 
                         Left ->
                             "ui left fixed vertical inverted menu"

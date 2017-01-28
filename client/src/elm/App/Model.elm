@@ -35,6 +35,7 @@ type alias Model =
     , offline : Bool
     , pageLogin : Pages.Login.Model.Model
     , pageItem : ItemManager.Model.Model
+    , sidebarOpen : Bool
     , user : WebData User
     }
 
@@ -59,5 +60,6 @@ emptyModel =
     , offline = False
     , pageLogin = Pages.Login.Model.emptyModel
     , pageItem = ItemManager.Model.emptyModel
+    , sidebarOpen = True
     , user = NotAsked
     }
