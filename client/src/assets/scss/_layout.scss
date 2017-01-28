@@ -44,43 +44,6 @@ body {
   }
 }
 
-/* LOGIN STYLES */
-[data-page="login"] .ui.container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  margin: 0 auto;
-  width: 465px;
-}
-
-.dashboard.brand.icon {
-  width: 100%;
-  margin-bottom: 36px;
-}
-
-[data-page="login"] .ui.container .ui.segment {
-  padding: 35px;
-}
-
-p {
-  &.signup {
-    padding-top: 25px;
-  }
-
-  &.dashboard {
-    font-size: 12px;
-    padding-top: 10px;
-    text-transform: uppercase;
-  }
-
-  &.dashboard,
-  &.signup {
-    color: #999;
-    text-align: center;
-  }
-}
-
 /* DASHBOARD STYLES */
 .top-table.column {
   width: 33.33333333% !important;

@@ -1,0 +1,17 @@
+.ui.container.login {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  width: 465px;
+
+  .ui.segment {
+    padding: 35px;
+  }
+
+  .dashboard.brand.icon {
+    width: 100%;
+    margin-bottom: 36px;
+  }
+}

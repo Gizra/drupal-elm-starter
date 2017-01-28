@@ -11,23 +11,17 @@ import Utils.WebData exposing (viewError)
 
 view : WebData User -> Model -> Html Msg
 view user model =
-    div [ class "login-container" ]
-        [ viewHeader model
-        , viewMain user model
-        ]
-
-
-viewHeader : Model -> Html Msg
-viewHeader model =
-    Html.header []
-        [ a [ id "logo", href "/" ]
-            [ img [ src "logo.png", alt "Logo" ] []
+    div [ class "ui container login" ]
+        [ div
+            [ class "ui segment" ]
+            [ i [ class "huge grey dashboard brand icon" ] []
+            , viewForm user model
             ]
         ]
 
 
-viewMain : WebData User -> Model -> Html Msg
-viewMain user model =
+viewForm : WebData User -> Model -> Html Msg
+viewForm user model =
     let
         spinner =
             i [ class "notched circle loading icon" ] []
@@ -51,11 +45,11 @@ viewMain user model =
                 _ ->
                     div [] []
     in
-        Html.main_ []
+        div []
             [ Html.form
                 [ onSubmit TryLogin
                 , action "javascript:void(0);"
-                , class "ui large form narrow-form"
+                , class "ui form login-form"
                 ]
                 [ div [ class "field" ]
                     [ input
