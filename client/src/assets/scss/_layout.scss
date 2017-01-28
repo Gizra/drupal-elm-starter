@@ -8,7 +8,8 @@ body {
   background-color: #f5f5f5 !important;
 }
 
-.pusher.sidebar-open {
+// Push the main content, when responsive sidebar is opened.
+.pusher.dimmed {
   transform: translate3d(210px, 0, 0);
 }
 

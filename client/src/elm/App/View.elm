@@ -27,17 +27,20 @@ view model =
 
                 _ ->
                     let
-                        wrapperPusherClasses =
-                            classList
-                                [ ( "pusher", True )
-                                , ( "dimmed sidebar-open", model.sidebarOpen )
+                        mainAttributes =
+                            if model.sidebarOpen then
+                                [ class "pusher dimmed"
+                                , onClick ToggleSideBar
+                                ]
+                            else
+                                [ class "pusher"
                                 ]
                     in
                         div [ class "pushable" ]
                             -- Sidebar menu - responsive only
                             [ viewSidebar model Top
                             , div
-                                [ wrapperPusherClasses ]
+                                mainAttributes
                                 [ div
                                     [ class "ui grid container" ]
                                     -- Non-responsive menu
@@ -61,7 +64,9 @@ viewTopMenu =
         [ div
             [ class "ui container" ]
             [ a
-                [ class "launch icon item sidebar-toggle" ]
+                [ class "launch icon item sidebar-toggle"
+                , onClick ToggleSideBar
+                ]
                 [ i [ class "sidebar icon" ] []
                 ]
             ]

@@ -25,6 +25,7 @@ type Msg
     | SetActivePage Page
     | SetCurrentDate Date
     | Tick Time
+    | ToggleSideBar
 
 
 type alias Model =
@@ -60,6 +61,6 @@ emptyModel =
     , offline = False
     , pageLogin = Pages.Login.Model.emptyModel
     , pageItem = ItemManager.Model.emptyModel
-    , sidebarOpen = True
+    , sidebarOpen = False
     , user = NotAsked
     }
