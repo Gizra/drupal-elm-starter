@@ -2,6 +2,7 @@ module Pages.Login.View exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Attributes.Aria exposing (ariaLabel)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Pages.Login.Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
@@ -58,6 +59,7 @@ viewForm user model =
                         , placeholder "Username"
                         , onInput SetName
                         , value model.loginForm.name
+                        , ariaLabel "Enter your username"
                         ]
                         []
                     ]
@@ -68,6 +70,7 @@ viewForm user model =
                         , name "password"
                         , onInput SetPassword
                         , value model.loginForm.pass
+                        , ariaLabel "Enter your password"
                         ]
                         []
                     ]
