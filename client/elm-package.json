@@ -21,6 +21,7 @@
         "elm-lang/svg": "2.0.0 <= v < 3.0.0",
         "evancz/elm-sortable-table": "1.0.1 <= v < 2.0.0",
         "evancz/url-parser": "2.0.1 <= v < 3.0.0",
+        "fapian/elm-html-aria": "1.2.2 <= v < 2.0.0",
         "krisajenkins/remotedata": "4.0.1 <= v < 5.0.0",
         "lukewestby/elm-http-builder": "4.0.0 <= v < 5.0.0",
         "mgold/elm-date-format": "1.1.7 <= v < 2.0.0",
