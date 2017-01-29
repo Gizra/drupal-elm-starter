@@ -5,6 +5,7 @@ import Date exposing (Date)
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Attributes.Aria exposing (ariaLabel)
 import Html.Events exposing (on, onClick, onInput, onWithOptions)
 import Pages.Items.Model exposing (Model, Msg(..))
 import Item.Model exposing (Item, ItemId, ItemsDict)
@@ -54,6 +55,7 @@ view currentDate currentUser items model =
                 [ input
                     [ placeholder "Search by Name"
                     , onInput SetQuery
+                    , ariaLabel "Search by Name"
                     ]
                     []
                 ]
