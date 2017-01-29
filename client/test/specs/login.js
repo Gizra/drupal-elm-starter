@@ -13,7 +13,7 @@ describe('login page', function() {
         assert.equal(title[1], 'admin');
 
         // Logout session.
-        browser.click('.left > a:nth-child(4)');
+        browser.click('.left.menu > a:nth-child(4)');
         browser.waitForVisible('[name="username"]');
     });
 });
