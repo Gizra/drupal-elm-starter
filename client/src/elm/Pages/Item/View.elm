@@ -24,7 +24,7 @@ view currentDate currentUser itemId item =
                 ]
             ]
         , div []
-            [ img [ src item.image ] []
+            [ img [ src item.image, alt item.name ] []
             ]
         , div
             [ class "ui divider" ]

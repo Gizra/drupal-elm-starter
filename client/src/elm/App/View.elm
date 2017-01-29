@@ -4,7 +4,7 @@ import App.Model exposing (..)
 import App.PageType exposing (Page(..))
 import Config.View
 import Html exposing (..)
-import Html.Attributes exposing (class, classList, href, src, style, target)
+import Html.Attributes exposing (alt, class, classList, href, src, style, target)
 import Html.Events exposing (onClick)
 import User.Model exposing (..)
 import Pages.Login.View exposing (..)
@@ -151,6 +151,7 @@ viewAvatar user =
     img
         [ class "ui avatar image"
         , src user.avatarUrl
+        , alt "User avatar"
         ]
         []
 
