@@ -9,6 +9,7 @@ elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
 
 
 elmApp.ports.pusherKey.subscribe(function(appKey) {
+    return;
     var pusher = new Pusher(appKey[0], {
         cluster: appKey[1]
     });

@@ -1,8 +1,10 @@
 var assert = require('assert');
 
 describe('login page', function() {
-    it('should allow a user to login', function () {
+    it('should allow a user to login', function() {
         browser.url('/#login');
+
+        browser.waitForVisible('.login-form');
         browser.setValue('[name="username"]', 'admin');
         browser.setValue('[name="password"]', 'admin');
         browser.submitForm('.login-form');
@@ -11,7 +13,7 @@ describe('login page', function() {
         assert.equal(title[1], 'admin');
 
         // Logout session.
-        browser.click('.menu > a:nth-child(4)');
+        browser.click('.left > a:nth-child(4)');
         browser.waitForVisible('[name="username"]');
     });
 });
