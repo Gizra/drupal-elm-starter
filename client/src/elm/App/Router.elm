@@ -14,20 +14,30 @@ delta2url previous current =
             Nothing
 
         Login ->
-            Just <| UrlChange NewEntry "#login"
+            Just <| UrlChange NewEntry "#/login"
 
         MyAccount ->
-            Just <| UrlChange NewEntry "#my-account"
+            Just <| UrlChange NewEntry "#/my-account"
 
         PageNotFound ->
-            Just <| UrlChange NewEntry "#404"
+            Just <| UrlChange NewEntry "#/404"
 
         Item id ->
-            Just <| UrlChange NewEntry ("#item/" ++ id)
+            Just <| UrlChange NewEntry ("#/item/" ++ id)
 
         Dashboard ->
-            -- Hack to allow dashboard to change the URL.
-            Just <| UrlChange NewEntry "# "
+            Just <|
+                -- We treat this as the default URL, so you can get here from
+                -- two mappings. So, check whether we were already on the
+                -- Dashboard. If so, just update the URL without creating a new
+                -- history entry. (Usually, you don't need to deal with this,
+                -- since elm-route-url wil filter out identical URLs).
+                case previous.activePage of
+                    Dashboard ->
+                        UrlChange ModifyEntry "#/"
+
+                    _ ->
+                        UrlChange NewEntry "#/"
 
 
 location2messages : Location -> List Msg
