@@ -16,4 +16,15 @@ describe('login page', function() {
         browser.click('.left.menu > a:nth-child(4)');
         browser.waitForVisible('[name="username"]');
     });
+
+    it('should not allow an anonymous user with wrong credentials to login', function() {
+        browser.url('/#login');
+
+        browser.waitForVisible('.login-form');
+        browser.setValue('[name="username"]', 'wrong-name');
+        browser.setValue('[name="password"]', 'wrong-pass');
+        browser.submitForm('.login-form');
+
+        browser.waitForVisible('.login .ui.error.message');
+    });
 });
