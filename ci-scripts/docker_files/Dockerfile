@@ -1,6 +1,6 @@
 FROM gizra/drupal-lamp
 
-ADD . /var/www/html/Server
+ADD $TRAVIS_BUILD_DIR /var/www/html/Server
 WORKDIR /var/www/html/Server
 
 # Add a bash script to finalize all
