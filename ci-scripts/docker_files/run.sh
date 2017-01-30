@@ -37,9 +37,9 @@ check_last_command
 # Configure apache2.
 # -------------------------------------------------- #
 print_message "Configure apache2."
-cp docker_files/default.apache2.conf /etc/apache2/apache2.conf
+cp ci-scripts/docker_files/default.apache2.conf /etc/apache2/apache2.conf
 service apache2 restart
-cp docker_files/server.conf /etc/apache2/sites-available/
+cp ci-scripts/docker_files/server.conf /etc/apache2/sites-available/
 a2ensite server.conf
 service apache2 reload
 echo "127.0.0.1 server.local" >> /etc/hosts
@@ -53,7 +53,7 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 # Check drush version.
 drush --version
 cd $ROOT_DIR
-cp docker_files/aliases.drushrc.php ~/.drush/
+cp ci-scripts/docker_files/aliases.drushrc.php ~/.drush/
 check_last_command
 
 # -------------------------------------------------- #
