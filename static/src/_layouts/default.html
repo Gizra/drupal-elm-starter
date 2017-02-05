@@ -1,20 +1,95 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.1/semantic.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css" integrity="sha256-wT6CFc7EKRuf7uyVfi+MQNHUzojuHN2pSw0YWFt2K5E=" crossorigin="anonymous" />
     <link rel="stylesheet" href="/assets/stylesheets/style.css" />
   </head>
   <body>
 
-    {% include sidebar.html %}
-    <div class="pusher">
+      {% include sidebar.html top=true %}
+
+      <div class="pusher">
         <div class="ui grid container">
-            <div class="ui main grid">
-                {{ content }}
+
+        {% include sidebar.html top=false %}
+
+          <div class="ui main grid">
+            <!-- Responsive top menu -->
+            <div class="ui fixed inverted main menu">
+              <div class="ui container">
+                <a class="launch icon item sidebar-toggle">
+                  <i class="sidebar icon"></i>
+                </a>
+              </div>
             </div>
 
+            <div class="ui secondary pointing fluid menu">
+              <h2 class="ui header">Sales</h2>
+
+              <div class="right menu">
+                <a class="ui active item">
+                  Reports
+                </a>
+                <a class="ui disabled item">
+                  Transactions
+                </a>
+              </div>
+            </div>
+
+
+            <div class="twelve wide sales column">
+              <table class="ui table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Date Joined</th>
+                    <th>E-mail</th>
+                    <th>Shipped</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Customer #1</td>
+                    <td>September 14, 2013</td>
+                    <td>customer1@gmail.com</td>
+                    <td>No</td>
+                  </tr>
+                  <tr>
+                    <td>Customer #2</td>
+                    <td>January 11, 2014</td>
+                    <td>customer2@gmail.com</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <td>Customer #3</td>
+                    <td>May 11, 2014</td>
+                    <td>customer3@gmail.com</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <td>Customer #4</td>
+                    <td>September 14, 2013</td>
+                    <td>customer4@gmail.com</td>
+                    <td>No</td>
+                  </tr>
+                  <tr>
+                    <td>Customer #5</td>
+                    <td>September 14, 2013</td>
+                    <td>customer5@gmail.com</td>
+                    <td>No</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+
+    <script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js" integrity="sha256-flVaeawsBV96vCHiLmXn03IRJym7+ZfcLVvUWONCas8=" crossorigin="anonymous"></script>
     <script src="/assets/javascript/script.js"></script>
   </body>
 </html>
