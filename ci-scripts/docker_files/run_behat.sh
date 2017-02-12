@@ -2,7 +2,7 @@
 set -e
 
 # We should not run the current test under the WebDriverIO build.
-if [ "$BUILD_WEBDRIVERIO" -e 1 ]; then
+if [ ${BUILD_WEBDRIVERIO} -e 1 ]; then
  exit 0;
 fi
 
