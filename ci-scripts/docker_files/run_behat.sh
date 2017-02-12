@@ -2,7 +2,7 @@
 set -e
 
 # We should not run the current test under the WebDriverIO build.
-if [ ${BUILD_WEBDRIVERIO} -e 1 ]; then
+if [ ${BUILD_WEBDRIVERIO} == 1 ]; then
  exit 0;
 fi
 
@@ -17,7 +17,6 @@ cd $ROOT_DIR/server/behat
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 check_last_command
-rm behat.local.yml
 cp behat.local.yml.travis behat.local.yml
 
 # -------------------------------------------------- #
