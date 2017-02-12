@@ -13,18 +13,10 @@ cd /opt/
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz"
 tar xzf jdk-7u79-linux-x64.tar.gz
 
-# Install Firefox (iceweasel).
-echo -e "\n${BGCYAN}[RUN] Install firefox. ${RESTORE}"
-apt-get update
-apt-get -qq -y install iceweasel > /dev/null
+# Install Chrome driver.
+wget https://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip | tar xzf
 
-# Install headless GUI for browser.'Xvfb is a display server that performs graphical operations in memory'
-echo -e "\n [RUN] Installing XVFB (headless GUI for Firefox).\n"
-apt-get install xvfb -y
 apt-get install openjdk-7-jre-headless -y
-Xvfb :99 -ac &
-export DISPLAY=:99
-sleep 5
 
 # Install Selenium.
 echo -e  "\n${BGCYAN}[RUN] Install Selenium. ${RESTORE}"
@@ -55,5 +47,7 @@ then
   cd ..;
 fi
 
+# Since we updated the JAVA version we should rebuild the node-sass.
+npm rebuild node-sass
 # Run gulp in the background.
 gulp &
