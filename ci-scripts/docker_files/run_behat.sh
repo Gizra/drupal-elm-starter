@@ -1,21 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
 
-# ---------------------------------------------------------------------------- #
-#
-# Run the behat tests.
-#
-# ---------------------------------------------------------------------------- #
-
-# Check the current build.
-if [ -z ${BUILD_SERVER+x} ] || [ "$BUILD_SERVER" -ne 1 ]; then
- exit 0;
-fi
-
 # We should not run the current test under the WebDriverIO build.
-if [ ${BUILD_WEBDRIVERIO} ] && [ "$BUILD_WEBDRIVERIO" -e 1 ]; then
+if [ "$BUILD_WEBDRIVERIO" -e 1 ]; then
  exit 0;
 fi
+
+# Load helper functionality.
+source helper_functions.sh
 
 # -------------------------------------------------- #
 # Installing Behat.
