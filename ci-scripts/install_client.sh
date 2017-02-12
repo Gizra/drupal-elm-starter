@@ -17,6 +17,7 @@ echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g elm-test
+npm install -g bower
 
 cd $TRAVIS_BUILD_DIR/client
 npm install
