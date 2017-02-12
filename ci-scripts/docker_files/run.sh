@@ -65,26 +65,6 @@ cp travis.config.sh config.sh
 ./install -dy
 check_last_command
 
-# -------------------------------------------------- #
-# Installing Behat.
-# -------------------------------------------------- #
-print_message "Install behat."
-cd $ROOT_DIR/server/behat
-curl -sS https://getcomposer.org/installer | php
-php composer.phar install
-check_last_command
-rm behat.local.yml
-cp behat.local.yml.travis behat.local.yml
 
-# -------------------------------------------------- #
-# Run tests
-# -------------------------------------------------- #
-print_message "Run Behat tests."
-./bin/behat --tags=~@wip
-
-if [ $? -ne 0 ]; then
-  print_error_message "Behat failed."
-  exit 1
-fi
-
-exit 0
+bash $TRAVIS_BUILD_DIR/ci-scripts/test_behat.sh
+bash $TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh
