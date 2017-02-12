@@ -66,5 +66,5 @@ cp travis.config.sh config.sh
 check_last_command
 
 
-bash $TRAVIS_BUILD_DIR/ci-scripts/test_behat.sh
-bash $TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh
+bash $ROOT_DIR/ci-scripts/test_behat.sh
+bash $ROOT_DIR/ci-scripts/test_webdriverio.sh
