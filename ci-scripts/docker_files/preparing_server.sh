@@ -14,6 +14,7 @@ check_last_command
 # Configure apache2.
 # -------------------------------------------------- #
 print_message "Configure apache2."
+cd $ROOT_DIR
 cp ci-scripts/docker_files/default.apache2.conf /etc/apache2/apache2.conf
 service apache2 restart
 cp ci-scripts/docker_files/server.conf /etc/apache2/sites-available/
