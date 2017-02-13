@@ -16,13 +16,6 @@ tar xzf jdk-7u79-linux-x64.tar.gz
 # Install Chrome driver.
 wget https://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip | tar xzf
 
-apt-get install openjdk-7-jre-headless -y
-
-# Install Selenium.
-echo -e  "\n${BGCYAN}[RUN] Install Selenium. ${RESTORE}"
-wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
-java -jar selenium-server-standalone-2.53.0.jar > /dev/null 2>&1 &
-
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g elm-test
