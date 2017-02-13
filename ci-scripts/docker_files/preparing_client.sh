@@ -24,7 +24,7 @@ npm install -g gulp
 
 cd $ROOT_DIR/client
 npm install
-bower install
+bower install --allow-root
 
 elm-package install -y
 
