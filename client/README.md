@@ -1,10 +1,15 @@
-## Installation
+## Prerequisites
 
 Make sure the following are installed:
 
 * NodeJs (and npm)
 * Elm (e.g. `npm install -g elm@~0.18.0`)
 * Compass (for SASS) (`gem update --system && gem install compass`)
+
+## Installation
+
+* npm install
+* elm-package install -y
 
 ## Usage
 
