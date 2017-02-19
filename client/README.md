@@ -8,8 +8,8 @@ Make sure the following are installed:
 
 ## Installation
 
-* npm install
-* elm-package install -y
+* `npm install`
+* `elm-package install -y`
 
 ## Usage
 
