@@ -107,7 +107,7 @@ echo
 if [ ! $UNATTENDED ]; then
   echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
   read -e -n 1 -r
-  if [[ ! $REPLY =~ ^[Y]$ ]]; then
+  if [[ ! $REPLY =~ ^[Y|y]$ ]]; then
     echo
     echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
     echo -e "${BGLYELLOW}  Installation aborted!                                          ${RESTORE}"
