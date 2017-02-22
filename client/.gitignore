@@ -8,3 +8,6 @@ bower_components
 *.jar
 geckodriver
 errorShots/
+
+# Ignore the local config file.
+LocalConfig.elm
