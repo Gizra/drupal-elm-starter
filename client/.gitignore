@@ -11,3 +11,5 @@ errorShots/
 
 # Ignore the local config file.
 LocalConfig.elm
+
+test/galen/report
