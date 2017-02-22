@@ -35,8 +35,8 @@ Note: You will have 3 terminal tabs open: One with `gulp`, the other with the se
 ## Galen tests
 
 ```
-galen check login.gspec \
+galen check ./test/galen/login.gspec \
      --url http://localhost:3000 \
      --size 640x480  \
-     --htmlreport .
+     --htmlreport ./test/galen/report
 ```
