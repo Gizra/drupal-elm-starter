@@ -1,6 +1,6 @@
 @objects
-    login-container              css      .ui.login > .ui.segment
+    login-container              css      .ui.login>.ui.segment
 
 = Main section =
     login-container:
-        width 465px
+        width 612px
