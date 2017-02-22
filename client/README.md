@@ -10,6 +10,9 @@ Make sure the following are installed:
 
 * `npm install`
 * `elm-package install -y`
+* `cp src/elm/LocalConfig.Example.elm src/elm/LocalConfig.elm`
+
+You may need to update `src/elm/LocalConfig.elm` if your local URLs are different from the default setting.
 
 ## Usage
 

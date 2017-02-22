@@ -1,16 +1,9 @@
-module Config exposing (..)
+module Config exposing (configs)
 
 import Config.Model as Config exposing (Model)
 import Dict exposing (..)
+import LocalConfig exposing (localConfigs)
 import Pusher.Model exposing (Cluster(..), PusherAppKey)
-
-
-local : Model
-local =
-    { backendUrl = "http://localhost/drupal-elm-starter/server/www"
-    , name = "local"
-    , pusherKey = PusherAppKey "" UsEast1
-    }
 
 
 devPantheon : Model
@@ -40,8 +33,8 @@ livePantheon =
 configs : Dict String Model
 configs =
     Dict.fromList
-        [ ( "localhost", local )
-        , ( "dev-drupal-elm-starter.pantheonsite.io", devPantheon )
+        [ ( "dev-drupal-elm-starter.pantheonsite.io", devPantheon )
         , ( "test-drupal-elm-starter.pantheonsite.io", testPantheon )
         , ( "live-drupal-elm-starter.pantheonsite.io", livePantheon )
         ]
+        |> Dict.union localConfigs
