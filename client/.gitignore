@@ -9,6 +9,5 @@ bower_components
 geckodriver
 errorShots/
 
-# Ignore the local config file, which exists in the repo, but should
-# no longer be changed.
+# Ignore the local config file.
 LocalConfig.elm
