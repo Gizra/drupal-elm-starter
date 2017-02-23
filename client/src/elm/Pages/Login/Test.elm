@@ -1,17 +1,16 @@
 module Pages.Login.Test exposing (all)
 
-import Expect
-import Test exposing (Test, describe, test)
-import Http
-import Pages.Login.Update exposing (update)
-import Pages.Login.Model exposing (Msg(HandleFetchedUser, HandleFetchedAccessToken), emptyModel)
-import RemoteData exposing (RemoteData(NotAsked, Failure))
 import Dict
+import Expect
+import Http
+import Pages.Login.Model exposing (Msg(HandleFetchedUser, HandleFetchedAccessToken), emptyModel)
+import Pages.Login.Update exposing (update)
+import RemoteData exposing (RemoteData(NotAsked, Failure))
+import Test exposing (Test, describe, test)
 
 
--- Fetch authorization Tests.
-
-
+{-| Fetch authorization Tests.
+-}
 fetchFromBackendTests : Test
 fetchFromBackendTests =
     Test.describe "Fetch from Backend tests"
@@ -37,7 +36,7 @@ fetchUnauthorized =
                 """
                 , status = { code = 401, message = "Authorization Required" }
                 , headers = Dict.fromList [ ( "Cache-Control", "no-cache, must-revalidate" ), ( "Content-Type", "application/problem+json; charset=utf-8" ), ( "Expires", "Sun, 19 Nov 1978 05:00:00 GMT" ) ]
-                , url = "http://localhost/server/www/api/me?access_token=asdfasdfasdf"
+                , url = "http://localhost/server/www/api/me?access_token=some-wrong-token"
                 }
 
         ( updatedModel, cmds, ( webdata, accessToken ) ) =
@@ -51,10 +50,8 @@ fetchUnauthorized =
             ]
 
 
-
--- Fetch User Data Tests.
-
-
+{-| Fetch User Data Tests.
+-}
 fetchUserUnauthorized : Test
 fetchUserUnauthorized =
     let
@@ -73,11 +70,11 @@ fetchUserUnauthorized =
                 """
                 , status = { code = 401, message = "Authorization Required" }
                 , headers = Dict.fromList [ ( "Cache-Control", "no-cache, must-revalidate" ), ( "Content-Type", "application/problem+json; charset=utf-8" ), ( "Expires", "Sun, 19 Nov 1978 05:00:00 GMT" ) ]
-                , url = "http://localhost/server/www/api/me?access_token=asdfasdfasdf"
+                , url = "http://localhost/server/www/api/me?access_token=some-wrong-token"
                 }
 
         invalidToken =
-            "asdfasdfasdf"
+            "some-wrong-token"
 
         ( updatedModel, cmds, ( webdata, accessToken ) ) =
             update url (HandleFetchedUser invalidToken (Err badRequest)) emptyModel

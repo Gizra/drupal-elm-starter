@@ -33,7 +33,7 @@ update backendUrl msg model =
 
         HandleFetchedUser accessToken (Err err) ->
             let
-                -- If Access token in local storage is invalid, make sure we don't show a "bad credentials" error
+                -- If Access token in local storage is invalid, make sure we don't show a "bad credentials" error.
                 webdata =
                     case err of
                         BadStatus e ->
