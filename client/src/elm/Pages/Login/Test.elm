@@ -76,8 +76,11 @@ fetchUserUnauthorized =
                 , url = "http://localhost/server/www/api/me?access_token=asdfasdfasdf"
                 }
 
+        invalidToken =
+            "asdfasdfasdf"
+
         ( updatedModel, cmds, ( webdata, accessToken ) ) =
-            update url (HandleFetchedUser "asdf" (Err badRequest)) emptyModel
+            update url (HandleFetchedUser invalidToken (Err badRequest)) emptyModel
     in
         describe "Invalid Token tests"
             [ test "Receiving Unauthorized should result in no error and no user" <|
