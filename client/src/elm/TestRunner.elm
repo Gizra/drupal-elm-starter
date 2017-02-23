@@ -1,6 +1,7 @@
 port module Main exposing (..)
 
 import App.Test exposing (all)
+import Pages.Login.Test
 import Json.Encode exposing (Value)
 import Pusher.Test exposing (all)
 import Test exposing (Test, describe)
@@ -12,6 +13,7 @@ allTests =
     describe "All tests"
         [ App.Test.all
         , Pusher.Test.all
+        , Pages.Login.Test.all
         ]
 
 
