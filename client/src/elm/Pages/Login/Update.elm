@@ -1,6 +1,7 @@
 module Pages.Login.Update exposing (fetchUserFromBackend, update)
 
 import Config.Model exposing (BackendUrl)
+import Http exposing (Error(BadStatus))
 import HttpBuilder exposing (..)
 import User.Model exposing (..)
 import Pages.Login.Model as Login exposing (..)
@@ -31,10 +32,23 @@ update backendUrl msg model =
             )
 
         HandleFetchedUser accessToken (Err err) ->
-            ( model
-            , Cmd.none
-            , ( Failure err, accessToken )
-            )
+            let
+                -- If Access token in local storage is invalid, make sure we don't show a "bad credentials" error
+                webdata =
+                    case err of
+                        BadStatus e ->
+                            NotAsked
+
+                        _ ->
+                            Failure err
+
+                _ =
+                    Debug.log "fetch user error " err
+            in
+                ( model
+                , Cmd.none
+                , ( webdata, "" )
+                )
 
         SetName name ->
             let
