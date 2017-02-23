@@ -1,0 +1,26 @@
+version: '2'
+services:
+    webdriverio:
+        image: huli/webdriverio:latest
+        depends_on:
+            - chrome
+        volumes:
+            - ./client/wdio.conf.js:/app
+
+    hub:
+        image: selenium/hub
+        ports:
+            - 4444:4444
+
+    chrome:
+        image: selenium/node-chrome
+        ports:
+            - 5900
+        environment:
+            - HUB_PORT_4444_TCP_ADDR=hub
+        depends_on:
+            - hub
+
+    server:
+        image: server
+
