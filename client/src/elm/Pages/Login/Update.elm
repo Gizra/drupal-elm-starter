@@ -41,9 +41,6 @@ update backendUrl msg model =
 
                         _ ->
                             Failure err
-
-                _ =
-                    Debug.log "fetch user error " err
             in
                 ( model
                 , Cmd.none
