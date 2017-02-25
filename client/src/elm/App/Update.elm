@@ -23,12 +23,7 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
         user =
-            if (String.isEmpty flags.accessToken) then
-                -- This isn't really a netowrk error, but we mark the user as
-                -- Failure, so we know we have an anonymous user at hand.
-                Failure <| Http.NetworkError
-            else
-                NotAsked
+            NotAsked
 
         ( config, cmds, activePage ) =
             case (Dict.get flags.hostname Config.configs) of
