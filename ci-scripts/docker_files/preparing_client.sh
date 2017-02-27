@@ -8,6 +8,10 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
+# Fibers Node 7.x issue: https://github.com/laverdet/node-fibers/issues/331
+apt-get -y install g++-4.8
+export CXX=g++-4.8
+
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g elm-test
