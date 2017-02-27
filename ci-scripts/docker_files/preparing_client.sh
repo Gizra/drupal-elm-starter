@@ -8,14 +8,6 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
-# Update JAVA version
-cd /opt/
-wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz"
-tar xzf jdk-7u79-linux-x64.tar.gz
-
-# Install Chrome driver.
-wget https://chromedriver.storage.googleapis.com/2.27/chromedriver_linux64.zip | tar xzf
-
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g elm-test
