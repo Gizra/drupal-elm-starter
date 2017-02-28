@@ -12,6 +12,11 @@ fi
 apt-get -y install g++-4.8
 export CXX=g++-4.8
 
+apt-get -y install bzip2
+npm cache clean -f
+npm install -g n
+n 4.4.2
+
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g elm-test
