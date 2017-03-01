@@ -13,6 +13,7 @@ projects[auto_entitylabel][version] = "1.3"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.12"
+projects[ctools][patch][] = "https://www.drupal.org/files/issues/2067997-reload-plugins-class-7.patch"
 
 projects[composer_manager][subdir] = "contrib"
 projects[composer_manager][version] = "1.8"
