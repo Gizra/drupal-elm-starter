@@ -17,4 +17,5 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
  BUILD_WEBDRIVERIO=0
 fi
 
-docker run -it -p 8080:80 -e BUILD_WEBDRIVERIO=$BUILD_WEBDRIVERIO server
+cd ci-scripts/docker_files
+docker-compose up

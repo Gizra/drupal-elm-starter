@@ -8,5 +8,6 @@ services:
     server.local:
         image: server
         environment:
-            - BUILD_WEBDRIVERIO=1
+            - BUILD_WEBDRIVERIO
+            # This above means that we pass it from the shell env.
 
