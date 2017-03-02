@@ -22,7 +22,7 @@ services:
         depends_on:
             - hub
 
-    server:
+    server.local:
         image: server
         environment:
             - BUILD_WEBDRIVERIO=1
