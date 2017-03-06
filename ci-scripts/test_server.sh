@@ -18,4 +18,13 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
 fi
 
 cd ci-scripts/docker_files
-docker-compose up --rm --abort-on-container-exit
+docker-compose up --abort-on-container-exit
+# Docker-compose up won't return with non-zero exit code if one of the
+# containers failed, we need to inspect it like this.
+# from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
+docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
+  if [ "$code" == "1" ]; then
+    echo "fail"
+    exit -1
+  fi
+done
