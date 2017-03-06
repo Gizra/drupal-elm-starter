@@ -14,7 +14,7 @@ fi
 
 # Set 'BUILD_WEBDRIVERIO' in case it is not defined.
 if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
- BUILD_WEBDRIVERIO=0
+  export BUILD_WEBDRIVERIO=0
 fi
 
 cd ci-scripts/docker_files
