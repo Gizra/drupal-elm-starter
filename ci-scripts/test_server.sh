@@ -18,4 +18,4 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
 fi
 
 cd ci-scripts/docker_files
-docker-compose up --abort-on-container-exit
+docker-compose up --rm --abort-on-container-exit
