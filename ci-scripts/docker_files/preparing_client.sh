@@ -26,6 +26,7 @@ npm install
 bower install --allow-root
 
 elm-package install -y
+cp $ROOT_DIR/ci-scripts/docker_files/LocalConfig.elm src/elm/LocalConfig.elm
 
 # Getting elm-make to run quicker.
 # See https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
