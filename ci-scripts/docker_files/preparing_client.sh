@@ -8,11 +8,13 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
+# Various dependencies to complete the steps below.
+# Netcat: ability to wait for the async gulp invocation.
+# bzip2: uncompress phantomjs
+# g++4.8 - Fibers issue
+apt-get -y install g++-4.8 netcat bzip2
 # Fibers Node 7.x issue: https://github.com/laverdet/node-fibers/issues/331
-apt-get -y install g++-4.8
 export CXX=g++-4.8
-
-apt-get -y install bzip2
 
 # Install global packages.
 npm install -g elm@~0.18.0
@@ -43,3 +45,5 @@ fi
 npm rebuild node-sass
 # Run gulp in the background.
 gulp &
+# But wait for the availability of the app.
+while ! echo exit | nc localhost 3000; do sleep 5; done
