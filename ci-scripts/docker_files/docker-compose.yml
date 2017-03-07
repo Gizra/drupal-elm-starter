@@ -1,0 +1,15 @@
+version: '2'
+services:
+    hub:
+        privileged: true
+        image: elgalu/selenium
+        environment:
+          - USE_SELENIUM=2
+
+    server.local:
+        privileged: true
+        image: server
+        environment:
+            - BUILD_WEBDRIVERIO
+            # This above means that we pass it from the shell env.
+
