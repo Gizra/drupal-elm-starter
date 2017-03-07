@@ -11,4 +11,4 @@ source helper_functions.sh
 
 print_message "Test WebDriverIO."
 cd $ROOT_DIR/client
-./node_modules/.bin/wdio wdio.conf.js
+./node_modules/.bin/wdio wdio.conf.travis.js
