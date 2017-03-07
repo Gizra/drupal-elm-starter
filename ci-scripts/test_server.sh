@@ -14,8 +14,7 @@ fi
 
 # Simple Docker run to execute Behat.
 if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
-  export BUILD_WEBDRIVERIO=0
-  docker run -it -p 8080:80 server
+  docker run -it -e "BUILD_WEBDRIVERIO=0" -p 8080:80 server
   exit $?
 fi
 
