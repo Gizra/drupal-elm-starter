@@ -12,11 +12,13 @@ if [ -z ${BUILD_SERVER+x} ] || [ "$BUILD_SERVER" -ne 1 ]; then
  exit 0;
 fi
 
-# Set 'BUILD_WEBDRIVERIO' in case it is not defined.
+# Simple Docker run to execute Behat.
 if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
-  export BUILD_WEBDRIVERIO=0
+  docker run -it -p 8080:80 server
+  exit $?
 fi
 
+# Execute our server container alongside with Selenium container for WDIO.
 cd ci-scripts/docker_files
 docker-compose up --abort-on-container-exit
 # Docker-compose up won't return with non-zero exit code if one of the
