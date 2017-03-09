@@ -9,7 +9,7 @@
  * Trigger a Pusher event.
  *
  * @param string $channel_name
- *   The channel na,e.
+ *   The channel name.
  * @param string $event_name
  *   The event name.
  * @param array $data
