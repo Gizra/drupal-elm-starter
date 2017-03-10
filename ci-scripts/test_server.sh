@@ -25,7 +25,8 @@ docker-compose up --abort-on-container-exit
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
-  if [ "$code" = "1" ]; then
-    exit 1
+  if [ ! "$code" = "0" ]; then
+    exit $code
   fi
 done
+exit 0
