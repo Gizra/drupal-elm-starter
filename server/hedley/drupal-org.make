@@ -74,7 +74,7 @@ projects[og][subdir] = "contrib"
 projects[og][version] = 2.x
 
 projects[restful][subdir] = "contrib"
-projects[restful][version] = "1.x-dev"
+projects[restful][version] = "1.8"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.12"
@@ -92,7 +92,7 @@ projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.14"
+projects[views][version] = "3.15"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
