@@ -11,7 +11,7 @@ source helper_functions.sh
 
 print_message "Test WebDriverIO."
 cd $ROOT_DIR/client
-./node_modules/.bin/wdio wdio.conf.travis.js
+./node_modules/.bin/wdio wdio.conf.travis.js ||:
 
 # Temporarily upload all the errorShots for debugging purpose
 cd $ROOT_DIR/client/errorShots
