@@ -12,5 +12,5 @@ view =
     div
         [ class "config-error" ]
         [ h2 [] [ text "Configuration error" ]
-        , div [] [ text "Check your LocalConfig.elm file and make sure you have defined the environment properly" ]
+        , div [] [ text "Check your LocalConfig.elm or Config.elm file and make sure you have defined the environment properly" ]
         ]
