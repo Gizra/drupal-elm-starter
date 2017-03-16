@@ -1,7 +1,5 @@
 module.exports = function (browser, capabilities, specs) {
 
-  console.log('Adding Custom Commands.')
-
   /**
    * Recursive function to ensure the correct text.
    *
