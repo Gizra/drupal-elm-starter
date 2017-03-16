@@ -5,10 +5,11 @@ services:
         image: elgalu/selenium
         environment:
           - USE_SELENIUM=2
-          - VIDEO=true
-          - FFMPEG_FRAME_RATE=25
-          - SCREEN_WIDTH=1024
-          - SCREEN_HEIGHT=768
+# Debug-purpose optional environment variables
+#         - VIDEO=true
+#         - FFMPEG_FRAME_RATE=25
+#         - SCREEN_WIDTH=1024
+#         - SCREEN_HEIGHT=768
 
     server.local:
         privileged: true
