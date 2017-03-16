@@ -11,4 +11,16 @@ source helper_functions.sh
 
 print_message "Test WebDriverIO."
 cd $ROOT_DIR/client
+set +o errexit
 ./node_modules/.bin/wdio wdio.conf.travis.js
+WDIO_RET=$?
+
+# If WDIO failed, check Watchdog and check if we can access the backend.
+if [[ $WDIO_RET -ne 0 ]]; then
+  cd $ROOT_DIR/server/www
+  export PATH="$HOME/.composer/vendor/bin:$PATH"
+  drush cc drush
+  drush watchdog-show
+  curl -D - http://server.local/
+fi
+exit $WDIO_RET
