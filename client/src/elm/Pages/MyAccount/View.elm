@@ -4,6 +4,7 @@ import Html exposing (a, div, h2, i, p, text, img, Html)
 import Html.Attributes exposing (class, href, src)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Model exposing (..)
+import Utils.Html exposing (emptyNode)
 
 
 -- VIEW
@@ -18,7 +19,7 @@ view user =
                     ( val.name, img [ src val.avatarUrl ] [] )
 
                 _ ->
-                    ( "", div [] [] )
+                    ( "", emptyNode )
     in
         div [ class "ui centered card" ]
             [ div [ class "image" ] [ avatar ]

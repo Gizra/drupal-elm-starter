@@ -15,6 +15,7 @@ import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (getItem, unwrapItemsDict)
 import RemoteData exposing (RemoteData(..))
 import User.Model exposing (User)
+import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (viewError)
 
 
@@ -44,7 +45,7 @@ viewPageItem currentDate id user model =
                 [ text "Re-load Item" ]
 
         Loading ->
-            div [] []
+            emptyNode
 
         Failure error ->
             div []
