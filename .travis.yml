@@ -17,10 +17,6 @@ env:
 services:
   - docker
 
-cache:
-  directories:
-    - sysconfcpus
-
 before_install:
   - composer self-update
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
