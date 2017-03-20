@@ -11,6 +11,7 @@ import Pages.Items.Model exposing (Model, Msg(..))
 import Item.Model exposing (Item, ItemId, ItemsDict)
 import Table exposing (..)
 import User.Model exposing (User)
+import Utils.Html exposing (emptyNode)
 
 
 view : Date -> User -> ItemsDict -> Model -> Html Msg
@@ -32,7 +33,7 @@ view currentDate currentUser items model =
                 if Dict.isEmpty items then
                     -- No items are present, so it means we are fethcing
                     -- them.
-                    div [] []
+                    emptyNode
                 else
                     div [ class "ui segment" ] [ text "No items found" ]
             else
