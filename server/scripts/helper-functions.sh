@@ -2,10 +2,16 @@
 
 ################################################################################
 #
-# Helper functions so we can reuse code indifferent scripts!
+# Helper functions so we can reuse code in different scripts!
 #
 ################################################################################
 
+##
+# Before doing anything, make sure that new Drush commands will be recognized.
+##
+if [[ -d $ROOT/www ]]; then
+  drush -q -r $ROOT/www cc drush
+fi
 
 ##
 # Load the configuration file.
