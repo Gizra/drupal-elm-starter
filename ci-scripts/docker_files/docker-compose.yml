@@ -2,14 +2,23 @@ version: '2'
 services:
     hub:
         privileged: true
-        image: elgalu/selenium
-        environment:
-          - USE_SELENIUM=2
-# Debug-purpose optional environment variables
-#         - VIDEO=true
-#         - FFMPEG_FRAME_RATE=25
-#         - SCREEN_WIDTH=1024
-#         - SCREEN_HEIGHT=768
+        image: dosel/zalenium
+        tty: true
+        command: >
+          start --chromeContainers 0
+            --firefoxContainers 1
+            --maxDockerSeleniumContainers 1
+            --screenWidth 1930 --screenHeight 1090
+            --timeZone "Asia/Jerusalem"
+            --videoRecordingEnabled true
+            --sauceLabsEnabled false
+            --browserStackEnabled false
+            --testingBotEnabled false
+            --startTunnel false
+        volumes:
+          - /tmp/videos:/home/seluser/videos
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /usr/bin/docker:/usr/bin/docker
 
     server.local:
         privileged: true
