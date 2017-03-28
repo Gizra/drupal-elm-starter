@@ -5,9 +5,9 @@ services:
         image: dosel/zalenium
         tty: true
         command: >
-          start --chromeContainers 0
-            --firefoxContainers 1
-            --maxDockerSeleniumContainers 1
+          start --chromeContainers 1
+            --firefoxContainers 0
+            --maxDockerSeleniumContainers 10
             --screenWidth 1930 --screenHeight 1090
             --timeZone "Asia/Jerusalem"
             --videoRecordingEnabled true
