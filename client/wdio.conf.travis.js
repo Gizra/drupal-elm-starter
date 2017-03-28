@@ -130,7 +130,7 @@ exports.config = {
 
     // Via docker-compose, hub becomes a resolvable hostname.
     host: 'hub',
-    port: 24444,
+    port: 4444,
     // =====
     // Hooks
     // =====
