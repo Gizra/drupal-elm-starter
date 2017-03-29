@@ -25,7 +25,23 @@ docker-compose up --abort-on-container-exit
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
-  if [ ! "$code" = "0" ]; then
+  if [ ! "$code" = "0" || true ]; then
+    apt-get install -y unzip
+    cd /tmp
+    wget https://github.com/prasmussen/gdrive/files/879060/gdrive-linux-x64.zip
+    unzip gdrive-linux-x64.zip
+    chmod +x gdrive-linux-x64
+    mkdir ~/.gdrive
+    cp $TRAVIS_BUILD_DIR/gdrive-service-account.json ~/.gdrive/
+    for i in /tmp/videos/*mp4
+    do
+      ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $i | tail -n1 | cut -d ' ' -f 2)
+      /tmp/gdrive share --service-account gdrive-service-account.json $ÍD
+      URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ÍD  | grep ViewUrl | sed s/ViewUrl\:\ //)
+      echo "The video of the failed test case is available from $URL"
+      
+      # Todo: post to Github issue as a comment
+    done;
     exit $code
   fi
 done

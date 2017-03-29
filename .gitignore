@@ -42,3 +42,7 @@ Thumbs.db
 .project
 .settings/
 .idea
+
+# Google Drive secrets #
+# ######################
+gdrive-service-account.json
