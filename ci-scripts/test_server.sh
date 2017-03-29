@@ -19,6 +19,7 @@ if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
 fi
 
 # Execute our server container alongside with Selenium container for WDIO.
+mkdir -p /tmp/videos
 cd ci-scripts/docker_files
 docker-compose up --abort-on-container-exit
 # Docker-compose up won't return with non-zero exit code if one of the
