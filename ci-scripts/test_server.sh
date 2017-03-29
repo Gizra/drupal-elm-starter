@@ -32,13 +32,14 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
     chmod +x ./gdrive
     mkdir ~/.gdrive
     cp $TRAVIS_BUILD_DIR/gdrive-service-account.json ~/.gdrive/
-    for i in /tmp/videos/*mp4
+    for VIDEO_FILE in /tmp/videos/*mp4
     do
-      ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $i | tail -n1 | cut -d ' ' -f 2)
-      /tmp/gdrive share --service-account gdrive-service-account.json $ÍD
-      URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ÍD  | grep ViewUrl | sed s/ViewUrl\:\ //)
+      echo "Uploading $VIDEO_FILE"
+      ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $VIDEO_FILE | tail -n1 | cut -d ' ' -f 2)
+      /tmp/gdrive share --service-account gdrive-service-account.json $ID
+      URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ID  | grep ViewUrl | sed s/ViewUrl\:\ //)
       echo "The video of the failed test case is available from $URL"
-      
+
       # Todo: post to Github issue as a comment
     done;
     exit $code
