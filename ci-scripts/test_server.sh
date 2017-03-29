@@ -26,7 +26,7 @@ docker-compose up --abort-on-container-exit
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" || true ]; then
-    apt-get install -y unzip
+    sudo apt-get install -y unzip
     cd /tmp
     wget https://github.com/prasmussen/gdrive/files/879060/gdrive-linux-x64.zip
     unzip gdrive-linux-x64.zip
