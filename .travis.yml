@@ -1,48 +1,35 @@
 sudo: required
-
 language: php
 php:
-  - 5.6
-
-# Sample to be able to skip temporarily some items, but still executing them
-#matrix:
-#  allow_failures:
-#    - php: 5.6
-#      env: BUILD_CLIENT=1
-
+- 5.6
 env:
+  matrix:
   - BUILD_SERVER=1
   - BUILD_CLIENT=1
-  - BUILD_WEBDRIVERIO=1
-    BUILD_SERVER=1
-  - CODE_REVIEW=1
-    REVIEW_STANDARD="Drupal"
-  - CODE_REVIEW=1
-    REVIEW_STANDARD="DrupalPractice"
-
+  - BUILD_WEBDRIVERIO=1 BUILD_SERVER=1
+  - CODE_REVIEW=1 REVIEW_STANDARD="Drupal"
+  - CODE_REVIEW=1 REVIEW_STANDARD="DrupalPractice"
+  global:
+    secure: Sk6pVn3BcXTAXSwftB180h97psCHiXPhGQHSEteJ/S4qeU4cgYkJ6gXSsqZzHLR3O6zbvApq7tUn3tpuczxuTP6XlzyMzjnOiTbmtl6Gm3skaiz/78NWoTUWiaPu208X0Zfq0QAVFWhWhd4/QBziKWGrSh/ZP5ru77S1eCmbD1nKbP6eL154iF5SvwO7f+QRie21UCl+EaIdEyNhTzaqJYDs0hxtQ+Xoj1gbc85RB8bpKFuiYrI4QTIN9xTVZOuaD+1/oIJorHGOkRbWtq99WsGrLS16h4mhigT2o1K1kw2J+7lvgMrhJO4TqeIdjFtb7IklMrD+NXzvKycUSmlXMvKlrfRymiO2p4dbPzbUa6Np2Gde1fEA71bWVJMwVCgN6pi7Hunoc927Ek04EIMwcbOXglRg0qV7hOwzREMqzg7T9xcGO+GQjksqgOdLfoiKKot/IVyzF6J9lJpKn9YMPeYQ1t3CofCtWArUU611hoD+q+EvH/9GMIvrqGEP/VSgorKKyMPcgxsYNJpzgri9MlEc26h+FIWJItFs04AWSeg2JDuEfkmPvxKdnvGOpEQhpmO1pKoJF+jEX4fvBY12r32SzXDvhbr5aN2K2J6u2XgBm/9DSepk35p8ZI0OVt5vWbZnJ+2yEVNpCX4RHBoqdBSbtcntX+SeMsIz31uDuQM=
 services:
-  - docker
-
+- docker
 before_install:
-  - composer self-update
-  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-  - sudo pip install docker-compose
-  - openssl aes-256-cbc -K $encrypted_b2dc5bc8fb77_key -iv $encrypted_b2dc5bc8fb77_iv -in gdrive-service-account.json.enc -out gdrive-service-account.json -d
-
+- composer self-update
+- export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+- sudo pip install docker-compose
+- openssl aes-256-cbc -K $encrypted_b2dc5bc8fb77_key -iv $encrypted_b2dc5bc8fb77_iv
+  -in gdrive-service-account.json.enc -out gdrive-service-account.json -d
 install:
-  - $TRAVIS_BUILD_DIR/ci-scripts/install_client.sh
-  - $TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh
-  - $TRAVIS_BUILD_DIR/ci-scripts/install_server.sh
-
+- "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
 before_script:
-  - $TRAVIS_BUILD_DIR/ci-scripts/prepare_client.sh
-
+- "$TRAVIS_BUILD_DIR/ci-scripts/prepare_client.sh"
 script:
-  - $TRAVIS_BUILD_DIR/ci-scripts/test_client.sh
-  - $TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh
-  - $TRAVIS_BUILD_DIR/ci-scripts/test_server.sh
-
+- "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/test_server.sh"
 cache:
   directories:
-    - client/elm-stuff/packages
-    - client/sysconfcpus
+  - client/elm-stuff/packages
+  - client/sysconfcpus
