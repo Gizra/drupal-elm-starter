@@ -54,16 +54,28 @@ docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read c
     chmod +x ./gdrive
     mkdir ~/.gdrive
     cp $TRAVIS_BUILD_DIR/gdrive-service-account.json ~/.gdrive/
+    GH_COMMENT=/tmp/video_urls
+    echo '{
+  "body": "' >> $GH_COMMENT
     for VIDEO_FILE in $VIDEO_DIR/*mp4
     do
       echo "Uploading $VIDEO_FILE"
       ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $VIDEO_FILE | tail -n1 | cut -d ' ' -f 2)
       /tmp/gdrive share --service-account gdrive-service-account.json $ID
       URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ID  | grep ViewUrl | sed s/ViewUrl\:\ //)
-      echo "The video of the failed test case is available from $URL"
+      echo "The video of the failed test case is available from $URL" | tee $GH_COMMENT
 
-      # Todo: post to Github issue as a comment
     done;
+    echo '"}' >> $GH_COMMENT
+
+    # Todo: make it non-Gizra specific by detecting the user of the repository.
+    PR_URL=$(curl -s  https://api.github.com/repos/Gizra/drupal-elm-starter/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4$)
+    if [[ -z "${PR_URL// }" ]]; then
+      echo "Failed to detect related GitHub issue"
+    else
+      echo "Detected issue: $PR_URL. Posting GitHub comment..."
+      curl -H "Authorization: token OAUTH-TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
+    fi
     exit $code
   fi
 done
