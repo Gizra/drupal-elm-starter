@@ -74,7 +74,7 @@ docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read c
       echo "Failed to detect related GitHub issue"
     else
       echo "Detected issue: $PR_URL. Posting GitHub comment..."
-      curl -H "Authorization: token OAUTH-TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
+      curl -H "Authorization: token $GH_TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
     fi
     exit $code
   fi
