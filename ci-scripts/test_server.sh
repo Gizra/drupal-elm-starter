@@ -55,7 +55,7 @@ docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read c
     mkdir ~/.gdrive
     cp $TRAVIS_BUILD_DIR/gdrive-service-account.json ~/.gdrive/
     GH_COMMENT=/tmp/video_urls
-    echo '{
+    echo -n '{
   "body": "' >> $GH_COMMENT
     for VIDEO_FILE in $VIDEO_DIR/*mp4
     do
@@ -63,7 +63,9 @@ docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read c
       ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $VIDEO_FILE | tail -n1 | cut -d ' ' -f 2)
       /tmp/gdrive share --service-account gdrive-service-account.json $ID
       URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ID  | grep ViewUrl | sed s/ViewUrl\:\ //)
-      echo "The video of the failed test case is available from $URL" | tee $GH_COMMENT
+      echo -n "The video of the failed test case is available from $URL" | tee -a $GH_COMMENT
+      echo ""
+      echo -n "\n" >> $GH_COMMENT
 
     done;
     echo '"}' >> $GH_COMMENT
