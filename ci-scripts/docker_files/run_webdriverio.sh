@@ -12,14 +12,20 @@ source helper_functions.sh
 print_message "Test WebDriverIO."
 cd $ROOT_DIR/client
 
+# Backup verbatim config.
+WDIO_CONF=wdio.conf.travis.js
+cp $WDIO_CONF "$WDIO_CONF".orig
+
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
 for SPEC in test/specs/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
+  SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
+  cat "$WDIO_CONF".orig | sed 's/<<SPECNAME>>/login/' > "$WDIO_CONF"
   for i in `seq 3`; do
-    ./node_modules/.bin/wdio wdio.conf.travis.js --spec $SPEC
+    ./node_modules/.bin/wdio "$WDIO_CONF" --spec $SPEC
     WDIO_RET=$?
     if [[ $WDIO_RET -eq 0 ]]; then
       # We give 3 chances to complete
