@@ -54,6 +54,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
 
     # Todo: make it non-Gizra specific by detecting the user of the repository.
     PR_URL=$(curl -s  https://api.github.com/repos/Gizra/drupal-elm-starter/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4)
+    PR_URL=$(echo $PR_URL | sed 's/\/pulls\//\/issues\//')
     if [[ -z "${PR_URL// }" ]]; then
       echo "Failed to detect related GitHub issue"
     else
