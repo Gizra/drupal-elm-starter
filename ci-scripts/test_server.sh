@@ -47,7 +47,7 @@ docker stop $(docker ps -a -q)
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
-  if [ ! "$code" = "0" || true ]; then
+  if [ ! "$code" = "0" ]; then
     VID_COUNT=`ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l`
     echo "Detected $VID_COUNT videos"
     if [[ $VID_COUNT -eq 0 ]]; then
@@ -65,7 +65,20 @@ docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read c
   "body": "' >> $GH_COMMENT
     for VIDEO_FILE in $VIDEO_DIR/*mp4
     do
-      echo "Uploading $VIDEO_FILE"
+      # Test if the spec is a failing one or not.
+      UPLOAD=0
+      for FAILED_SPEC in $(cat /tmp/test_results/failed_tests); do
+        if [[ $VIDEO_FILE == *"$FAILED_SPEC"* ]]; then
+          UPLOAD=1
+        fi
+      done
+
+      if [[ $UPLOAD -eq 0 ]]; then
+        echo "$VIDEO_FILE contains a passed test, skipping"
+        continue
+      fi
+
+      echo "Uploading $VIDEO_FILE, it contains a failed test"
       ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $VIDEO_FILE | tail -n1 | cut -d ' ' -f 2)
       /tmp/gdrive share --service-account gdrive-service-account.json $ID
       URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ID  | grep ViewUrl | sed s/ViewUrl\:\ //)

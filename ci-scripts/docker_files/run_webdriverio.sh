@@ -23,7 +23,7 @@ for SPEC in test/specs/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
-  cat "$WDIO_CONF".orig | sed 's/<<SPECNAME>>/$SPEC_BASENAME/' > "$WDIO_CONF"
+  cat "$WDIO_CONF".orig | sed "s/<<SPECNAME>>/$SPEC_BASENAME/" > "$WDIO_CONF"
   for i in `seq 3`; do
     ./node_modules/.bin/wdio "$WDIO_CONF" --spec $SPEC
     WDIO_RET=$?
@@ -36,7 +36,7 @@ for SPEC in test/specs/*js; do
   done
   if [[ $WDIO_RET -ne 0 ]]; then
     print_error_message "$SPEC failed"
-    echo "$SPEC_BASENAME" >> /tmp//tmp/test_results/failed_tests
+    echo "$SPEC_BASENAME" >> /tmp/test_results/failed_tests
     WDIO_ALL_RET=$WDIO_RET
     WDIO_FAILED_SPECS+=($SPEC)
   fi
