@@ -23,12 +23,30 @@ VIDEO_DIR=/tmp/videos
 # Execute our server container alongside with Selenium container for WDIO.
 mkdir -p $VIDEO_DIR
 cd ci-scripts/docker_files
-docker-compose up --abort-on-container-exit
+docker-compose up &
+sleep 5
+NUM_CONTAINERS=$(docker ps --no-trunc -q | wc -l)
+
+COUNT=0
+while [ $NUM_CONTAINERS -gt 1 ]; do
+  NUM_CONTAINERS=$(docker ps --no-trunc -q | wc -l)
+  ((COUNT++)) && ((COUNT==240)) && break
+  sleep 5
+done;
+
+# For a maximum of 150 seconds, we wait for the video completion.
+COUNT=0
+while !(ls $VIDEO_DIR/*mp4 1> /dev/null 2>&1); do
+  ((COUNT++)) && ((COUNT==30)) && break
+  sleep 5
+done;
+
+docker stop $(docker ps -a -q)
 
 # Docker-compose up won't return with non-zero exit code if one of the
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
-docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
+docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" || true ]; then
     cd /tmp
     wget https://github.com/prasmussen/gdrive/files/879060/gdrive-linux-x64.zip
