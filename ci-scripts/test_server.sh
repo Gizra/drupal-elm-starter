@@ -26,6 +26,7 @@ cd ci-scripts/docker_files
 docker-compose up &
 sleep 5
 NUM_CONTAINERS=$(docker ps --no-trunc -q | wc -l)
+echo "Detected $NUM_CONTAINERS containers running after launching test + recording containers"
 
 COUNT=0
 while [ $NUM_CONTAINERS -gt 1 ]; do
@@ -34,6 +35,8 @@ while [ $NUM_CONTAINERS -gt 1 ]; do
   sleep 5
 done;
 
+
+echo "$NUM_CONTAINERS containers remained, wait for the video, if any"
 # For a maximum of 150 seconds, we wait for the video completion.
 COUNT=0
 while !(ls $VIDEO_DIR/*mp4 1> /dev/null 2>&1); do
@@ -41,6 +44,7 @@ while !(ls $VIDEO_DIR/*mp4 1> /dev/null 2>&1); do
   sleep 5
 done;
 
+echo "Force stop any remaining containers"
 docker stop $(docker ps -a -q)
 
 # Docker-compose up won't return with non-zero exit code if one of the
