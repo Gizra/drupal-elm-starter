@@ -48,6 +48,12 @@ docker stop $(docker ps -a -q)
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" || true ]; then
+    VID_COUNT=`ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l`
+    echo "Detected $VID_COUNT videos"
+    if [[ $VID_COUNT -eq 0 ]]; then
+      echo "No videos, skipping upload"
+      continue
+    fi
     cd /tmp
     wget https://github.com/prasmussen/gdrive/files/879060/gdrive-linux-x64.zip
     unzip gdrive-linux-x64.zip
