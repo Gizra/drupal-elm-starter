@@ -55,5 +55,16 @@ if [[ $WDIO_ALL_RET -ne 0 ]]; then
   do
     print_error_message $SPEC
   done;
+
+  # Potentially wait for video encoding ending.
+  # ps aux shows all the processes from hosts + other containers.
+  COUNT=0
+  FFMPEG_COUNT=$(ps aux | grep ffmpeg | grep -v grep | wc -l)
+  while [[ $FFMPEG_COUNT -ne 0 ]]; do
+    FFMPEG_COUNT=$(ps aux | grep ffmpeg | grep -v grep | wc -l)
+    ((COUNT++)) && ((COUNT==30)) && break
+    sleep 5
+  done;
+
 fi
 exit $WDIO_ALL_RET

@@ -23,34 +23,13 @@ VIDEO_DIR=/tmp/videos
 # Execute our server container alongside with Selenium container for WDIO.
 mkdir -p $VIDEO_DIR
 cd ci-scripts/docker_files
-docker-compose up &
-sleep 5
-NUM_CONTAINERS=$(docker ps --no-trunc -q | wc -l)
-echo "Detected $NUM_CONTAINERS containers running after launching test + recording containers"
 
-COUNT=0
-while [ $NUM_CONTAINERS -gt 1 ]; do
-  NUM_CONTAINERS=$(docker ps --no-trunc -q | wc -l)
-  ((COUNT++)) && ((COUNT==240)) && break
-  sleep 5
-done;
-
-
-echo "$NUM_CONTAINERS containers remained, wait for the video, if any"
-# For a maximum of 150 seconds, we wait for the video completion.
-COUNT=0
-while !(ls $VIDEO_DIR/*mp4 1> /dev/null 2>&1); do
-  ((COUNT++)) && ((COUNT==30)) && break
-  sleep 5
-done;
-
-echo "Force stop any remaining containers"
-docker stop $(docker ps -a -q)
+docker-compose up --abort-on-container-exit
 
 # Docker-compose up won't return with non-zero exit code if one of the
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
-docker ps -q -a | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
+docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" ]; then
     VID_COUNT=`ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l`
     echo "Detected $VID_COUNT videos"
