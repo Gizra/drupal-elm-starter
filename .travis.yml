@@ -29,9 +29,6 @@ script:
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_server.sh"
-after_script:
-- sudo dmesg
-- ps aux --sort rss
 cache:
   directories:
   - client/elm-stuff/packages
