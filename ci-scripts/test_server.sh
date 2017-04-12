@@ -30,6 +30,7 @@ docker-compose up --abort-on-container-exit
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" ]; then
+    echo "One of the containers exited with $code"
     VID_COUNT=`ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l`
     echo "Detected $VID_COUNT videos"
     if [[ $VID_COUNT -eq 0 ]]; then
@@ -80,6 +81,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
       echo "Detected issue: $PR_URL. Posting GitHub comment..."
       curl -H "Authorization: token $GH_TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
     fi
+    echo "Exiting with code $code"
     exit $code
   fi
 done
