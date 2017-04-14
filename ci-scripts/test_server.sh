@@ -75,17 +75,15 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
     echo '"}' >> $GH_COMMENT
 
     # Todo: make it non-Gizra specific by detecting the user of the repository.
-    PR_URL=$(curl -s  https://api.github.com/repos/Gizra/drupal-elm-starter/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4)
+    PR_URL=$(curl -H "Authorization: token $GH_TOKEN" -s  https://api.github.com/repos/Gizra/drupal-elm-starter/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4)
     PR_URL=$(echo "$PR_URL" | sed 's/\/pulls\//\/issues\//')
     if [[ -z "${PR_URL// }" ]]; then
       echo "Failed to detect related GitHub issue"
     else
       echo "Detected issue: $PR_URL. Posting GitHub comment..."
-      curl -H "Authorization: token $GH_TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
+      ! curl -H "Authorization: token $GH_TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
     fi
-    echo "Exiting with code $code"
     exit "$code"
   fi
 done
-echo "Exiting with code 0"
 exit 0
