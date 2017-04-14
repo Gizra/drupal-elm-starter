@@ -10,15 +10,6 @@ first or the installation and update scripts will not work.
 
 Clone the project from [GitHub](https://github.com/Gizra/drupal-elm-stater).
 
-Edit `server/travis.config.sh` and actualize `GH_REPO` variable with the new
-location of the project.
-WDIO test failures are automatically uploaded to Google Drive. The credentials
-in this public repository are encrypted by Travis. If you don't fork the
-project, but copy it, you need to re-add and encrypt your credentials,
-the process of updating `gdrive-service-account.json.enc` is described at
-https://github.com/prasmussen/gdrive/#service-account
-and https://developers.google.com/identity/protocols/OAuth2ServiceAccount .
-Encrypting the retrieved JSON file can be done via `travis encrypt-file`.
 
 #### Create config file
 
@@ -107,3 +98,15 @@ when you run the upgrade script.
 6. Makes a symlink within the /www/profiles directory to the
    /hedley 7. directory.
 7. Restore the backup of the sites/default folder.
+
+## Start a new project based on Drupal Elm Starter
+
+Edit `server/travis.config.sh` and actualize `GH_REPO` variable with the new
+location of the project.
+WDIO test failures are automatically uploaded to Google Drive. The credentials
+in this public repository are encrypted by Travis. If you don't fork the
+project, but copy it, you need to re-add and encrypt your credentials,
+the process of updating `gdrive-service-account.json.enc` is described at
+https://github.com/prasmussen/gdrive/#service-account
+and https://developers.google.com/identity/protocols/OAuth2ServiceAccount .
+Encrypting the retrieved JSON file can be done via `travis encrypt-file`.
