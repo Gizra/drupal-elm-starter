@@ -57,6 +57,11 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
       for FAILED_SPEC in $(cat /tmp/test_results/failed_tests); do
         if [[ $VIDEO_FILE == *"$FAILED_SPEC"* ]]; then
           UPLOAD=1
+          # Uploading one video per failed spec. Assuming that it failed
+          # 3 times, it failed always the same way, removing the line from
+          # the file, so next time, it won't match.
+          sed -i "/$FAILED_SPEC/d" /tmp/test_results/failed_tests
+          break
         fi
       done
 
