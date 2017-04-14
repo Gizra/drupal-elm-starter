@@ -31,6 +31,8 @@ cd ci-scripts/docker_files
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" ]; then
+    source $TRAVIS_BUILD_DIR/server/travis.config.sh
+
     echo "One of the containers exited with $code"
     VID_COUNT=$(ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l)
     echo "Detected $VID_COUNT videos"
@@ -75,7 +77,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
     echo '"}' >> $GH_COMMENT
 
     # Todo: make it non-Gizra specific by detecting the user of the repository.
-    PR_URL=$(curl -H "Authorization: token $GH_TOKEN" -s  https://api.github.com/repos/Gizra/drupal-elm-starter/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4)
+    PR_URL=$(curl -H "Authorization: token $GH_TOKEN" -s  https://api.github.com/repos/$GH_REPO/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4)
     PR_URL=$(echo "$PR_URL" | sed 's/\/pulls\//\/issues\//')
     if [[ -z "${PR_URL// }" ]]; then
       echo "Failed to detect related GitHub issue"
