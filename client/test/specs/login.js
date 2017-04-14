@@ -10,7 +10,7 @@ describe('login page', function() {
         browser.submitForm('.login-form');
         browser.waitForVisible('.menu h4');
         var title = browser.getText('.menu h4');
-        assert.equal(title[1], 'adminilyennincs');
+        assert.equal(title[1], 'admin');
 
         // Logout session.
         browser.click('.left.menu > a:nth-child(4)');
