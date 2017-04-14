@@ -1,4 +1,5 @@
 #!/bin/bash
+set +e
 
 # ---------------------------------------------------------------------------- #
 #
@@ -23,7 +24,7 @@ VIDEO_DIR=/tmp/videos
 mkdir -p $VIDEO_DIR
 cd ci-scripts/docker_files
 
-docker-compose up --abort-on-container-exit
+! docker-compose up --abort-on-container-exit
 
 # Docker-compose up won't return with non-zero exit code if one of the
 # containers failed, we need to inspect it like this.
@@ -38,6 +39,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
       continue
     fi
     cd /tmp
+    ! rm gdrive-linux-x64.zip
     wget https://github.com/prasmussen/gdrive/files/879060/gdrive-linux-x64.zip
     unzip gdrive-linux-x64.zip
     chmod +x ./gdrive
@@ -65,7 +67,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
       ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json $VIDEO_FILE | tail -n1 | cut -d ' ' -f 2)
       /tmp/gdrive share --service-account gdrive-service-account.json $ID
       URL=$(/tmp/gdrive info --service-account gdrive-service-account.json $ID  | grep ViewUrl | sed s/ViewUrl\:\ //)
-      echo -n "The video of the failed test case is available from $URL" | tee -a $GH_COMMENT
+      echo -n "* Video of the failed WebdriverIO test [$FAILED_SPEC]($URL)." | tee -a $GH_COMMENT
       echo ""
       echo -n "\n" >> $GH_COMMENT
 
@@ -85,4 +87,5 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
     exit $code
   fi
 done
+echo "Exiting with code 0"
 exit 0
