@@ -32,6 +32,7 @@ cd ci-scripts/docker_files
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" ]; then
     source $TRAVIS_BUILD_DIR/server/travis.config.sh
+    sudo chmod -R 777 /tmp/test_results
 
     echo "One of the containers exited with $code"
     VID_COUNT=$(ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l)
