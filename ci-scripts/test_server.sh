@@ -1,5 +1,5 @@
 #!/bin/bash
-set +e
+set -euo pipefail
 
 # ---------------------------------------------------------------------------- #
 #
@@ -8,12 +8,12 @@ set +e
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z ${BUILD_SERVER+x} ] || [ "$BUILD_SERVER" -ne 1 ]; then
+if [ -z "${BUILD_SERVER+x}" ] || [ "$BUILD_SERVER" -ne 1 ]; then
  exit 0;
 fi
 
 # Simple Docker run to execute Behat.
-if [ -z ${BUILD_WEBDRIVERIO+x} ]; then
+if [ -z "${BUILD_WEBDRIVERIO+x}" ]; then
   docker run -it -e "BUILD_WEBDRIVERIO=0" -p 8080:80 server
   exit $?
 fi
@@ -32,7 +32,7 @@ cd ci-scripts/docker_files
 docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
   if [ ! "$code" = "0" ]; then
     echo "One of the containers exited with $code"
-    VID_COUNT=`ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l`
+    VID_COUNT=$(ls -1 $VIDEO_DIR/*.mp4 2>/dev/null | wc -l)
     echo "Detected $VID_COUNT videos"
     if [[ $VID_COUNT -eq 0 ]]; then
       echo "No videos, skipping upload"
@@ -76,7 +76,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
 
     # Todo: make it non-Gizra specific by detecting the user of the repository.
     PR_URL=$(curl -s  https://api.github.com/repos/Gizra/drupal-elm-starter/pulls?head=Gizra:${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} | grep '"url"' | head -n1  | cut -d'"' -f 4)
-    PR_URL=$(echo $PR_URL | sed 's/\/pulls\//\/issues\//')
+    PR_URL=$(echo "$PR_URL" | sed 's/\/pulls\//\/issues\//')
     if [[ -z "${PR_URL// }" ]]; then
       echo "Failed to detect related GitHub issue"
     else
@@ -84,7 +84,7 @@ docker-compose --file=docker-compose.yml ps -q | xargs docker inspect -f '{{ .St
       curl -H "Authorization: token $GH_TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
     fi
     echo "Exiting with code $code"
-    exit $code
+    exit "$code"
   fi
 done
 echo "Exiting with code 0"
