@@ -44,7 +44,8 @@ exports.config = {
         // 5 instances get started at a time.
         maxInstances: 1,
         //
-        browserName: 'chrome'
+        browserName: 'chrome',
+        name: '<<SPECNAME>>'
     }],
     //
     // ===================
@@ -130,7 +131,7 @@ exports.config = {
 
     // Via docker-compose, hub becomes a resolvable hostname.
     host: 'hub',
-    port: 24444,
+    port: 4444,
     // =====
     // Hooks
     // =====
