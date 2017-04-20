@@ -107,7 +107,7 @@ when you run the upgrade script.
  * Actualize/re-encrypt Google Drive credentials in `gdrive-service-account.json.enc`
  * Actualize/re-ecrypt GitHub credentials in `.travis.yml`
 
-For the last two point, see the longer version below.
+For the last two points, see the longer version below.
 
 ### Google Drive integration
 WDIO test failures are automatically uploaded to Google Drive. The credentials
