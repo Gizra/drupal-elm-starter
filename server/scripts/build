@@ -23,7 +23,7 @@ source $ROOT/scripts/helper-colors.sh
 # Build the profile itself.
 (
   cd $PROFILE_NAME
-  $DRUSH make --no-core --contrib-destination drupal-org.make .
+  $DRUSH make --concurrency=8 --no-core --contrib-destination drupal-org.make .
 
   # Cleanup profile folder
   if [ -d ./1 ]; then
