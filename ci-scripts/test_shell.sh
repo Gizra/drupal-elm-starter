@@ -22,7 +22,7 @@ code_review () {
   fi
 }
 
-find "$TRAVIS_BUILD_DIR/ci-scripts" "$TRAVIS_BUILD_DIR/server/scripts"  -name '*.sh'
+SCRIPTS=$(find "$TRAVIS_BUILD_DIR/ci-scripts" "$TRAVIS_BUILD_DIR/server/scripts"  -name '*.sh')
 for FILE in $SCRIPTS;  do
   code_review "$FILE"
 done
