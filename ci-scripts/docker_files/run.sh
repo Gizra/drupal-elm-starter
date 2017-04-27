@@ -4,7 +4,7 @@
 cd ci-scripts/docker_files
 
 
-if [ -v "$DOCKER_DEBUG" ]; then
+if [ -z "$DOCKER_DEBUG" ]; then
   # Regular Travis execution, failing on the first error is what we want.
   bash preparing_server.sh
   bash preparing_client.sh
