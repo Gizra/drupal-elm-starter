@@ -4,7 +4,7 @@
 source helper_functions.sh
 
 # Check the current build.
-if [ -z ${BUILD_WEBDRIVERIO+x} ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
+if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
@@ -21,20 +21,20 @@ npm install -g elm-test
 npm install -g bower
 npm install -g gulp
 
-cd $ROOT_DIR/client
+cd "$ROOT_DIR"/client
 npm install
 bower install --allow-root
 
 elm-package install -y
-cp $ROOT_DIR/ci-scripts/docker_files/LocalConfig.elm src/elm/LocalConfig.elm
+cp "$ROOT_DIR"/ci-scripts/docker_files/LocalConfig.elm src/elm/LocalConfig.elm
 
 # Getting elm-make to run quicker.
 # See https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
 if [ ! -d sysconfcpus/bin ];
 then
   git clone https://github.com/obmarg/libsysconfcpus.git;
-  cd libsysconfcpus;
-  ./configure --prefix=$ROOT_DIR/sysconfcpus;
+  cd libsysconfcpus || exit;
+  ./configure --prefix="$ROOT_DIR"/sysconfcpus;
   make && make install;
   pwd
   cd ..;
@@ -45,4 +45,4 @@ npm rebuild node-sass
 # Run gulp in the background.
 gulp &
 # But wait for the availability of the app.
-until $(curl --output /dev/null --silent --head --fail http://localhost:3000); do sleep 1; done
+until (curl --output /dev/null --silent --head --fail http://localhost:3000); do sleep 1; done

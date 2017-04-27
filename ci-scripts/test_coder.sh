@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z ${CODE_REVIEW+x} ] || [ "$CODE_REVIEW" -ne 1 ]; then
+if [ -z "${CODE_REVIEW+x}" ] || [ "$CODE_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
@@ -24,7 +24,7 @@ HAS_ERRORS=0
 ##
 code_review () {
   echo "${LWHITE}$1${RESTORE}"
-  phpcs --standard=$REVIEW_STANDARD -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css --ignore=$2 $1
+  phpcs --standard="$REVIEW_STANDARD" -p --colors --extensions=php,module,inc,install,test,profile,theme,js,css --ignore="$2" "$1"
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
@@ -38,7 +38,7 @@ echo
 echo "${LBLUE}> Sniffing Modules following '${REVIEW_STANDARD}' standard. ${RESTORE}"
 
 for dir in $TRAVIS_BUILD_DIR/server/hedley/modules/custom/*/ ; do
-  code_review $dir $IGNORED_PATTERNS
+  code_review "$dir" "$IGNORED_PATTERNS"
 done
 
 exit $HAS_ERRORS
