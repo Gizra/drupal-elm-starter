@@ -24,4 +24,4 @@ function check_last_command() {
   fi
 }
 
-ROOT_DIR="/var/www/html/Server"
+export ROOT_DIR="/var/www/html/Server"

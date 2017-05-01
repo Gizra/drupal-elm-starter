@@ -14,7 +14,7 @@ check_last_command
 # Configure apache2.
 # -------------------------------------------------- #
 print_message "Configure apache2."
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 cp ci-scripts/docker_files/default.apache2.conf /etc/apache2/apache2.conf
 service apache2 restart
 cp ci-scripts/docker_files/server.conf /etc/apache2/sites-available/
@@ -30,7 +30,7 @@ print_message "Install drush."
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 # Check drush version.
 drush --version
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 cp ci-scripts/docker_files/aliases.drushrc.php ~/.drush/
 check_last_command
 
@@ -38,7 +38,7 @@ check_last_command
 # Installing Profile.
 # -------------------------------------------------- #
 print_message "Install Drupal."
-cd $ROOT_DIR/server
+cd "$ROOT_DIR"/server
 cp travis.config.sh config.sh
 ./install -dy
 check_last_command
