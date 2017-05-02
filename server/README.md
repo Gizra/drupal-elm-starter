@@ -116,8 +116,16 @@ project, but copy it, you need to re-add and encrypt your credentials,
 the process of updating `gdrive-service-account.json.enc` is described at
 https://github.com/prasmussen/gdrive/#service-account
 and https://developers.google.com/identity/protocols/OAuth2ServiceAccount .
-Encrypting the retrieved JSON file can be done via `travis encrypt-file`.
-In the end, you can commit the changes to the repository.
+Encrypting the retrieved JSON file can be done via `travis encrypt-file`, 
+then, you can commit the changes to the repository. As a last step,
+enable Google Drive API for the given service account at
+the API Manager: https://console.developers.google.com/apis/api/drive/
+for the given project what's associated with the service account.
+
+Beware that Travis cannot encrypt multiple files for the same project.
+If you need encrypted files for another purpose for your project, follow
+the instructions at
+https://docs.travis-ci.com/user/encrypting-files/#Encrypting-multiple-files .
 
 ### GitHub integration
 The uploaded WDIO test failure videos are exposed via GitHub comment. For
