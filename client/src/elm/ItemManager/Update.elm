@@ -5,13 +5,13 @@ import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
 import Dict exposing (Dict)
 import Item.Model exposing (Item, ItemId)
-import Item.Encoder exposing (encodeItemTitle)
+import Item.Encoder exposing (encodeItemTitlePatch)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
 import Json.Decode exposing (decodeValue)
 import Json.Encode exposing (Value, object)
-import HttpBuilder exposing (get, withQueryParams, withJsonBody)
+import HttpBuilder exposing (get, withQueryParams, withJsonBody, send)
 import Pages.Item.Update
 import Pages.Item.Model exposing (ItemUpdate(..), unwrapItemUpdate)
 import Pages.Items.Update
@@ -148,6 +148,16 @@ update currentDate backendUrl accessToken user msg model =
                 , Nothing
                 )
 
+        HandlePatchResponse (Ok ()) ->
+            ( model, Cmd.none, Nothing )
+
+        HandlePatchResponse (Err err) ->
+            let
+                _ =
+                    Debug.log "HandlePatchResponse" err
+            in
+                ( model, Cmd.none, Nothing )
+
         HandleFetchedItem itemId (Err err) ->
             ( { model | items = Dict.insert itemId (Failure err) model.items }
             , Cmd.none
@@ -208,10 +218,16 @@ fetchAllItemsFromBackend backendUrl accessToken model =
         )
 
 
--- TODO
 sendUpdatedItemToBackend : BackendUrl -> String -> ItemId -> Item -> Cmd Msg
 sendUpdatedItemToBackend backendUrl accessToken itemId item =
-    Cmd.none
+    let
+        command =
+            HttpBuilder.patch (backendUrl ++ "/api/items/" ++ itemId)
+                |> withQueryParams [ ( "access_token", accessToken ) ]
+                |> withJsonBody (encodeItemTitlePatch item)
+                |> send HandlePatchResponse
+    in
+        command
 
 
 subscriptions : Model -> Page -> Sub Msg

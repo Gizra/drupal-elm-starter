@@ -44,6 +44,7 @@ type Msg
     | MsgPagesItems Pages.Items.Model.Msg
     | HandleFetchedItem ItemId (Result Http.Error Item)
     | HandleFetchedItems (Result Http.Error ItemsDict)
+    | HandlePatchResponse (Result Http.Error ())
     | HandlePusherEvent (Result String PusherEvent)
 
 
