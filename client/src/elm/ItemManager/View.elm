@@ -59,4 +59,4 @@ viewPageItem currentDate id user model =
 
         Success item ->
             div []
-                [ Html.map (MsgPagesItem id) <| Pages.Item.View.view currentDate user id item ]
+                [ Html.map (MsgPagesItem id) <| Pages.Item.View.view currentDate user id item model.itemPage ]

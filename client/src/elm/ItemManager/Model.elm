@@ -23,6 +23,7 @@ just stay within the `WebData` container.
 -}
 type alias Model =
     { items : Dict ItemId (WebData Item)
+    , itemPage : Pages.Item.Model.Model
     , itemsPage : Pages.Items.Model.Model
     }
 
@@ -49,5 +50,6 @@ type Msg
 emptyModel : Model
 emptyModel =
     { items = Dict.empty
+    , itemPage = Pages.Item.Model.emptyModel
     , itemsPage = Pages.Items.Model.emptyModel
     }

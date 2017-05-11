@@ -70,10 +70,13 @@ update currentDate backendUrl accessToken user msg model =
             case getItem id model of
                 Success item ->
                     let
-                        ( subModel, subCmd, redirectPage ) =
-                            Pages.Item.Update.update backendUrl accessToken user subMsg item
+                        ( subModel, item_, subCmd, redirectPage ) =
+                            Pages.Item.Update.update backendUrl accessToken user subMsg item model.itemPage
                     in
-                        ( { model | items = Dict.insert id (Success subModel) model.items }
+                        ( { model
+                            | items = Dict.insert id (Success item_) model.items
+                            , itemPage = subModel
+                          }
                         , Cmd.map (MsgPagesItem id) subCmd
                         , redirectPage
                         )
