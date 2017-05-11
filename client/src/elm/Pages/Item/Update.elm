@@ -42,8 +42,10 @@ update backendUrl accessToken user msg item model =
                             name
 
                         Nothing ->
-                            -- this case shouldn't be
-                            -- possible!
+                            -- if this happens, then the view
+                            -- code is broken. We can't
+                            -- finish editing the name unless
+                            -- we've already started!
                             item.name
             in
                 ( { model | editingItemName = Nothing }
