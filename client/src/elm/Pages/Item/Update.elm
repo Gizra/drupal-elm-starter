@@ -4,8 +4,7 @@ import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
 import Item.Model exposing (Item)
 import User.Model exposing (..)
-import Pages.Item.Model exposing (Msg(..))
-import Pages.Item.Model exposing (Model)
+import Pages.Item.Model exposing (Model, Msg(..))
 import Pusher.Model exposing (PusherEventData(..))
 
 
@@ -27,3 +26,42 @@ update backendUrl accessToken user msg item model =
 
         SetRedirectPage page ->
             ( model, item, Cmd.none, Just page )
+
+        EditingNameBegin ->
+            ( { model | editingItemName = Just item.name }
+            , item
+            , Cmd.none
+            , Nothing
+            )
+
+        EditingNameFinish ->
+            let
+                newName =
+                    case model.editingItemName of
+                        Just name ->
+                            name
+
+                        Nothing ->
+                            -- this case shouldn't be
+                            -- possible!
+                            item.name
+            in
+                ( { model | editingItemName = Nothing }
+                , { item | name = newName }
+                , Cmd.none
+                , Nothing
+                )
+
+        EditingNameUpdate updatedName ->
+            ( { model | editingItemName = Just updatedName }
+            , item
+            , Cmd.none
+            , Nothing
+            )
+
+        EditingNameCancel ->
+            ( { model | editingItemName = Nothing }
+            , item
+            , Cmd.none
+            , Nothing
+            )
