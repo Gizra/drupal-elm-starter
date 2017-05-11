@@ -1,6 +1,7 @@
 module Pages.Item.Model exposing (..)
 
 import App.PageType exposing (Page(..))
+import Item.Model exposing (Item)
 import Pusher.Model exposing (PusherEventData)
 
 

@@ -5,13 +5,15 @@ import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
 import Dict exposing (Dict)
 import Item.Model exposing (Item, ItemId)
+import Item.Encoder exposing (encodeItemTitle)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
 import Json.Decode exposing (decodeValue)
-import Json.Encode exposing (Value)
-import HttpBuilder exposing (get, withQueryParams)
+import Json.Encode exposing (Value, object)
+import HttpBuilder exposing (get, withQueryParams, withJsonBody)
 import Pages.Item.Update
+import Pages.Item.Model exposing (ItemUpdate(..), unwrapItemUpdate)
 import Pages.Items.Update
 import Pusher.Decoder exposing (decodePusherEvent)
 import Pusher.Model exposing (PusherEventData(..))
@@ -70,14 +72,32 @@ update currentDate backendUrl accessToken user msg model =
             case getItem id model of
                 Success item ->
                     let
-                        ( subModel, item_, subCmd, redirectPage ) =
+                        ( subModel, itemUpdate, subCmd, redirectPage ) =
                             Pages.Item.Update.update backendUrl accessToken user subMsg item model.itemPage
+
+                        updatedItems =
+                            itemUpdate
+                                |> unwrapItemUpdate model.items
+                                    (\item_ ->
+                                        Dict.insert id (Success item_) model.items
+                                    )
+
+                        sendItemCmd =
+                            case itemUpdate of
+                                UpdateFromUser item_ ->
+                                    sendUpdatedItemToBackend backendUrl accessToken id item_
+
+                                _ ->
+                                    Cmd.none
                     in
                         ( { model
-                            | items = Dict.insert id (Success item_) model.items
+                            | items = updatedItems
                             , itemPage = subModel
                           }
-                        , Cmd.map (MsgPagesItem id) subCmd
+                        , Cmd.batch
+                            [ Cmd.map (MsgPagesItem id) subCmd
+                            , sendItemCmd
+                            ]
                         , redirectPage
                         )
 
@@ -186,6 +206,12 @@ fetchAllItemsFromBackend backendUrl accessToken model =
         ( model
         , command
         )
+
+
+-- TODO
+sendUpdatedItemToBackend : BackendUrl -> String -> ItemId -> Item -> Cmd Msg
+sendUpdatedItemToBackend backendUrl accessToken itemId item =
+    Cmd.none
 
 
 subscriptions : Model -> Page -> Sub Msg

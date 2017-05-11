@@ -4,11 +4,11 @@ import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
 import Item.Model exposing (Item)
 import User.Model exposing (..)
-import Pages.Item.Model exposing (Model, Msg(..))
+import Pages.Item.Model exposing (Model, Msg(..), ItemUpdate(..))
 import Pusher.Model exposing (PusherEventData(..))
 
 
-update : BackendUrl -> String -> User -> Msg -> Item -> Model -> ( Model, Item, Cmd Msg, Maybe Page )
+update : BackendUrl -> String -> User -> Msg -> Item -> Model -> ( Model, ItemUpdate, Cmd Msg, Maybe Page )
 update backendUrl accessToken user msg item model =
     case msg of
         HandlePusherEventData event ->
@@ -19,17 +19,17 @@ update backendUrl accessToken user msg item model =
                     -- we may have just pushed this change ourselves, so it's
                     -- already reflected here.
                     ( model
-                    , newItem
+                    , UpdateFromBackend newItem
                     , Cmd.none
                     , Nothing
                     )
 
         SetRedirectPage page ->
-            ( model, item, Cmd.none, Just page )
+            ( model, NoUpdate, Cmd.none, Just page )
 
         EditingNameBegin ->
             ( { model | editingItemName = Just item.name }
-            , item
+            , NoUpdate
             , Cmd.none
             , Nothing
             )
@@ -49,21 +49,21 @@ update backendUrl accessToken user msg item model =
                             item.name
             in
                 ( { model | editingItemName = Nothing }
-                , { item | name = newName }
+                , UpdateFromUser { item | name = newName }
                 , Cmd.none
                 , Nothing
                 )
 
         EditingNameUpdate updatedName ->
             ( { model | editingItemName = Just updatedName }
-            , item
+            , NoUpdate
             , Cmd.none
             , Nothing
             )
 
         EditingNameCancel ->
             ( { model | editingItemName = Nothing }
-            , item
+            , NoUpdate
             , Cmd.none
             , Nothing
             )
