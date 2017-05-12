@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-# Load helper functionality.
 cd ci-scripts/docker_files
-
 
 if [ -z "$DOCKER_DEBUG" ]; then
   # Regular Travis execution, failing on the first error is what we want.
