@@ -25,8 +25,8 @@ else
   PREVIOUS_DRUPAL_HASH=""
 fi
 
-CURRENT_DRUPAL_HASH=$(cat server/"$PROFILE_NAME"/drupal-org.make server/"$PROFILE_NAME"/drupal-org-core.make | sha256sum  | cut -f1 -d ' ')
-CURRENT_NPM_HASH=$(sha256sum < client/package.json | cut -f1 -d ' ')
+CURRENT_DRUPAL_HASH=$(cat "$ROOT_DIR"/server/"$PROFILE_NAME"/drupal-org.make "$ROOT_DIR"/server/"$PROFILE_NAME"/drupal-org-core.make | sha256sum  | cut -f1 -d ' ')
+CURRENT_NPM_HASH=$(sha256sum < "$ROOT_DIR"/client/package.json | cut -f1 -d ' ')
 
 echo "$CURRENT_DRUPAL_HASH" > "$DRUPAL_HASH_FILE"
 echo "$CURRENT_NPM_HASH" > "$NPM_HASH_FILE"
