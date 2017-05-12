@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Uses the cached objects from Travis cache or invalidate
+
+TRAVIS_CACHE_DIR="$TRAVIS_BUILD_DIR"/travis-cache
+NPM_HASH_FILE="$TRAVIS_CACHE_DIR"/.npm.sum
+DRUPAL_HASH_FILE="$TRAVIS_CACHE_DIR"/.drupal.sum
+
+if [[ -f "$NPM_HASH_FILE" ]]; then
+  PREVIOUS_NPM_HASH=$(<"$NPM_HASH_FILE")
+else
+  PREVIOUS_NPM_HASH=""
+fi
+
+if [[ -f "$DRUPAL_HASH_FILE" ]]; then
+  PREVIOUS_DRUPAL_HASH=$(<"$DRUPAL_HASH_FILE")
+else
+  PREVIOUS_DRUPAL_HASH=""
+fi
+
+
+source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
+
+CURRENT_DRUPAL_HASH=$(cat server/"$PROFILE_NAME"/drupal-org.make server/"$PROFILE_NAME"/drupal-org-core.make | sha256sum  | cut -f1 -d ' ')
+CURRENT_NPM_HASH=$(sha256sum < client/package.json | cut -f1 -d ' ')
+
+echo "$CURRENT_DRUPAL_HASH" > "$DRUPAL_HASH_FILE"
+echo "$CURRENT_NPM_HASH" > "$NPM_HASH_FILE"
+
+if [[ "$PREVIOUS_NPM_HASH" -eq "$CURRENT_NPM_HASH" ]]; then
+  echo "NPM build hash matches, copying node_modules ($PREVIOUS_NPM_HASH == $CURRENT_NPM_HASH)"
+  cp -r "$TRAVIS_CACHE_DIR"/node_modules "$TRAVIS_BUILD_DIR"/client
+else
+  echo "NPM build hash does not match, purging cache ($PREVIOUS_NPM_HASH <> $CURRENT_NPM_HASH)"
+  rm -rf "$TRAVIS_CACHE_DIR"/node_modules
+fi
+
+if [[ "$PREVIOUS_DRUPAL_HASH" -eq "$CURRENT_DRUPAL_HASH" ]]; then
+  echo "Drupal build hash matches, copying www ($PREVIOUS_DRUPAL_HASH == $CURRENT_DRUPAL_HASH)"
+  cp -r "$TRAVIS_CACHE_DIR"/www "$TRAVIS_BUILD_DIR"/server
+else
+  echo "Drupal build hash does not match, purging cache ($PREVIOUS_DRUPAL_HASH <> $CURRENT_DRUPAL_HASH)"
+  rm -rf "$TRAVIS_CACHE_DIR"/www
+fi
+
