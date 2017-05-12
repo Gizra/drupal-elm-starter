@@ -97,4 +97,7 @@ docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspe
     exit "$code"
   fi
 done
+
+echo "The content of the cache:"
+find "$TRAVIS_BUILD_DIR"/travis-cache
 exit 0
