@@ -40,5 +40,9 @@ check_last_command
 print_message "Install Drupal."
 cd "$ROOT_DIR"/server
 cp travis.config.sh config.sh
+if [[ -d www ]]; then
+  bash scripts/reset -dy
+else
 ./install -dy
+fi
 check_last_command

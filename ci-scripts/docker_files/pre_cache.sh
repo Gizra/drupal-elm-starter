@@ -31,7 +31,7 @@ CURRENT_NPM_HASH=$(sha256sum < "$ROOT_DIR"/client/package.json | cut -f1 -d ' ')
 echo "$CURRENT_DRUPAL_HASH" > "$DRUPAL_HASH_FILE"
 echo "$CURRENT_NPM_HASH" > "$NPM_HASH_FILE"
 
-if [[ "$PREVIOUS_NPM_HASH" == "$CURRENT_NPM_HASH" ]]; then
+if [[ "$PREVIOUS_NPM_HASH" == "$CURRENT_NPM_HASH" && -d "$TRAVIS_CACHE_DIR"/node_modules ]]; then
   echo "NPM build hash matches, copying node_modules ($PREVIOUS_NPM_HASH == $CURRENT_NPM_HASH)"
   cp -r "$TRAVIS_CACHE_DIR"/node_modules "$ROOT_DIR"/client
 else
@@ -39,7 +39,7 @@ else
   rm -rf "$TRAVIS_CACHE_DIR"/node_modules
 fi
 
-if [[ "$PREVIOUS_DRUPAL_HASH" == "$CURRENT_DRUPAL_HASH" ]]; then
+if [[ "$PREVIOUS_DRUPAL_HASH" == "$CURRENT_DRUPAL_HASH" && -d "$TRAVIS_CACHE_DIR"/www ]]; then
   echo "Drupal build hash matches, copying www ($PREVIOUS_DRUPAL_HASH == $CURRENT_DRUPAL_HASH)"
   cp -r "$TRAVIS_CACHE_DIR"/www "$ROOT_DIR"/server
 else
