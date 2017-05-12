@@ -14,7 +14,8 @@ fi
 
 # Simple Docker run to execute Behat.
 if [ -z "${BUILD_WEBDRIVERIO+x}" ]; then
-  docker run -it -e "BUILD_WEBDRIVERIO=0" -p 8080:80 server
+  mkdir -p "$TRAVIS_BUILD_DIR"/travis-cache
+  docker run -v "$TRAVIS_BUILD_DIR"/travis-cache:/tmp/travis-cache -it -e "BUILD_WEBDRIVERIO=0" -p 8080:80 server
   exit $?
 fi
 
