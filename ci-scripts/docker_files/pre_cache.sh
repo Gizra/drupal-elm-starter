@@ -9,7 +9,7 @@ source "$ROOT_DIR"/server/travis.config.sh
 
 # Uses the cached objects from Travis cache or invalidate
 
-TRAVIS_CACHE_DIR="$ROOT_DIR"/travis-cache
+TRAVIS_CACHE_DIR=/tmp/travis-cache
 NPM_HASH_FILE="$TRAVIS_CACHE_DIR"/.npm.sum
 DRUPAL_HASH_FILE="$TRAVIS_CACHE_DIR"/.drupal.sum
 

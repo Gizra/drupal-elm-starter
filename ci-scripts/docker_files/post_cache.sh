@@ -6,7 +6,7 @@ source helper_functions.sh
 
 # Populates cache if needed.
 
-TRAVIS_CACHE_DIR="$ROOT_DIR"/travis-cache
+TRAVIS_CACHE_DIR=/tmp/travis-cache
 
 if [[ ! -d "$TRAVIS_CACHE_DIR"/node_modules && -d "$ROOT_DIR"/client/node_modules ]]; then
   cp -r "$ROOT_DIR"/client/node_modules "$TRAVIS_CACHE_DIR"
