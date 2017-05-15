@@ -37,28 +37,25 @@ itemHeader : Item -> Model -> List (Html Msg)
 itemHeader item model =
     case model.editingItemName of
         Just editedName ->
-            [ div
-                [ class "ui header input" ]
-                [ h2 []
-                    [ input
-                        [ value editedName
-                        , onChange EditingNameUpdate
-                        ]
-                        []
+            [ h2 [ class "ui header input" ]
+                [ input
+                    [ value editedName
+                    , onChange EditingNameUpdate
                     ]
-                , button
-                    [ name "Done"
-                    , type_ "button"
-                    , onClick EditingNameFinish
-                    ]
-                    [ text "Done" ]
-                , button
-                    [ name "Cancel"
-                    , type_ "button"
-                    , onClick EditingNameCancel
-                    ]
-                    [ text "Cancel" ]
+                    []
                 ]
+            , button
+                [ name "Done"
+                , type_ "button"
+                , onClick EditingNameFinish
+                ]
+                [ text "Done" ]
+            , button
+                [ name "Cancel"
+                , type_ "button"
+                , onClick EditingNameCancel
+                ]
+                [ text "Cancel" ]
             ]
 
         Nothing ->
@@ -66,10 +63,11 @@ itemHeader item model =
                 [ class "ui header" ]
                 [ text item.name ]
             , button
-                [ onClick EditingNameBegin
-                , class "icon edit"
+                [ name "Edit"
+                , type_ "button"
+                , onClick EditingNameBegin
                 ]
-                []
+                [ text "Edit" ]
             ]
 
 
