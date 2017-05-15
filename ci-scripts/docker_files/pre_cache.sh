@@ -36,7 +36,6 @@ echo "$CURRENT_NPM_HASH" > "$NPM_HASH_FILE"
 if [[ "$PREVIOUS_NPM_HASH" == "$CURRENT_NPM_HASH" && -d "$TRAVIS_CACHE_DIR"/node_modules ]]; then
   echo "NPM build hash matches, copying node_modules ($PREVIOUS_NPM_HASH == $CURRENT_NPM_HASH)"
   cp -r "$TRAVIS_CACHE_DIR"/node_modules "$ROOT_DIR"/client
-  find "$TRAVIS_CACHE_DIR"/node_modules
 else
   echo "NPM build hash does not match, purging cache ($PREVIOUS_NPM_HASH <> $CURRENT_NPM_HASH)"
   rm -rf "$TRAVIS_CACHE_DIR"/node_modules
@@ -45,7 +44,7 @@ fi
 if [[ "$PREVIOUS_DRUPAL_HASH" == "$CURRENT_DRUPAL_HASH" && -d "$TRAVIS_CACHE_DIR"/www ]]; then
   echo "Drupal build hash matches, copying www ($PREVIOUS_DRUPAL_HASH == $CURRENT_DRUPAL_HASH)"
   cp -r "$TRAVIS_CACHE_DIR"/www "$ROOT_DIR"/server
-  find "$TRAVIS_CACHE_DIR"/www
+  ln -s "$ROOT_DIR"/server/"$PROFILE_NAME" "$ROOT_DIR"/server/www/profiles/
 else
   echo "Drupal build hash does not match, purging cache ($PREVIOUS_DRUPAL_HASH <> $CURRENT_DRUPAL_HASH)"
   rm -rf "$TRAVIS_CACHE_DIR"/www
