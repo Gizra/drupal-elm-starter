@@ -5,7 +5,7 @@ import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
 import Dict exposing (Dict)
 import Item.Model exposing (Item, ItemId)
-import Item.Encoder exposing (encodeItemTitlePatch)
+import Item.Encoder exposing (encodeItemName)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
@@ -224,7 +224,7 @@ sendUpdatedItemToBackend backendUrl accessToken itemId item =
         command =
             HttpBuilder.patch (backendUrl ++ "/api/items/" ++ itemId)
                 |> withQueryParams [ ( "access_token", accessToken ) ]
-                |> withJsonBody (encodeItemTitlePatch item)
+                |> withJsonBody (encodeItemName item)
                 |> send HandlePatchResponse
     in
         command

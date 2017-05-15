@@ -1,9 +1,12 @@
-module Item.Encoder exposing (encodeItemTitlePatch)
+module Item.Encoder exposing (encodeItemName)
 
 import Json.Encode exposing (Value, object, string)
 import Item.Model exposing (Item)
 
 
-encodeItemTitlePatch : Item -> Value
-encodeItemTitlePatch item =
+{-| Encode just the name of the item, so we can send a
+PATCH request to update the name on the backend.
+-}
+encodeItemName : Item -> Value
+encodeItemName item =
     object [ ( "label", string item.name ) ]
