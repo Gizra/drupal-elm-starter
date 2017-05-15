@@ -293,7 +293,8 @@ function import_demo_content {
 function fill_string_spaces {
   STRING="$1"
   STRING_LENGTH=${#STRING}
-  SPACES_LENGTH=$2-$STRING_LENGTH
+  DESIRED_LENGTH="$2"
+  SPACES_LENGTH=$((DESIRED_LENGTH-STRING_LENGTH))
 
   if [[ 0 -gt "$SPACES_LENGTH" ]]; then
     SPACES_LENGTH=0
