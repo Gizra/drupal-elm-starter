@@ -19,7 +19,7 @@ we're returning from `Pages.Item.Update.update` to the
 ItemManager. If the user changed it, then we should send the
 updated item to the server; if, on the other hand, we got
 this change from the server in the first place, all we have to
-is make a note of it ourselves.
+do is make a note of it ourselves.
 -}
 type ItemUpdate
     = UpdateFromBackend Item
