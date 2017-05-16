@@ -15,7 +15,8 @@ HAS_ERRORS=0
 
 code_review () {
   echo "${LWHITE}$1${RESTORE}"
-  docker run -v "$TRAVIS_BUILD_DIR":/scripts koalaman/shellcheck /scripts/"$1"
+  # The exclusions are to ignore errors related to including other shell scripts.
+  docker run -v "$TRAVIS_BUILD_DIR":/scripts koalaman/shellcheck -e SC1091,SC1090 /scripts/"$1"
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
