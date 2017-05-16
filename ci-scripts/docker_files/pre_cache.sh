@@ -45,6 +45,7 @@ if [[ "$PREVIOUS_DRUPAL_HASH" == "$CURRENT_DRUPAL_HASH" && -d "$TRAVIS_CACHE_DIR
   echo "Drupal build hash matches, copying www ($PREVIOUS_DRUPAL_HASH == $CURRENT_DRUPAL_HASH)"
   cp -r "$TRAVIS_CACHE_DIR"/www "$ROOT_DIR"/server
   ln -s "$ROOT_DIR"/server/"$PROFILE_NAME" "$ROOT_DIR"/server/www/profiles/
+  cp -r "$TRAVIS_CACHE_DIR"/www_ignored/* "$ROOT_DIR"/server/www/profiles/"$PROFILE_NAME"
 else
   echo "Drupal build hash does not match, purging cache ($PREVIOUS_DRUPAL_HASH <> $CURRENT_DRUPAL_HASH)"
   rm -rf "$TRAVIS_CACHE_DIR"/www
