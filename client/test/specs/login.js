@@ -14,7 +14,7 @@ describe('login page', function() {
 
         // Logout session.
         browser.click('.left.menu > a:nth-child(4)');
-        browser.waitForVisible('[name="username"]');
+        browser.waitForVisible('[name="usernameNOTHERE"]');
     });
 
     it('should not allow an anonymous user with wrong credentials to login', function() {
