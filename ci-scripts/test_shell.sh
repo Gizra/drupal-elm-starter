@@ -15,14 +15,16 @@ HAS_ERRORS=0
 
 code_review () {
   echo "${LWHITE}$1${RESTORE}"
-  shellcheck "$1"
+  # The exclusions are to ignore errors related to including other shell scripts.
+  docker run -v "$TRAVIS_BUILD_DIR":/scripts koalaman/shellcheck -e SC1091,SC1090 /scripts/"$1"
 
   if [ $? -ne 0 ]; then
     HAS_ERRORS=1
   fi
 }
 
-SCRIPTS=$(find "$TRAVIS_BUILD_DIR/ci-scripts" "$TRAVIS_BUILD_DIR/server/scripts"  -name '*.sh')
+cd "$TRAVIS_BUILD_DIR"
+SCRIPTS=$(find ci-scripts server/scripts -name '*.sh')
 for FILE in $SCRIPTS;  do
   code_review "$FILE"
 done
