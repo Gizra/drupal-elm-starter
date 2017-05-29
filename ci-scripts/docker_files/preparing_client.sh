@@ -22,7 +22,11 @@ npm install -g bower
 npm install -g gulp
 
 cd "$ROOT_DIR"/client
+echo "npm install starts"
+date
 npm install
+date
+echo "npm install ends"
 bower install --allow-root
 
 elm-package install -y
