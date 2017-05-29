@@ -30,7 +30,7 @@ cd ci-scripts/docker_files
 # Docker-compose up won't return with non-zero exit code if one of the
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
-docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
+docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspect -f '{{ .State.ExitCode }}' | while read -r code; do
   if [ ! "$code" = "0" ]; then
     source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
     sudo chmod -R 777 /tmp/test_results
