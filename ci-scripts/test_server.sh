@@ -40,7 +40,7 @@ docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspe
     echo "Detected $VID_COUNT videos"
     if [[ $VID_COUNT -eq 0 ]]; then
       echo "No videos, skipping upload"
-      continue
+      exit $code
     fi
     cd /tmp
     ! rm gdrive-linux-x64.zip
