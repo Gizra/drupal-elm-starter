@@ -8,11 +8,11 @@ source helper_functions.sh
 source "$ROOT_DIR"/server/travis.config.sh
 
 print_message "Post-build cache operations"
-
-# Populates cache if needed.
+date
 
 TRAVIS_CACHE_DIR=/tmp/travis-cache
 
+# Populates cache if needed.
 if [[ ! -d "$TRAVIS_CACHE_DIR"/node_modules && -d "$ROOT_DIR"/client/node_modules ]]; then
   echo "Populating NPM cache from client"
   cp -r "$ROOT_DIR"/client/node_modules "$TRAVIS_CACHE_DIR"
@@ -32,3 +32,5 @@ if [[ ! -d "$TRAVIS_CACHE_DIR"/www && -d "$ROOT_DIR"/server/www ]]; then
     cp --parents "$FILE" "$TRAVIS_CACHE_DIR"/www_ignored
   done
 fi
+
+date

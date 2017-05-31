@@ -6,9 +6,6 @@ RESTORE='\033[0m'
 LBLUE='\033[01;34m'
 RED='\033[00;31m'
 
-N=$(date +%s%N)
-export PS4='+[$(((`date +%s%N`-$N)/1000000))ms][${BASH_SOURCE}:${LINENO}]: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'; set -x;
-
 function print_message() {
   echo
   echo -e "${LBLUE} > $1 ${RESTORE}"
