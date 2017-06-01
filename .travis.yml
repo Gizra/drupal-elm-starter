@@ -16,7 +16,7 @@ services:
 - docker
 before_install:
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-- "[ ! -z $BUILD_WEBDRIVERIO ] && sudo pip install docker-compose"
+- "([ ! -z $BUILD_WEBDRIVERIO ] && sudo pip install docker-compose) || :"
 - openssl aes-256-cbc -K $encrypted_b2dc5bc8fb77_key -iv $encrypted_b2dc5bc8fb77_iv
   -in gdrive-service-account.json.enc -out gdrive-service-account.json -d
 install:
