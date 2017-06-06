@@ -21,7 +21,7 @@ npm install -g elm-test
 npm install -g bower
 npm install -g gulp
 
-cd "$ROOT_DIR"/client
+cd "$ROOT_DIR"/client || exit 1
 npm install
 bower install --allow-root
 

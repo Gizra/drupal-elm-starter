@@ -334,7 +334,7 @@ function symlink_externals {
 
   # Loop trough the symlinks configuration.
   for SOURCETARGET in "${SYMLINKS[@]}"; do
-    paths=($(echo "$SOURCETARGET" | tr ">" "\n"))
+    mapfile -t paths < <(echo "$SOURCETARGET" | tr ">" "\n")
     path_source=${paths[0]}
     path_target="$ROOT/www/${paths[1]}"
     basepath_target=${path_target%/*}

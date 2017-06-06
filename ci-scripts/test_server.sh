@@ -14,7 +14,8 @@ fi
 
 # Simple Docker run to execute Behat.
 if [ -z "${BUILD_WEBDRIVERIO+x}" ]; then
-  docker run -it -e "BUILD_WEBDRIVERIO=0" -p 8080:80 server
+  mkdir -p "$TRAVIS_BUILD_DIR"/travis-cache
+  docker run -v "$TRAVIS_BUILD_DIR"/travis-cache:/tmp/travis-cache -it -e "BUILD_WEBDRIVERIO=0" -p 8080:80 server
   exit $?
 fi
 
@@ -29,7 +30,7 @@ cd ci-scripts/docker_files
 # Docker-compose up won't return with non-zero exit code if one of the
 # containers failed, we need to inspect it like this.
 # from http://blog.ministryofprogramming.com/docker-compose-and-exit-codes/
-docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspect -f '{{ .State.ExitCode }}' | while read code; do
+docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspect -f '{{ .State.ExitCode }}' | while read -r code; do
   if [ ! "$code" = "0" ]; then
     source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
     sudo chmod -R 777 /tmp/test_results
@@ -39,7 +40,7 @@ docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspe
     echo "Detected $VID_COUNT videos"
     if [[ $VID_COUNT -eq 0 ]]; then
       echo "No videos, skipping upload"
-      continue
+      exit "$code"
     fi
     cd /tmp
     ! rm gdrive-linux-x64.zip
@@ -96,4 +97,5 @@ docker-compose --file=docker-compose.yml ps -q server.local | xargs docker inspe
     exit "$code"
   fi
 done
+
 exit 0

@@ -25,7 +25,7 @@ cp behat.local.yml.travis behat.local.yml
 print_message "Run Behat tests."
 ./bin/behat --tags=~@wip
 
-if [ $? -ne 0 ]; then
+if ! ./bin/behat --tags=~@wip; then
   print_error_message "Behat failed."
   exit 1
 fi

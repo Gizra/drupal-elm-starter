@@ -80,17 +80,13 @@ do
 done
 
 
-# Check if we have a working Drupal bootstrap.
-cd $ROOT/www
-BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd $ROOT
-
-if [ ! "$BOOTSTRAP_SUCCESS" ]; then
+# Check if we have an installation
+if [ ! -f "$ROOT"/www/modules/system/system.info ]; then
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo -e "${BGLRED}  No working Drupal installation!                                ${RESTORE}"
+  echo -e "${BGLRED}  No Drupal installation detected!                              ${RESTORE}"
   echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
-  echo -e  "${BGRED}  > An update can only be run on a working environment.          ${RESTORE}"
+  echo -e  "${BGRED}  > An update can only be run on an existing build.              ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e  "${BGRED}  Run the ${BGLRED}./install${BGRED} command to install the platform.             ${RESTORE}"
   echo -e  "${BGRED}                                                                 ${RESTORE}"

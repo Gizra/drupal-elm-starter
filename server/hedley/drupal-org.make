@@ -19,7 +19,7 @@ projects[composer_manager][subdir] = "contrib"
 projects[composer_manager][version] = "1.8"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
