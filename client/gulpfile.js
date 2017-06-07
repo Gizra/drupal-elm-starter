@@ -216,12 +216,53 @@ gulp.task("serve:prod", function () {
   });
 });
 
+var precacheFileGlob = '*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}';
+
+// We cache bower_components individually, since they often include things
+// we don't need.
+var precacheLocalDev = [
+  'serve/' + precacheFileGlob,
+  'serve/assets/**/' + precacheFileGlob,
+  'serve/bower_components/copy-button/bundled.min.js',
+  'serve/bower_components/offline/offline.min.js'
+];
+
+// In addition to local assets, we also cache some remote assets
+// that won't change ... i.e. CDN stuff.
+var cacheRemote =[{
+    urlPattern: /^https:\/\/js\.pusher\.com\//,
+    // The version is in the URL, so we don't need to check network
+    // if it's in the cache.
+    handler: 'cacheFirst'
+},{
+    urlPattern: /^https:\/\/cdnjs\.cloudflare\.com\//,
+    handler: 'cacheFirst'
+},{
+    urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
+    handler: 'cacheFirst'
+},{
+    urlPattern: /^https:\/\/fonts\.gstatic\.com\//,
+    handler: 'cacheFirst'
+}];
+
+// For offline use
+gulp.task('pwa:dev', function(callback) {
+  var swPrecache = require('sw-precache');
+  var rootDir = 'serve';
+
+  swPrecache.write(`${rootDir}/service-worker.js`, {
+    staticFileGlobs: precacheLocalDev,
+    stripPrefix: rootDir,
+    runtimeCaching: cacheRemote
+  }, callback);
+});
+
 // Default task, run when just writing "gulp" in the terminal
 gulp.task("default", ["serve:dev", "watch"]);
 
 // Builds the site but doesnt serve it to you
 // @todo: Add "bower" here
-gulp.task("build", gulpSequence("clean:dev", ["styles", "copy:dev", "elm"]));
+gulp.task("build", gulpSequence("clean:dev", ["styles", "copy:dev", "elm"], "pwa:dev"));
 
 // Builds your site with the "build" command and then runs all the optimizations on
 // it and outputs it to "./dist"
