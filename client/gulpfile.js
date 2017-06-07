@@ -251,6 +251,7 @@ gulp.task('pwa:dev', function(callback) {
   var rootDir = 'serve';
 
   swPrecache.write(`${rootDir}/service-worker.js`, {
+    cacheId: 'drupal_elm_starter',
     staticFileGlobs: precacheLocalDev,
     stripPrefix: rootDir,
     runtimeCaching: cacheRemote
