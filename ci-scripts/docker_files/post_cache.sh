@@ -27,10 +27,7 @@ if [[ ! -d "$TRAVIS_CACHE_DIR"/www && -d "$ROOT_DIR"/server/www ]]; then
   # dynamic, not stored in the repository, like all the contrib modules.
   mkdir -p "$TRAVIS_CACHE_DIR"/www_ignored
   cd "$ROOT_DIR"
-  for FILE in $(git ls-files --others -i --exclude-standard "$ROOT_DIR"/server/"$PROFILE_NAME")
-  do
-    cp --parents "$FILE" "$TRAVIS_CACHE_DIR"/www_ignored
-  done
+  git ls-files -z --others -i --exclude-standard "$ROOT_DIR"/server/"$PROFILE_NAME" | xargs -I file -0 cp --parents file "$TRAVIS_CACHE_DIR"/www_ignored
 fi
 
 date
