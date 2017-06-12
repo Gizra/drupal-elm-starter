@@ -2,7 +2,7 @@ version: '2'
 services:
     hub:
         privileged: true
-        image: dosel/zalenium
+        image: dosel/zalenium:3.3.1j
         tty: true
         command: >
           start --chromeContainers 1
