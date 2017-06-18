@@ -14,4 +14,7 @@ $plugin = array(
   'bundle' => 'user',
   // Try to authenticate users with all available authentication types.
   'authentication_types' => TRUE,
+
+  // Add a passthrough formatter.
+  'formatter' => 'simple',
 );
