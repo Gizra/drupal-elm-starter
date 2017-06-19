@@ -8,7 +8,7 @@
 class HedleyRestfulFormatterSimple extends \RestfulFormatterBase implements \RestfulFormatterInterface {
 
   /**
-   * Content Type
+   * Content type
    *
    * @var string
    */
@@ -25,7 +25,9 @@ class HedleyRestfulFormatterSimple extends \RestfulFormatterBase implements \Res
       return $data;
     }
 
-    return $data;
+    $output = ['data' => $data];
+ 
+    return $output;
   }
 
   /**
