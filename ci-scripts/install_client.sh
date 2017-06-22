@@ -20,15 +20,3 @@ npm install -g elm-test@0.18.2
 
 cd "$TRAVIS_BUILD_DIR"/client
 elm-package install -y
-
-# Getting elm-make to run quicker.
-# See https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
-if [ ! -d sysconfcpus/bin ];
-then
-  git clone https://github.com/obmarg/libsysconfcpus.git;
-  cd libsysconfcpus || exit;
-  ./configure --prefix="$TRAVIS_BUILD_DIR"/sysconfcpus;
-  make && make install;
-  pwd
-  cd ..;
-fi
