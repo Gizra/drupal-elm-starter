@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Gizra/drupal-elm-starter.svg?branch=master)](https://travis-ci.org/Gizra/drupal-elm-starter)
 
-Drupal Elm Starter is a starter kit for setting up sites using Drupal as a backend and Elm in the frontend.
+Drupal Elm Starter is a starter kit for setting up sites using Drupal as a backend and [Elm](http://elm-lang.org/) in the frontend.
 
 For the backend, check the [server README.md](https://github.com/Gizra/drupal-elm-starter/blob/master/server/README.md)
 
