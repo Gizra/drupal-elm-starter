@@ -10,16 +10,10 @@ fi
 
 # Various dependencies to complete the steps below.
 # bzip2: uncompress phantomjs
-# g++4.8 - Fibers issue
-apt-get -y install g++-4.8 bzip2
-# Fibers Node 7.x issue: https://github.com/laverdet/node-fibers/issues/331
-export CXX=g++-4.8
+apt-get -y install bzip2
 
 # Install global packages.
 npm install -g elm@~0.18.0
-npm install -g elm-test
-npm install -g bower
-npm install -g gulp
 
 cd "$ROOT_DIR"/client || exit 1
 npm install
@@ -27,18 +21,6 @@ bower install --allow-root
 
 elm-package install -y
 cp "$ROOT_DIR"/ci-scripts/docker_files/LocalConfig.elm src/elm/LocalConfig.elm
-
-# Getting elm-make to run quicker.
-# See https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
-if [ ! -d sysconfcpus/bin ];
-then
-  git clone https://github.com/obmarg/libsysconfcpus.git;
-  cd libsysconfcpus || exit;
-  ./configure --prefix="$ROOT_DIR"/sysconfcpus;
-  make && make install;
-  pwd
-  cd ..;
-fi
 
 # Since we updated the JAVA version we should rebuild the node-sass.
 npm rebuild node-sass
