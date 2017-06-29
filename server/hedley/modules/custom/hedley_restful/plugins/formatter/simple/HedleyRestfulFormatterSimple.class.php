@@ -5,10 +5,13 @@
  * Contains HedleyRestfulFormatterSimple.
  */
 
+/**
+ * Class HedleyRestfulFormatterSimple.
+ */
 class HedleyRestfulFormatterSimple extends \RestfulFormatterBase implements \RestfulFormatterInterface {
 
   /**
-   * Content type
+   * Content type.
    *
    * @var string
    */
@@ -26,7 +29,7 @@ class HedleyRestfulFormatterSimple extends \RestfulFormatterBase implements \Res
     }
 
     $output = ['data' => $data];
- 
+
     return $output;
   }
 
@@ -36,4 +39,5 @@ class HedleyRestfulFormatterSimple extends \RestfulFormatterBase implements \Res
   public function render(array $structured_data) {
     return drupal_json_encode($structured_data);
   }
+
 }
