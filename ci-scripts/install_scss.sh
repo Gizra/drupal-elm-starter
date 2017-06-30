@@ -13,4 +13,5 @@ if [ -z "${SCSS_REVIEW+x}" ] || [ "$SCSS_REVIEW" -ne 1 ]; then
 fi
 
 npm install -g stylelint
-gem install csscss
+gem install sass csscss
+git clone git@github.com:stylelint/stylelint-config-standard.git

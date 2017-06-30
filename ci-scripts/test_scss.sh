@@ -20,7 +20,7 @@ for FILE in $SCRIPTS;  do
   if ! csscss "$FILE"; then
     HAS_ERRORS=1
   fi
-  if ! stylelint "$FILE"; then
+  if ! stylelint "$FILE" --config .stylelintrc.json --config-basedir "$TRAVIS_BUILD_DIR" --formatter verbose; then
     HAS_ERRORS=1
   fi
 done
