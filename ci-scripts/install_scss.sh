@@ -14,4 +14,4 @@ fi
 
 npm install -g stylelint
 gem install sass csscss
-git clone git@github.com:stylelint/stylelint-config-standard.git
+git clone https://github.com/stylelint/stylelint-config-standard.git
