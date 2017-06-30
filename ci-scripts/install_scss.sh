@@ -12,5 +12,5 @@ if [ -z "${SCSS_REVIEW+x}" ] || [ "$SCSS_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
-sudo npm install -g stylelint
-sudo gem install csscss
+npm install -g stylelint
+gem install csscss
