@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ---------------------------------------------------------------------------- #
 #
@@ -11,7 +11,7 @@ if [ -z "${SCSS_REVIEW+x}" ] || [ "$SCSS_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
-"$TRAVIS_BUILD_DIR"/server/travis.config.sh
+source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
 
 HAS_ERRORS=0
 
