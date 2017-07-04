@@ -211,6 +211,7 @@ and if not return a access denied page.
 
 If the user is authenticated, don't allow them to revisit Login page. Do the
 opposite for anonymous user - don't allow them to visit the MyAccount page.
+
 -}
 setActivePageAccess : WebData User -> Page -> Page
 setActivePageAccess user page =
