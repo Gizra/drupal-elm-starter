@@ -15,15 +15,14 @@ source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
 
 HAS_ERRORS=0
 
-SCRIPTS=$(find ci-scripts server/"$PROFILE_NAME"/themes/custom -name '*.scss')
+SCRIPTS=$(find client/src/assets/scss server/"$PROFILE_NAME"/themes/custom -name '*.scss')
 for FILE in $SCRIPTS;  do
   if ! csscss "$FILE"; then
     HAS_ERRORS=1
   fi
-  if ! stylelint "$FILE" --config .stylelintrc.json --config-basedir "$TRAVIS_BUILD_DIR" --formatter verbose; then
+  if ! stylelint "$FILE" --formatter verbose; then
     HAS_ERRORS=1
   fi
 done
 
 exit $HAS_ERRORS
-
