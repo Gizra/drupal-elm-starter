@@ -20,6 +20,7 @@ logic, not less.
 Each `Pages.Item.Model.Model` is wrapped in a `WebData`, because we
 derive it from fetching a `Item` through `WebData` ... it's simplest to
 just stay within the `WebData` container.
+
 -}
 type alias Model =
     { items : Dict ItemId (WebData Item)
@@ -29,11 +30,12 @@ type alias Model =
 
 {-| Our messages:
 
-* `Subscribe` means "fetch the Item and listen to its pusher events"
+  - `Subscribe` means "fetch the Item and listen to its pusher events"
 
-* `Unsubscribe` means "forget the Item and stop listening to its pusher events"
+  - `Unsubscribe` means "forget the Item and stop listening to its pusher events"
 
-* `MsgPagesItem` is a message to route to a Item viewer
+  - `MsgPagesItem` is a message to route to a Item viewer
+
 -}
 type Msg
     = Subscribe ItemId
