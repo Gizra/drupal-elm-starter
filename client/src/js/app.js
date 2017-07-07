@@ -7,6 +7,14 @@ elmApp.ports.accessTokenPort.subscribe(function(accessToken) {
   localStorage.setItem('accessToken', accessToken);
 });
 
+Offline.on('down', function() {
+  elmApp.ports.offline.send(true);
+});
+
+Offline.on('up', function() {
+  elmApp.ports.offline.send(false);
+});
+
 var pusher = null;
 
 var pusherConfig = null;
@@ -51,7 +59,7 @@ elmApp.ports.pusherLogin.subscribe(function(config) {
 
 elmApp.ports.subscribeToPrivateChannel.subscribe(function (params) {
   if (!pusher) {
-    console.log ("Tried to subscribe to private pusher channel before login.");
+    console.log ('Tried to subscribe to private pusher channel before login.');
     return;
   }
 
