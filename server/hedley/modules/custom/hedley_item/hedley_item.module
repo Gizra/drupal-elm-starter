@@ -11,6 +11,10 @@ include_once 'hedley_item.features.inc';
  * Implements hook_node_insert().
  */
 function hedley_item_node_insert($node) {
+  if ($node->type != 'item') {
+    return;
+  }
+
   hedley_item_trigger_pusher_on_item_data_change($node);
 }
 
@@ -21,8 +25,9 @@ function hedley_item_node_update($node) {
   if ($node->type != 'item') {
     return;
   }
+
   // Make sure we get updated data.
-  entity_get_controller('node')->resetCache();
+  entity_get_controller('node')->resetCache([$node->nid]);
   hedley_item_trigger_pusher_on_item_data_change($node);
 }
 
@@ -33,10 +38,6 @@ function hedley_item_node_update($node) {
  *   A Item data node type.
  */
 function hedley_item_trigger_pusher_on_item_data_change($node) {
-  if ($node->type != 'item') {
-    return;
-  }
-
   if ($node->status == NODE_NOT_PUBLISHED) {
     // Node is not published.
     return;
@@ -49,4 +50,8 @@ function hedley_item_trigger_pusher_on_item_data_change($node) {
   $data = $handler->get($node->nid);
 
   hedley_pusher_trigger_event('general', 'item__update', $data[0]);
+
+  // Send dummy private event.
+  $data[0]['private_field'] = 'Here be secrets';
+  hedley_pusher_trigger_event('private-general', 'item__update', $data[0]);
 }

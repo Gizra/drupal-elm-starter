@@ -5,13 +5,13 @@ import App.PageType exposing (Page(..))
 import Config
 import Date
 import Dict
-import Http
 import ItemManager.Model
 import ItemManager.Update
 import Json.Decode exposing (bool, decodeValue)
 import Json.Encode exposing (Value)
 import Pages.Login.Update
 import Pusher.Model
+import Pusher.Update
 import Pusher.Utils exposing (getClusterName)
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
@@ -123,6 +123,15 @@ update msg model =
                     _ ->
                         -- If we don't have a user, we have nothing to do.
                         model ! []
+
+            MsgPusher subMsg ->
+                let
+                    ( val, cmd ) =
+                        Pusher.Update.update backendUrl subMsg model.pusher
+                in
+                    ( { model | pusher = val }
+                    , Cmd.map MsgPusher cmd
+                    )
 
             PageLogin msg ->
                 let
@@ -240,6 +249,7 @@ subscriptions model =
         [ Sub.map MsgItemManager <| ItemManager.Update.subscriptions model.pageItem model.activePage
         , Time.every minute Tick
         , offline (decodeValue bool >> HandleOfflineEvent)
+        , Sub.map MsgPusher <| Pusher.Update.subscription
         ]
 
 

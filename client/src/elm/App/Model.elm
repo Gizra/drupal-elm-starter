@@ -11,6 +11,7 @@ import App.PageType exposing (Page(..))
 import Config.Model
 import Date exposing (Date)
 import Pages.Login.Model exposing (emptyModel, Model)
+import Pusher.Model
 import RemoteData exposing (RemoteData(..), WebData)
 import ItemManager.Model exposing (emptyModel, Model)
 import Time exposing (Time)
@@ -21,6 +22,7 @@ type Msg
     = HandleOfflineEvent (Result String Bool)
     | Logout
     | MsgItemManager ItemManager.Model.Msg
+    | MsgPusher Pusher.Model.Msg
     | PageLogin Pages.Login.Model.Msg
     | SetActivePage Page
     | SetCurrentDate Date
@@ -36,6 +38,7 @@ type alias Model =
     , offline : Bool
     , pageLogin : Pages.Login.Model.Model
     , pageItem : ItemManager.Model.Model
+    , pusher : Pusher.Model.Model
     , sidebarOpen : Bool
     , user : WebData User
     }
@@ -61,6 +64,7 @@ emptyModel =
     , offline = False
     , pageLogin = Pages.Login.Model.emptyModel
     , pageItem = ItemManager.Model.emptyModel
+    , pusher = Pusher.Model.emptyModel
     , sidebarOpen = False
     , user = NotAsked
     }
