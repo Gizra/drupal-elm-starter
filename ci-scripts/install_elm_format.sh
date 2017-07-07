@@ -3,13 +3,13 @@ set -e
 
 # ---------------------------------------------------------------------------- #
 #
-# Install Shell scripting CI check dependencies.
+# Install Elm Format.
 #
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z "${SHELL_REVIEW+x}" ] || [ "$SHELL_REVIEW" -ne 1 ]; then
+if [ -z "${ELM_REVIEW+x}" ] || [ "$ELM_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
-docker pull koalaman/shellcheck:v0.4.6
+npm install -g elm-format@0.6.1-alpha

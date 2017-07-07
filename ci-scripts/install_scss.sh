@@ -12,8 +12,9 @@ if [ -z "${SCSS_REVIEW+x}" ] || [ "$SCSS_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
-npm install -g stylelint
-gem install sass csscss
+npm install -g stylelint@7.12.0
+gem install -v 3.4.24 sass
+gem install -v 1.3.3 csscss
 git clone https://github.com/stylelint/stylelint-config-standard.git
 
 # stylelint is sensitive to have the full path for the base ruleset.
