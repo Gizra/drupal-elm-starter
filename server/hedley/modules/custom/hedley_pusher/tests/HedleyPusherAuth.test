@@ -1,0 +1,134 @@
+<?php
+
+/**
+ * @file
+ * Tests the pusher integration.
+ */
+
+/**
+ * HedleyPusherAuth tests.
+ */
+class HedleyPusherAuth extends DrupalWebTestCase {
+
+  /**
+   * The profile name.
+   *
+   * @var string
+   */
+  protected $profile = 'hedley';
+
+  /**
+   * Pusher auth RESTFul handler.
+   *
+   * @var RestfulInterface
+   */
+  protected $handler = NULL;
+
+  /**
+   * Item node ID.
+   *
+   * @var int
+   */
+  protected $itemNid = NULL;
+
+  /**
+   * Info callback.
+   */
+  public static function getInfo() {
+    return [
+      'name' => 'HedleyPusherAuth tests',
+      'description' => 'Tests the pusher integration.',
+      'group' => 'Hedley',
+    ];
+  }
+
+  /**
+   * Initialize; Creates a dummy bid.
+   */
+  public function setUp() {
+    parent::setUp();
+
+    variable_set('hedley_pusher_app_key', 'key');
+    variable_set('hedley_pusher_app_secret', 'secret');
+    variable_set('hedley_pusher_app_id', 'id');
+    variable_set('hedley_pusher_app_cluster', 'cluster');
+
+    $this->handler = restful_get_restful_handler('pusher_auth');
+
+    $values = [
+      'type' => 'item',
+      'title' => 'Test item',
+      'uid' => $this->drupalCreateUser()->uid,
+      'status' => NODE_PUBLISHED,
+    ];
+
+    $node = entity_create('node', $values);
+    node_save($node);
+    $this->itemNid = $node->nid;
+  }
+
+  /**
+   * Test pusher auth token restful endpoint.
+   */
+  public function testPusherAuth() {
+    // Arguments for logging into a private sale channel.
+    $pusher_auth_arguments = [
+      'socket_id' => '123.123',
+      'channel_name' => 'private-general',
+    ];
+
+    // Try to auth pusher with an unprivileged user.
+    $this->handler->setAccount($this->drupalCreateUser());
+    try {
+      $this->handler->post('', $pusher_auth_arguments);
+      $this->fail('Posting to the pusher auth endpoint with an unprivileged user should have thrown an exception.');
+    }
+    catch (\RestfulForbiddenException $e) {
+      $this->assertTrue(strstr($e->getMessage(), 'no "access private channel" permission'), "The exception was thrown because the user don't have the needed permission.");
+    }
+
+    // Auth with an admin, and check that a token is retrieved.
+    $this->handler->setAccount(user_load(1));
+    $result = $this->handler->post('', $pusher_auth_arguments);
+    $this->assertTrue(intval($result['id']), 'Received auth token ID.');
+    $this->assertTrue(preg_match('/^key:[\d|\w]+$/', $result['auth']), 'Received token in the expected format.');
+  }
+
+  /**
+   * Test that the private channel contains private data.
+   */
+  public function testPrivatePusherData() {
+    $messages = self::getPusherMessages(TRUE, 'item__update');
+    $this->assertTrue(is_array($messages) && $messages, 'Got at least one item__update message on the private channel.');
+    foreach ($messages as $message) {
+      $this->assertTrue(!empty($message['data']['private_field']), '"private_field" is exposed on the private channel.');
+    }
+
+    $messages = self::getPusherMessages(FALSE, 'item__update');
+    $this->assertTrue(is_array($messages) && $messages, 'Got at least one item__update message on the public channel.');
+    foreach ($messages as $message) {
+      $this->assertTrue(!array_key_exists('private_field', $message['data']), '"private_field" is not exposed on the public channel.');
+    }
+  }
+
+  /**
+   * Get pusher messages of a certain type from the pusher queue.
+   *
+   * @param bool $privileged
+   *   Whether to fetch messages from the privileged, or the public channels.
+   * @param string $name
+   *   The pusher message name.
+   *
+   * @return array
+   *   Array of pusher messages.
+   */
+  protected static function getPusherMessages($privileged, $name) {
+    $channel = $privileged ? 'private-general' : 'general';
+    // Get the entire pusher queue, and filter it by message name and channel.
+    $queue = &drupal_static('hedley_pusher_static_queue', []);
+    return array_filter($queue, function ($message) use ($channel, $name) {
+      return $message['name'] == $name && $message['channel'] == $channel;
+    });
+  }
+
+}
