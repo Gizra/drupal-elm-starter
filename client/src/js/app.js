@@ -55,10 +55,8 @@ elmApp.ports.pusherLogin.subscribe(function(config) {
     elmApp.ports.pusherConnectingIn.send(delay);
   });
 
-  var channelName = 'private-general';
-
-  if (!pusher.channel(channelName)) {
-    var channel = pusher.subscribe(channelName);
+  if (!pusher.channel(config.channel)) {
+    var channel = pusher.subscribe(config.channel);
 
     var eventNames = ['item__update'];
 

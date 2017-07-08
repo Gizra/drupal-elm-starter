@@ -126,8 +126,16 @@ update msg model =
 
             MsgPusher subMsg ->
                 let
+                    pusherChannel =
+                        case model.user of
+                            Success user ->
+                                user.pusherChannel
+
+                            _ ->
+                                "general"
+
                     ( val, cmd ) =
-                        Pusher.Update.update backendUrl subMsg model.pusher
+                        Pusher.Update.update backendUrl pusherChannel subMsg model.pusher
                 in
                     ( { model | pusher = val }
                     , Cmd.map MsgPusher cmd

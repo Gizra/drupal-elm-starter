@@ -40,8 +40,8 @@ subscription =
         ]
 
 
-update : BackendUrl -> Msg -> Model -> ( Model, Cmd Msg )
-update backendUrl msg model =
+update : BackendUrl -> String -> Msg -> Model -> ( Model, Cmd Msg )
+update backendUrl pusherChannel msg model =
     case msg of
         HandleConnectingIn delay ->
             let
@@ -111,6 +111,7 @@ update backendUrl msg model =
                     { key = pusherAppKey.key
                     , cluster = "eu"
                     , authEndpoint = backendUrl ++ "/api/pusher_auth?access_token=" ++ accessToken
+                    , channel = pusherChannel
                     }
             in
                 ( model

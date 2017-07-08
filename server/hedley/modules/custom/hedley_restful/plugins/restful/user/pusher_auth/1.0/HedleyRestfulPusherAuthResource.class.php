@@ -55,8 +55,8 @@ class HedleyRestfulPusherAuthResource extends RestfulEntityBase {
     }
 
     $account = $this->getAccount();
-    if (!user_access('access private channel', $account)) {
-      throw new \RestfulForbiddenException(format_string('User @name is trying to log into the privileged pusher channel "@channel", but has no "access private channel" permission.', ['@name' => $account->name, '@channel' => $request['channel_name']]));
+    if (!user_access('access private pusher channel', $account)) {
+      throw new \RestfulForbiddenException(format_string('User @name is trying to log into the privileged pusher channel "@channel", but has no "access private pusher channel" permission.', ['@name' => $account->name, '@channel' => $request['channel_name']]));
     }
 
     return $this->view($account->uid);

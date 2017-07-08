@@ -48,6 +48,7 @@ type alias PusherConfig =
     { key : String
     , cluster : String
     , authEndpoint : String
+    , channel : String
     }
 
 
