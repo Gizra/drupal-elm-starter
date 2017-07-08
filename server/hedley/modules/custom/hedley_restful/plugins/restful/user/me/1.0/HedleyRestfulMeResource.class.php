@@ -36,7 +36,7 @@ class HedleyRestfulMeResource extends \RestfulEntityBaseUser {
    */
   public function viewEntity($entity_id) {
     $account = $this->getAccount();
-    return array(parent::viewEntity($account->uid));
+    return parent::viewEntity($account->uid);
   }
 
 }

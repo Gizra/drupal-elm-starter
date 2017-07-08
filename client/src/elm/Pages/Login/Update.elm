@@ -7,6 +7,7 @@ import User.Model exposing (..)
 import Pages.Login.Model as Login exposing (..)
 import Pages.Login.Decoder exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
+import User.Decoder exposing (decodeUser)
 import Utils.WebData exposing (sendWithHandler)
 
 
