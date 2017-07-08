@@ -58,12 +58,8 @@ elmApp.ports.pusherLogin.subscribe(function(config) {
   if (!pusher.channel(config.channel)) {
     var channel = pusher.subscribe(config.channel);
 
-    var eventNames = ['item__update'];
-
-    eventNames.forEach(function(eventName) {
+    config.eventNames.forEach(function(eventName) {
       channel.bind(eventName, function(data) {
-        // We wrap the data with some information which will
-        // help us dispatch it on the Elm side
         var event = {
           eventType: eventName,
           data: data

@@ -12,7 +12,6 @@ import Json.Encode exposing (Value)
 import Pages.Login.Update
 import Pusher.Model
 import Pusher.Update
-import Pusher.Utils exposing (getClusterName)
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (minute)
@@ -30,12 +29,7 @@ init flags =
                 Just config ->
                     let
                         defaultCmds =
-                            [ pusherKey
-                                ( config.pusherKey.key
-                                , getClusterName config.pusherKey.cluster
-                                , Pusher.Model.eventNames
-                                )
-                            , Task.perform SetCurrentDate Date.now
+                            [ Task.perform SetCurrentDate Date.now
                             ]
 
                         ( cmds, activePage_ ) =
@@ -179,18 +173,23 @@ update msg model =
                                 modelUpdated ! []
 
                     pusherMsg =
-                        case model.config of
-                            Success config ->
-                                -- TODO: Surely it's possible to clean up the
-                                -- Login call. This part was written using this
-                                -- method: http://2.bp.blogspot.com/-X6peGqFZFZ0/UcTqFQ2O21I/AAAAAAAAPi0/uRJyfIgg9uo/s1600/blindssuck.gif
-                                (Task.succeed <|
-                                    MsgPusher <|
-                                        Pusher.Model.Login
-                                            (config.pusherKey)
-                                            (Pusher.Model.AccessToken accessToken)
-                                )
-                                    |> Task.perform identity
+                        case webDataUser of
+                            Success _ ->
+                                case model.config of
+                                    Success config ->
+                                        -- TODO: Surely it's possible to clean up the
+                                        -- Login call. This part was written using this
+                                        -- method: http://2.bp.blogspot.com/-X6peGqFZFZ0/UcTqFQ2O21I/AAAAAAAAPi0/uRJyfIgg9uo/s1600/blindssuck.gif
+                                        (Task.succeed <|
+                                            MsgPusher <|
+                                                Pusher.Model.Login
+                                                    (config.pusherKey)
+                                                    (Pusher.Model.AccessToken accessToken)
+                                        )
+                                            |> Task.perform identity
+
+                                    _ ->
+                                        Cmd.none
 
                             _ ->
                                 Cmd.none
@@ -282,11 +281,6 @@ subscriptions model =
 {-| Send access token to JS.
 -}
 port accessTokenPort : String -> Cmd msg
-
-
-{-| Send Pusher key and cluster to JS.
--}
-port pusherKey : ( String, String, List String ) -> Cmd msg
 
 
 {-| Get a singal if internet connection is lost.

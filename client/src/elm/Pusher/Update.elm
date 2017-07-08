@@ -2,6 +2,7 @@ port module Pusher.Update exposing (update, subscription)
 
 import Config.Model exposing (BackendUrl)
 import Pusher.Model exposing (..)
+import Pusher.Utils exposing (getClusterName)
 
 
 {-| Login to pusher.
@@ -109,9 +110,10 @@ update backendUrl pusherChannel msg model =
             let
                 pusherConfig =
                     { key = pusherAppKey.key
-                    , cluster = "eu"
+                    , cluster = getClusterName pusherAppKey.cluster
                     , authEndpoint = backendUrl ++ "/api/pusher_auth?access_token=" ++ accessToken
                     , channel = pusherChannel
+                    , eventNames = Pusher.Model.eventNames
                     }
             in
                 ( model
