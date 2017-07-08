@@ -62,7 +62,6 @@ update backendUrl pusherChannel msg model =
                 )
 
         HandleError error ->
-            -- We could consider keeping only X number of errors
             ( { model | errors = error :: model.errors }
             , Cmd.none
             )
