@@ -9,12 +9,14 @@ type alias Model =
     , showErrorModal : Bool
     }
 
+
 emptyModel : Model
 emptyModel =
     { connectionStatus = Initialized
     , errors = []
     , showErrorModal = False
     }
+
 
 type Cluster
     = ApSouthEast1
@@ -38,16 +40,13 @@ type PusherEventData
     = ItemUpdate Item
 
 
-type PusherKey
-    = PusherKey String
-
-
 type AccessToken
     = AccessToken String
 
 
 type alias PusherConfig =
     { key : String
+    , cluster : String
     , authEndpoint : String
     }
 
@@ -71,8 +70,8 @@ type ConnectionStatus
 
 
 type alias PusherError =
-    { code : Int
-    , message : String
+    { code : Maybe Int
+    , message : Maybe String
     }
 
 
@@ -89,5 +88,5 @@ type Msg
     | HandleConnectingIn Int
     | ShowErrorModal
     | HideErrorModal
-    | Login PusherKey AccessToken
+    | Login PusherAppKey AccessToken
     | Logout

@@ -169,12 +169,30 @@ update msg model =
 
                             _ ->
                                 modelUpdated ! []
+
+                    pusherMsg =
+                        case model.config of
+                            Success config ->
+                                -- TODO: Surely it's possible to clean up the
+                                -- Login call. This part was written using this
+                                -- method: http://2.bp.blogspot.com/-X6peGqFZFZ0/UcTqFQ2O21I/AAAAAAAAPi0/uRJyfIgg9uo/s1600/blindssuck.gif
+                                (Task.succeed <|
+                                    MsgPusher <|
+                                        Pusher.Model.Login
+                                            (config.pusherKey)
+                                            (Pusher.Model.AccessToken accessToken)
+                                )
+                                    |> Task.perform identity
+
+                            _ ->
+                                Cmd.none
                 in
                     ( modelWithRedirect
                     , Cmd.batch
                         [ Cmd.map PageLogin cmds
                         , accessTokenPort accessToken
                         , setActivePageCmds
+                        , pusherMsg
                         ]
                     )
 

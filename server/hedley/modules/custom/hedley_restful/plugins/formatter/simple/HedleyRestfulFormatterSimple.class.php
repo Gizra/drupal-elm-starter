@@ -25,12 +25,9 @@ class HedleyRestfulFormatterSimple extends \RestfulFormatterBase implements \Res
     // 'application/problem+json; charset=utf-8'.
     if (!empty($data['status']) && floor($data['status'] / 100) != 2) {
       $this->contentType = 'application/problem+json; charset=utf-8';
-      return $data;
     }
 
-    $output = ['data' => $data];
-
-    return $output;
+    return $data;
   }
 
   /**

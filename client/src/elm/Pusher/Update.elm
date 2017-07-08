@@ -105,10 +105,11 @@ update backendUrl msg model =
             , Cmd.none
             )
 
-        Login (PusherKey pusherKey) (AccessToken accessToken) ->
+        Login pusherAppKey (AccessToken accessToken) ->
             let
                 pusherConfig =
-                    { key = pusherKey
+                    { key = pusherAppKey.key
+                    , cluster = "eu"
                     , authEndpoint = backendUrl ++ "/api/pusher_auth?access_token=" ++ accessToken
                     }
             in

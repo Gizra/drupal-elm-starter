@@ -36,15 +36,14 @@ elmApp.ports.pusherLogin.subscribe(function(config) {
   pusherConfig = config;
 
   pusher = new Pusher(config.key, {
-    cluster: 'eu',
+    cluster: config.cluster,
     authEndpoint: config.authEndpoint
   });
 
-  pusher.connection.bind('error', function (err) {
+  pusher.connection.bind('error', function (error) {
     elmApp.ports.pusherError.send({
-      message: err.data.message,
-      code: err.data.code,
-      when: Date.now()
+      message: error.error.data.message ? error.error.data.message : null,
+      code: error.error.code ? error.error.code : null
     });
   });
 
@@ -55,23 +54,25 @@ elmApp.ports.pusherLogin.subscribe(function(config) {
   pusher.connection.bind('connecting_in', function (delay) {
     elmApp.ports.pusherConnectingIn.send(delay);
   });
-});
-
-elmApp.ports.subscribeToPrivateChannel.subscribe(function (params) {
-  if (!pusher) {
-    console.log ('Tried to subscribe to private pusher channel before login.');
-    return;
-  }
 
   var channelName = 'private-general';
 
   if (!pusher.channel(channelName)) {
     var channel = pusher.subscribe(channelName);
+
+    var eventNames = ['item__update'];
+
+    eventNames.forEach(function(eventName) {
+      channel.bind(eventName, function(data) {
+        // We wrap the data with some information which will
+        // help us dispatch it on the Elm side
+        var event = {
+          eventType: eventName,
+          data: data
+        };
+        elmApp.ports.pusherItemMessages.send(event);
+      });
+    });
   }
-});
 
-elmApp.ports.unsubscribeFromPrivateChannel.subscribe(function (sessionId) {
-  if (!pusher) return;
-
-  pusher.unsubscribe('private-general');
 });

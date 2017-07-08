@@ -9,7 +9,7 @@ import User.Model exposing (User)
 
 decodeUser : Decode.Decoder User
 decodeUser =
-    Decode.at [ "data", "0" ] <| UserDecoder.decodeUser
+    Decode.at [ "0" ] <| UserDecoder.decodeUser
 
 
 decodeAccessToken : Decode.Decoder AccessToken
