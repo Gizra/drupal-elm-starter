@@ -24,6 +24,7 @@ just stay within the `WebData` container.
 -}
 type alias Model =
     { items : Dict ItemId (WebData Item)
+    , itemPage : Pages.Item.Model.Model
     , itemsPage : Pages.Items.Model.Model
     }
 
@@ -45,11 +46,13 @@ type Msg
     | MsgPagesItems Pages.Items.Model.Msg
     | HandleFetchedItem ItemId (Result Http.Error Item)
     | HandleFetchedItems (Result Http.Error ItemsDict)
+    | HandlePatchResponse (Result Http.Error ())
     | HandlePusherEvent (Result String PusherEvent)
 
 
 emptyModel : Model
 emptyModel =
     { items = Dict.empty
+    , itemPage = Pages.Item.Model.emptyModel
     , itemsPage = Pages.Items.Model.emptyModel
     }
