@@ -84,7 +84,7 @@ class HedleyPusherAuth extends DrupalWebTestCase {
       $this->fail('Posting to the pusher auth endpoint with an unprivileged user should have thrown an exception.');
     }
     catch (\RestfulForbiddenException $e) {
-      $this->assertTrue(strstr($e->getMessage(), 'no "access private channel" permission'), "The exception was thrown because the user don't have the needed permission.");
+      $this->assertTrue(strstr($e->getMessage(), 'no "access private pusher channel" permission'), "The exception was thrown because the user don't have the needed permission.");
     }
 
     // Auth with an admin, and check that a token is retrieved.

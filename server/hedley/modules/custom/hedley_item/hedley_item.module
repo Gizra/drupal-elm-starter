@@ -43,15 +43,38 @@ function hedley_item_trigger_pusher_on_item_data_change($node) {
     return;
   }
 
-  $account = user_load($node->uid);
-
+  // Load the item view from restful, as the item author.
   $handler = restful_get_restful_handler('items');
-  $handler->setAccount($account);
+  $handler->setAccount(user_load($node->uid));
   $data = $handler->get($node->nid);
-
+  // Remove the private note, in case the author is an admin.
+  if (array_key_exists('private_note', $data[0])) {
+    unset($data[0]['private_note']);
+  }
   hedley_pusher_trigger_event('general', 'item__update', $data[0]);
 
-  // Send dummy private event.
-  $data[0]['private_field'] = 'Here be secrets';
+  // Send an event to the private channel, with the private note field.
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $data[0]['private_note'] = $wrapper->field_private_note->value();
   hedley_pusher_trigger_event('private-general', 'item__update', $data[0]);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function hedley_item_permission() {
+  return [
+    'access private fields' => [
+      'title' => t('Access private fields.'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_field_access().
+ */
+function hedley_item_field_access($op, $field, $entity_type, $entity, $account) {
+  if ($field['field_name'] == 'field_private_note') {
+    return user_access('access private fields', $account);
+  }
 }
