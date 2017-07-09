@@ -15,6 +15,7 @@ decodeItem =
     decode Item
         |> required "label" string
         |> optionalAt [ "image", "styles", "large" ] string "http://placehold.it/350x150"
+        |> optional "private_note" (nullable string) Nothing
 
 
 decodeItemsDict : Decoder ItemsDict
