@@ -44,6 +44,10 @@ type AccessToken
     = AccessToken String
 
 
+type alias PusherChannel =
+    String
+
+
 type alias PusherConfig =
     { key : String
     , cluster : String
@@ -82,5 +86,5 @@ type Msg
     | HandleConnectingIn Int
     | ShowErrorModal
     | HideErrorModal
-    | Login PusherAppKey AccessToken
+    | Login PusherAppKey PusherChannel AccessToken
     | Logout

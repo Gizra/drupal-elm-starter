@@ -41,8 +41,8 @@ subscription =
         ]
 
 
-update : BackendUrl -> String -> Msg -> Model -> ( Model, Cmd Msg )
-update backendUrl pusherChannel msg model =
+update : BackendUrl -> Msg -> Model -> ( Model, Cmd Msg )
+update backendUrl msg model =
     case msg of
         HandleConnectingIn delay ->
             let
@@ -105,7 +105,7 @@ update backendUrl pusherChannel msg model =
             , Cmd.none
             )
 
-        Login pusherAppKey (AccessToken accessToken) ->
+        Login pusherAppKey pusherChannel (AccessToken accessToken) ->
             let
                 pusherConfig =
                     { key = pusherAppKey.key

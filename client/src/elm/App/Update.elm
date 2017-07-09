@@ -120,16 +120,8 @@ update msg model =
 
             MsgPusher subMsg ->
                 let
-                    pusherChannel =
-                        case model.user of
-                            Success user ->
-                                user.pusherChannel
-
-                            _ ->
-                                "general"
-
                     ( val, cmd ) =
-                        Pusher.Update.update backendUrl pusherChannel subMsg model.pusher
+                        Pusher.Update.update backendUrl subMsg model.pusher
                 in
                     ( { model | pusher = val }
                     , Cmd.map MsgPusher cmd
@@ -171,35 +163,13 @@ update msg model =
 
                             _ ->
                                 modelUpdated ! []
-
-                    pusherMsg =
-                        case webDataUser of
-                            Success _ ->
-                                case model.config of
-                                    Success config ->
-                                        -- TODO: Surely it's possible to clean up the
-                                        -- Login call. This part was written using this
-                                        -- method: http://2.bp.blogspot.com/-X6peGqFZFZ0/UcTqFQ2O21I/AAAAAAAAPi0/uRJyfIgg9uo/s1600/blindssuck.gif
-                                        (Task.succeed <|
-                                            MsgPusher <|
-                                                Pusher.Model.Login
-                                                    (config.pusherKey)
-                                                    (Pusher.Model.AccessToken accessToken)
-                                        )
-                                            |> Task.perform identity
-
-                                    _ ->
-                                        Cmd.none
-
-                            _ ->
-                                Cmd.none
                 in
                     ( modelWithRedirect
                     , Cmd.batch
                         [ Cmd.map PageLogin cmds
                         , accessTokenPort accessToken
                         , setActivePageCmds
-                        , pusherMsg
+                        , pusherLogin model webDataUser accessToken
                         ]
                     )
 
@@ -238,6 +208,9 @@ update msg model =
 
             ToggleSideBar ->
                 { model | sidebarOpen = not model.sidebarOpen } ! []
+
+            NoOp ->
+                model ! []
 
 
 {-| Determine is a page can be accessed by a user (anonymous or authenticated),
@@ -286,3 +259,32 @@ port accessTokenPort : String -> Cmd msg
 {-| Get a singal if internet connection is lost.
 -}
 port offline : (Value -> msg) -> Sub msg
+
+
+pusherLogin : Model -> WebData User -> String -> Cmd Msg
+pusherLogin model webDataUser accessToken =
+    let
+        pusherLoginMsg pusherKey pusherChannel =
+            MsgPusher <|
+                Pusher.Model.Login
+                    pusherKey
+                    pusherChannel
+                    (Pusher.Model.AccessToken accessToken)
+
+        msg =
+            case webDataUser of
+                Success user ->
+                    case model.config of
+                        Success config ->
+                            pusherLoginMsg config.pusherKey user.pusherChannel
+
+                        _ ->
+                            NoOp
+
+                _ ->
+                    NoOp
+
+        ( _, pusherLogin ) =
+            update msg model
+    in
+        pusherLogin

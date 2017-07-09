@@ -28,6 +28,7 @@ type Msg
     | SetCurrentDate Date
     | Tick Time
     | ToggleSideBar
+    | NoOp
 
 
 type alias Model =
