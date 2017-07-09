@@ -81,13 +81,20 @@ update msg model =
                 model ! []
 
             Logout ->
-                ( { emptyModel
-                    | accessToken = ""
-                    , activePage = Login
-                    , config = model.config
-                  }
-                , accessTokenPort ""
-                )
+                let
+                    ( _, pusherLogout ) =
+                        update (MsgPusher Pusher.Model.Logout) model
+                in
+                    ( { emptyModel
+                        | accessToken = ""
+                        , activePage = Login
+                        , config = model.config
+                      }
+                    , Cmd.batch
+                        [ accessTokenPort ""
+                        , pusherLogout
+                        ]
+                    )
 
             MsgItemManager subMsg ->
                 case model.user of

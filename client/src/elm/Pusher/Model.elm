@@ -6,7 +6,6 @@ import Item.Model exposing (Item, ItemId)
 type alias Model =
     { connectionStatus : ConnectionStatus
     , errors : List PusherError
-    , showErrorModal : Bool
     }
 
 
@@ -14,7 +13,6 @@ emptyModel : Model
 emptyModel =
     { connectionStatus = Initialized
     , errors = []
-    , showErrorModal = False
     }
 
 
@@ -83,8 +81,5 @@ eventNames =
 type Msg
     = HandleError PusherError
     | HandleStateChange String
-    | HandleConnectingIn Int
-    | ShowErrorModal
-    | HideErrorModal
     | Login PusherAppKey PusherChannel AccessToken
     | Logout

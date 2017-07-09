@@ -51,10 +51,6 @@ elmApp.ports.pusherLogin.subscribe(function(config) {
     elmApp.ports.pusherState.send(states.current);
   });
 
-  pusher.connection.bind('connecting_in', function (delay) {
-    elmApp.ports.pusherConnectingIn.send(delay);
-  });
-
   if (!pusher.channel(config.channel)) {
     var channel = pusher.subscribe(config.channel);
 

@@ -25,11 +25,6 @@ port pusherError : (PusherError -> msg) -> Sub msg
 port pusherState : (String -> msg) -> Sub msg
 
 
-{-| Receive notice of upcoming connection attempts.
--}
-port pusherConnectingIn : (Int -> msg) -> Sub msg
-
-
 {-| Subscription to connection status.
 -}
 subscription : Sub Msg
@@ -37,30 +32,12 @@ subscription =
     Sub.batch
         [ pusherError HandleError
         , pusherState HandleStateChange
-        , pusherConnectingIn HandleConnectingIn
         ]
 
 
 update : BackendUrl -> Msg -> Model -> ( Model, Cmd Msg )
 update backendUrl msg model =
     case msg of
-        HandleConnectingIn delay ->
-            let
-                connectionStatus =
-                    case model.connectionStatus of
-                        Connecting _ ->
-                            Connecting (Just delay)
-
-                        Unavailable _ ->
-                            Unavailable (Just delay)
-
-                        _ ->
-                            model.connectionStatus
-            in
-                ( { model | connectionStatus = connectionStatus }
-                , Cmd.none
-                )
-
         HandleError error ->
             ( { model | errors = error :: model.errors }
             , Cmd.none
@@ -94,16 +71,6 @@ update backendUrl msg model =
                 ( { model | connectionStatus = connectionStatus }
                 , Cmd.none
                 )
-
-        ShowErrorModal ->
-            ( { model | showErrorModal = True }
-            , Cmd.none
-            )
-
-        HideErrorModal ->
-            ( { model | showErrorModal = False }
-            , Cmd.none
-            )
 
         Login pusherAppKey pusherChannel (AccessToken accessToken) ->
             let
