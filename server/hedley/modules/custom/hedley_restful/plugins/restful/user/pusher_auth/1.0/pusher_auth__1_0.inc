@@ -5,7 +5,7 @@
  * Pusher auth plugin definition.
  */
 
-$plugin = array(
+$plugin = [
   'label' => t('Pusher auth'),
   'description' => t('Authenticate user for the pusher privileged channel.'),
   'resource' => 'pusher_auth',
@@ -14,4 +14,4 @@ $plugin = array(
   'bundle' => 'user',
   'authentication_types' => TRUE,
   'formatter' => 'simple',
-);
+];

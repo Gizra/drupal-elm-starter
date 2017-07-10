@@ -27,9 +27,9 @@ class HedleyRestfulPusherAuthResource extends RestfulEntityBase {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
-    $public_fields['auth'] = array(
-      'callback' => array($this, 'getPusherAuth'),
-    );
+    $public_fields['auth'] = [
+      'callback' => [$this, 'getPusherAuth'],
+    ];
 
     return $public_fields;
   }

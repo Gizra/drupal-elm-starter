@@ -75,13 +75,16 @@ function hedley_pusher_get_pusher() {
  */
 function hedley_pusher_exit() {
   $queue = &drupal_static('hedley_pusher_static_queue', []);
-  if (!empty($queue)) {
-    try {
-      $pusher = hedley_pusher_get_pusher();
-      $pusher->triggerBatch($queue);
-    }
-    catch (Exception $e) {
-      watchdog('hedley_pusher', 'Could not transmit Pusher events: !queue', ['!queue' => serialize($queue)]);
-    }
+  if (!$queue) {
+    // No registered pusher events.
+    return;
+  }
+
+  try {
+    $pusher = hedley_pusher_get_pusher();
+    $pusher->triggerBatch($queue);
+  }
+  catch (Exception $e) {
+    watchdog('hedley_pusher', 'Could not transmit Pusher events: !queue', ['!queue' => serialize($queue)]);
   }
 }
