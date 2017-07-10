@@ -6,17 +6,6 @@
  */
 
 /**
- * Implements hook_permission().
- */
-function hedley_pusher_permission() {
-  return [
-    'access private pusher channel' => [
-      'title' => t('Access the private pusher channel.'),
-    ],
-  ];
-}
-
-/**
  * Trigger a Pusher event.
  *
  * The event itself is fired after all the processing.

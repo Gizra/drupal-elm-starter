@@ -55,7 +55,7 @@ class HedleyRestfulMeResource extends \RestfulEntityBaseUser {
    */
   protected function getPusherChannel() {
     $account = $this->getAccount();
-    return user_access('access private pusher channel', $account) ? 'private-general' : 'general';
+    return user_access('access private fields', $account) ? 'private-general' : 'general';
   }
 
 }
