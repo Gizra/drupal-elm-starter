@@ -6,37 +6,27 @@ import Html.Attributes exposing (..)
 import Pages.Item.Model exposing (Msg(..))
 import Item.Model exposing (ItemId, Item)
 import User.Model exposing (User)
+import Utils.Html exposing (divider)
 
 
 view : Date -> User -> ItemId -> Item -> Html Msg
 view currentDate currentUser itemId item =
-    let
-        privateNote =
-            case item.privateNote of
-                Just note ->
-                    div [] [ text note ]
-
-                _ ->
-                    text ""
-    in
-        div []
-            [ div
-                [ class "ui secondary pointing fluid menu" ]
-                [ h2
-                    [ class "ui header" ]
-                    [ text item.name ]
-                , div
-                    [ class "right menu" ]
-                    [ a
-                        [ class "ui active item" ]
-                        [ text "Overview" ]
-                    ]
-                ]
-            , div []
-                [ img [ src item.image, alt item.name ] []
-                ]
+    div []
+        [ div
+            [ class "ui secondary pointing fluid menu" ]
+            [ h2
+                [ class "ui header" ]
+                [ text item.name ]
             , div
-                [ class "ui divider" ]
-                []
-            , privateNote
+                [ class "right menu" ]
+                [ a
+                    [ class "ui active item" ]
+                    [ text "Overview" ]
+                ]
             ]
+        , div []
+            [ img [ src item.image, alt item.name ] []
+            ]
+        , divider
+        , div [] [ text <| Maybe.withDefault "" item.privateNote ]
+        ]
