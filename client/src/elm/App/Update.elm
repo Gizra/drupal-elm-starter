@@ -5,14 +5,13 @@ import App.PageType exposing (Page(..))
 import Config
 import Date
 import Dict
-import Http
 import ItemManager.Model
 import ItemManager.Update
 import Json.Decode exposing (bool, decodeValue)
 import Json.Encode exposing (Value)
 import Pages.Login.Update
 import Pusher.Model
-import Pusher.Utils exposing (getClusterName)
+import Pusher.Update
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (minute)
@@ -30,12 +29,7 @@ init flags =
                 Just config ->
                     let
                         defaultCmds =
-                            [ pusherKey
-                                ( config.pusherKey.key
-                                , getClusterName config.pusherKey.cluster
-                                , Pusher.Model.eventNames
-                                )
-                            , Task.perform SetCurrentDate Date.now
+                            [ Task.perform SetCurrentDate Date.now
                             ]
 
                         ( cmds, activePage_ ) =
@@ -87,13 +81,21 @@ update msg model =
                 model ! []
 
             Logout ->
-                ( { emptyModel
-                    | accessToken = ""
-                    , activePage = Login
-                    , config = model.config
-                  }
-                , accessTokenPort ""
-                )
+                let
+                    ( modelUpdated, pusherLogoutCmd ) =
+                        update (MsgPusher Pusher.Model.Logout) model
+                in
+                    ( { emptyModel
+                        | accessToken = ""
+                        , activePage = Login
+                        , config = model.config
+                        , pusher = modelUpdated.pusher
+                      }
+                    , Cmd.batch
+                        [ accessTokenPort ""
+                        , pusherLogoutCmd
+                        ]
+                    )
 
             MsgItemManager subMsg ->
                 case model.user of
@@ -124,15 +126,31 @@ update msg model =
                         -- If we don't have a user, we have nothing to do.
                         model ! []
 
+            MsgPusher subMsg ->
+                let
+                    ( val, cmd ) =
+                        Pusher.Update.update backendUrl subMsg model.pusher
+                in
+                    ( { model | pusher = val }
+                    , Cmd.map MsgPusher cmd
+                    )
+
+            NoOp ->
+                model ! []
+
             PageLogin msg ->
                 let
                     ( val, cmds, ( webDataUser, accessToken ) ) =
                         Pages.Login.Update.update backendUrl msg model.pageLogin
 
+                    ( pusherModelUpdated, pusherLoginCmd ) =
+                        pusherLogin model webDataUser accessToken
+
                     modelUpdated =
                         { model
                             | pageLogin = val
                             , accessToken = accessToken
+                            , pusher = pusherModelUpdated
                             , user = webDataUser
                         }
 
@@ -166,6 +184,7 @@ update msg model =
                         [ Cmd.map PageLogin cmds
                         , accessTokenPort accessToken
                         , setActivePageCmds
+                        , pusherLoginCmd
                         ]
                     )
 
@@ -240,6 +259,7 @@ subscriptions model =
         [ Sub.map MsgItemManager <| ItemManager.Update.subscriptions model.pageItem model.activePage
         , Time.every minute Tick
         , offline (decodeValue bool >> HandleOfflineEvent)
+        , Sub.map MsgPusher <| Pusher.Update.subscription
         ]
 
 
@@ -248,11 +268,41 @@ subscriptions model =
 port accessTokenPort : String -> Cmd msg
 
 
-{-| Send Pusher key and cluster to JS.
--}
-port pusherKey : ( String, String, List String ) -> Cmd msg
-
-
 {-| Get a singal if internet connection is lost.
 -}
 port offline : (Value -> msg) -> Sub msg
+
+
+{-| Login to pusher.
+Either subscribes to the private channel, or to the general channel, according
+to user.pusherChannel.
+-}
+pusherLogin : Model -> WebData User -> String -> ( Pusher.Model.Model, Cmd Msg )
+pusherLogin model webDataUser accessToken =
+    let
+        -- Create the pusher login Msg, wrapped as a MsgPusher.
+        pusherLoginMsg pusherKey pusherChannel =
+            MsgPusher <|
+                Pusher.Model.Login
+                    pusherKey
+                    pusherChannel
+                    (Pusher.Model.AccessToken accessToken)
+
+        -- Create a MsgPusher for login, or NoOp in case the user or the config
+        -- are missing.
+        msg =
+            RemoteData.toMaybe webDataUser
+                |> Maybe.map
+                    (\user ->
+                        RemoteData.toMaybe model.config
+                            |> Maybe.map (\config -> pusherLoginMsg config.pusherKey user.pusherChannel)
+                            |> Maybe.withDefault NoOp
+                    )
+                |> Maybe.withDefault NoOp
+
+        ( updatedModel, pusherLoginCmd ) =
+            update msg model
+    in
+        -- Return the pusher part of the model, as the pusher login action
+        -- shouldn't change other parts.
+        ( updatedModel.pusher, pusherLoginCmd )

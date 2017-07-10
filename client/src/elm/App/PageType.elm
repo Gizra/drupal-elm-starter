@@ -1,6 +1,6 @@
 module App.PageType exposing (Page(..))
 
-{-| Prevent circula dependency.
+{-| Prevent circular dependency.
 -}
 
 

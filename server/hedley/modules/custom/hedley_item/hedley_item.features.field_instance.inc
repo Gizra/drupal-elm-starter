@@ -60,9 +60,51 @@ function hedley_item_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-item-field_private_note'.
+  $field_instances['node-item-field_private_note'] = array(
+    'bundle' => 'item',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Accessible only for administrators.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_private_note',
+    'label' => 'Private note',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 11,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
+  t('Accessible only for administrators.');
   t('Image');
+  t('Private note');
 
   return $field_instances;
 }

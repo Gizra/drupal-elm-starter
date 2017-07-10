@@ -1,1 +1,1 @@
-Place JS, and JS-inerop files in this folder.
+Place JS, and JS-interop files in this folder.

@@ -1,4 +1,4 @@
-title,field_image
-Kitchen,kitchen.jpg
-West Garden,west-garden.jpg
-<script>alert('XSS');</script>XSS Test,kitchen.jpg
+title,field_image,field_private_note
+Kitchen,kitchen.jpg,Secret note
+West Garden,west-garden.jpg,
+<script>alert('XSS');</script>XSS Test,kitchen.jpg,

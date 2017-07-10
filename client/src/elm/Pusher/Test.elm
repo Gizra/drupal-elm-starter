@@ -32,6 +32,7 @@ decodeTest =
                         , data =
                             { name = "new-item"
                             , image = "http://placehold.it/350x150"
+                            , privateNote = Nothing
                             }
                                 |> ItemUpdate
                         }
