@@ -291,17 +291,14 @@ pusherLogin model webDataUser accessToken =
         -- Create a MsgPusher for login, or NoOp in case the user or the config
         -- are missing.
         msg =
-            case webDataUser of
-                Success user ->
-                    case model.config of
-                        Success config ->
-                            pusherLoginMsg config.pusherKey user.pusherChannel
-
-                        _ ->
-                            NoOp
-
-                _ ->
-                    NoOp
+            RemoteData.toMaybe webDataUser
+                |> Maybe.map
+                    (\user ->
+                        RemoteData.toMaybe model.config
+                            |> Maybe.map (\config -> pusherLoginMsg config.pusherKey user.pusherChannel)
+                            |> Maybe.withDefault NoOp
+                    )
+                |> Maybe.withDefault NoOp
 
         ( updatedModel, pusherLoginCmd ) =
             update msg model
