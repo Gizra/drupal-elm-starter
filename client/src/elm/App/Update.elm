@@ -82,17 +82,18 @@ update msg model =
 
             Logout ->
                 let
-                    ( _, pusherLogout ) =
+                    ( modelUpdated, pusherLogoutCmd ) =
                         update (MsgPusher Pusher.Model.Logout) model
                 in
                     ( { emptyModel
                         | accessToken = ""
                         , activePage = Login
                         , config = model.config
+                        , pusher = modelUpdated.pusher
                       }
                     , Cmd.batch
                         [ accessTokenPort ""
-                        , pusherLogout
+                        , pusherLogoutCmd
                         ]
                     )
 
@@ -139,10 +140,14 @@ update msg model =
                     ( val, cmds, ( webDataUser, accessToken ) ) =
                         Pages.Login.Update.update backendUrl msg model.pageLogin
 
+                    ( pusherModelUpdated, pusherLoginCmd ) =
+                        pusherLogin model webDataUser accessToken
+
                     modelUpdated =
                         { model
                             | pageLogin = val
                             , accessToken = accessToken
+                            , pusher = pusherModelUpdated
                             , user = webDataUser
                         }
 
@@ -176,7 +181,7 @@ update msg model =
                         [ Cmd.map PageLogin cmds
                         , accessTokenPort accessToken
                         , setActivePageCmds
-                        , pusherLogin model webDataUser accessToken
+                        , pusherLoginCmd
                         ]
                     )
 
@@ -268,9 +273,14 @@ port accessTokenPort : String -> Cmd msg
 port offline : (Value -> msg) -> Sub msg
 
 
-pusherLogin : Model -> WebData User -> String -> Cmd Msg
+{-| Login to pusher.
+Either subscribes to the private channel, or to the general channel, according
+to user.pusherChannel.
+-}
+pusherLogin : Model -> WebData User -> String -> ( Pusher.Model.Model, Cmd Msg )
 pusherLogin model webDataUser accessToken =
     let
+        -- Create the pusher login Msg, wrapped as a MsgPusher.
         pusherLoginMsg pusherKey pusherChannel =
             MsgPusher <|
                 Pusher.Model.Login
@@ -278,6 +288,8 @@ pusherLogin model webDataUser accessToken =
                     pusherChannel
                     (Pusher.Model.AccessToken accessToken)
 
+        -- Create a MsgPusher for login, or NoOp in case the user or the config
+        -- are missing.
         msg =
             case webDataUser of
                 Success user ->
@@ -291,7 +303,9 @@ pusherLogin model webDataUser accessToken =
                 _ ->
                     NoOp
 
-        ( _, pusherLogin ) =
+        ( updatedModel, pusherLoginCmd ) =
             update msg model
     in
-        pusherLogin
+        -- Return the pusher part of the model, as the pusher login action
+        -- shouldn't change other parts.
+        ( updatedModel.pusher, pusherLoginCmd )
