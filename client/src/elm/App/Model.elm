@@ -23,12 +23,12 @@ type Msg
     | Logout
     | MsgItemManager ItemManager.Model.Msg
     | MsgPusher Pusher.Model.Msg
+    | NoOp
     | PageLogin Pages.Login.Model.Msg
     | SetActivePage Page
     | SetCurrentDate Date
     | Tick Time
     | ToggleSideBar
-    | NoOp
 
 
 type alias Model =

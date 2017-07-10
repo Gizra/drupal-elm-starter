@@ -135,6 +135,9 @@ update msg model =
                     , Cmd.map MsgPusher cmd
                     )
 
+            NoOp ->
+                model ! []
+
             PageLogin msg ->
                 let
                     ( val, cmds, ( webDataUser, accessToken ) ) =
@@ -220,9 +223,6 @@ update msg model =
 
             ToggleSideBar ->
                 { model | sidebarOpen = not model.sidebarOpen } ! []
-
-            NoOp ->
-                model ! []
 
 
 {-| Determine is a page can be accessed by a user (anonymous or authenticated),
