@@ -367,8 +367,10 @@ function run_post_script {
     return 1
   fi
 
-  # Run the post script.
+  # Run the post script, with settings.php writable.
+  chmod 777 "$ROOT"/www/sites/default/settings.php
   echo -e "${LBLUE}> Run $POST_FUNCT_NAME script.${RESTORE}"
+  chmod 755 "$ROOT"/www/sites/default/settings.php
   $POST_FUNCT_NAME
   echo
 }
