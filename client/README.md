@@ -22,8 +22,13 @@ You may need to update `src/elm/LocalConfig.elm` if your local URLs are differen
 1. Deploy to GitHub's pages (`gh-pages` branch of your repository): `gulp deploy`
 
 ## Unit Tests
+The unit tests are written in Elm via [Elm Test](https://github.com/elm-community/elm-test) and it's invoked at the Travis builds.
 
-In order to view the tests on the browser Start elm reactor (elm-reactor) and navigate to http://0.0.0.0:8000/src/elm/TestRunner.elm
+### Local execution
+
+```
+npm test
+```
 
 ## WebdriverIO tests
 
