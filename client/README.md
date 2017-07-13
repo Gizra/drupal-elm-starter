@@ -24,15 +24,10 @@ You may need to update `src/elm/LocalConfig.elm` if your local URLs are differen
 ## Unit Tests
 The unit tests are written in Elm via [Elm Test](https://github.com/elm-community/elm-test) and it's invoked at the Travis builds.
 
-### Prerequisites
-```
-npm install -g elm-test
-```
-
 ### Local execution
 
 ```
-elm-test src/elm/TestRunner.elm
+npm test
 ```
 
 ## WebdriverIO tests
