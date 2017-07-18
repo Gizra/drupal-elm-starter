@@ -12,3 +12,4 @@ decodeUser =
         |> required "id" decodeInt
         |> required "label" string
         |> optional "avatar_url" string "https://github.com/foo.png?s=90"
+        |> required "pusher_channel" string

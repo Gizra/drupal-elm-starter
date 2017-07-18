@@ -75,7 +75,8 @@ viewForm user model =
                         ]
                         []
                     ]
-                  -- Submit button
+
+                -- Submit button
                 , button
                     [ disabled isLoading
                     , class "ui large fluid primary button"

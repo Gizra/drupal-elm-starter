@@ -3,3 +3,4 @@ core = 7.x
 description = "Hedley Pusher integration."
 package = Hedley
 dependencies[] = composer_manager
+files[] = tests/HedleyPusherAuth.test

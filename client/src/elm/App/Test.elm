@@ -44,7 +44,11 @@ getPageAsAuthenticated : Page -> Page
 getPageAsAuthenticated page =
     let
         dummyUser =
-            { id = 100, name = "Foo", avatarUrl = "https://example.com" }
+            { id = 100
+            , name = "Foo"
+            , avatarUrl = "https://example.com"
+            , pusherChannel = "general"
+            }
 
         model =
             { emptyModel | user = Success dummyUser }

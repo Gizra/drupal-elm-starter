@@ -16,7 +16,7 @@ class HedleyRestfulItems extends HedleyRestfulEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
-    $field_names = [];
+    $field_names = ['field_private_note'];
 
     foreach ($field_names as $field_name) {
       $public_name = str_replace('field_', '', $field_name);

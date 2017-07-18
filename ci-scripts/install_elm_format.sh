@@ -3,14 +3,13 @@ set -e
 
 # ---------------------------------------------------------------------------- #
 #
-# Test client.
+# Install Elm Format.
 #
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z "${BUILD_CLIENT+x}" ] || [ "$BUILD_CLIENT" -ne 1 ]; then
+if [ -z "${ELM_REVIEW+x}" ] || [ "$ELM_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
-cd "$TRAVIS_BUILD_DIR"/client
-npm test
+npm install -g elm-format@0.6.1-alpha

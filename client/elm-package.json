@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "summary": "Single page application example in Elm v0.17",
-    "repository": "https://github.com/Gizra/elm-spa-exmple.git",
+    "summary": "Single page application example in Elm v0.18, with a drupal backend.",
+    "repository": "https://github.com/Gizra/drupal-elm-starter.git",
     "license": "BSD3",
     "source-directories": [
         "src/elm"

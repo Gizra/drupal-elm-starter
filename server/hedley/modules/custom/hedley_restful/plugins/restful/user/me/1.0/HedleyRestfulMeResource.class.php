@@ -26,6 +26,14 @@ class HedleyRestfulMeResource extends \RestfulEntityBaseUser {
     $public_fields = parent::publicFieldsInfo();
 
     unset($public_fields['self']);
+
+    $public_fields['pusher_channel'] = [
+      'property' => 'uid',
+      'process_callbacks' => [
+        [$this, 'getPusherChannel'],
+      ],
+    ];
+
     return $public_fields;
   }
 
@@ -36,7 +44,18 @@ class HedleyRestfulMeResource extends \RestfulEntityBaseUser {
    */
   public function viewEntity($entity_id) {
     $account = $this->getAccount();
-    return array(parent::viewEntity($account->uid));
+    return parent::viewEntity($account->uid);
+  }
+
+  /**
+   * Get pusher channel for the current user.
+   *
+   * @return string
+   *   The pusher channel name: 'general' or 'private-general'.
+   */
+  protected function getPusherChannel() {
+    $account = $this->getAccount();
+    return user_access('access private fields', $account) ? 'private-general' : 'general';
   }
 
 }

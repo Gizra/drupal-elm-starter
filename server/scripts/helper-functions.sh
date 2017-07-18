@@ -237,26 +237,6 @@ function enable_development_modules {
 }
 
 ##
-# Convert csv migration files to sql tables.
-##
-function convert_csv_to_sql {
-  echo -e "${LBLUE}> Converting csv migration files to sql tables${RESTORE}"
-  cd "$ROOT"/www
-  CSV2SQL=$(drush | grep "csv2sql")
-
-  if [ ! "$CSV2SQL" ]; then
-    drush dl csv2sql --yes
-  fi
-
-  csv_files="profiles/hedley/modules/custom/hedley_migrate/csv/*/*.csv"
-
-  for csv in $csv_files
-  do
-    drush csv2sql "$csv"
-  done
-}
-
-##
 # Do dummy content migration.
 ##
 function import_demo_content {
