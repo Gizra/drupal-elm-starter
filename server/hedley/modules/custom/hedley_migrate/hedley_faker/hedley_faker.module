@@ -1,0 +1,95 @@
+<?php
+
+/**
+ * @file
+ * Code for the Hedley Faker module.
+ */
+
+use Faker\Factory;
+
+/**
+ * Implements hook_libraries_info().
+ */
+function hedley_faker_libraries_info() {
+  $libraries['faker'] = array(
+    'name' => 'Faker',
+    'vendor url' => 'https://github.com/fzaninotto/Faker',
+    'download url' => 'https://github.com/fzaninotto/Faker/archive/v1.6.0.tar.gz',
+    // The actual library files are in 'profiles/hedley/libraries/faker/src'.
+    'path' => 'src',
+    'files' => array(
+      'php' => array(
+        'autoload.php',
+      ),
+    ),
+    'version' => '1.6',
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_hook_info().
+ */
+function hedley_faker_hook_info() {
+  // Allow hedley_faker hooks to be defined in modulename.faker.inc.
+  $hooks['hedley_faker_alter'] = array('group' => 'hedley_faker');
+  $hooks['hedley_faker_user_generate'] = array('group' => 'hedley_faker');
+  $hooks['hedley_faker_node_generate'] = array('group' => 'hedley_faker');
+  $hooks['hedley_faker_taxonomy_term_generate'] = array('group' => 'hedley_faker');
+
+  return $hooks;
+}
+
+/**
+ * Factory for creating a Faker\Generator instance.
+ *
+ * Invokes hook_hedley_faker_alter() to allow modules to add providers to the
+ * Faker instance.
+ */
+function hedley_faker_create() {
+  if (!libraries_load('faker')) {
+    throw new Exception('The Faker library could not be found.');
+  }
+
+  $faker = Factory::create();
+  drupal_alter('hedley_faker', $faker);
+
+  return $faker;
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function hedley_faker_user_presave(&$edit, $account, $category) {
+  if (empty($account->devel_generate)) {
+    return;
+  }
+
+  $faker = hedley_faker_create();
+  module_invoke_all('hedley_faker_user_generate', $edit, $account, $category, $faker);
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function hedley_faker_node_presave($node) {
+  if (empty($node->devel_generate)) {
+    return;
+  }
+
+  $faker = hedley_faker_create();
+  module_invoke_all('hedley_faker_node_generate', $node, $faker);
+}
+
+/**
+ * Implements hook_taxonomy_term_presave().
+ */
+function hedley_faker_taxonomy_term_presave($term) {
+  if (empty($term->devel_generate)) {
+    return;
+  }
+
+  $faker = hedley_faker_create();
+  module_invoke_all('hedley_faker_taxonomy_term_generate', $term, $faker);
+}

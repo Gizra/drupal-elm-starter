@@ -1,0 +1,6 @@
+name = Hedley Faker
+description = Use the PHP Faker library to generate more meaningful sample content - inspired by the 'faker' project on Drupal.org
+package = Development
+core = 7.x
+dependencies[] = devel_generate
+dependencies[] = libraries

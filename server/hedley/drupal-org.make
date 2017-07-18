@@ -97,6 +97,11 @@ projects[views][version] = "3.15"
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
+; Libraries
+; For the 'hedley_faker' module.
+libraries[faker][download][type] = get
+libraries[faker][download][url] = https://github.com/fzaninotto/Faker/archive/v1.6.0.tar.gz
+
 ; Development
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.5"

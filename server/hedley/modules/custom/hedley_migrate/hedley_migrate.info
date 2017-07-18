@@ -2,6 +2,7 @@ name = "Hedley migration"
 description = "Populate content."
 package = "Hedley"
 core = 7.x
+dependencies[] = hedley_faker
 dependencies[] = migrate
 dependencies[] = migrate_extras
 
