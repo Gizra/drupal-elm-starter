@@ -5,6 +5,8 @@
  * Populate Hedley content.
  */
 
+use Faker\Generator;
+
 /**
  * Implements hook_migrate_api().
  */
@@ -20,4 +22,113 @@ function hedley_migrate_migrate_api() {
   }
 
   return $api;
+}
+
+/**
+ * Implements hook_hedley_faker_node_generate().
+ */
+function hedley_migrate_hedley_faker_node_generate($node, Generator $faker) {
+  if (!$node->uid) {
+    // User can't be anonymous, get a random user(not admin or anonymous).
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'user')
+      ->propertyCondition('uid', [0, 1], 'NOT IN')
+      ->range(0, 200)
+      ->execute();
+
+    $node->uid = array_rand($result['user']);
+  }
+
+  // Use Faker to fake a title for the node.
+  $node->title = $faker->sentence(6);
+
+  // Alter the node by a specific callback for the current type.
+  $alternation_callback = "_hedley_migrate_preprocess_{$node->type}";
+  if (function_exists($alternation_callback)) {
+    $alternation_callback($node, $faker);
+  }
+
+  // Adjust XSS.
+  _hedley_migrate_preprocess_xss('node', $node->type, $node);
+}
+
+/**
+ * Implements hook_hedley_faker_taxonomy_term_generate().
+ */
+function hedley_migrate_hedley_faker_taxonomy_term_generate($term, Generator $faker) {
+  // Use Faker to fake a title for the taxonomy term.
+  $term->name = $faker->sentence(2);
+
+  // Adjust XSS.
+  _hedley_migrate_preprocess_xss('taxonomy_term', $term->vocabulary_machine_name, $term);
+}
+
+/**
+ * Alters devel generated Sites to satisfy business logic.
+ *
+ * We should have at least one entity from each bundle with an XSS label.
+ *
+ * @param string $entity_type
+ *   The entity type to alter.
+ * @param string $bundle
+ *   The bundle of the entity.
+ * @param object $entity
+ *   Site entity object.
+ */
+function _hedley_migrate_preprocess_xss($entity_type, $bundle, $entity) {
+  // This global var keeps xss indication for each entity type / bundle.
+  $_hedley_devel_generate = &drupal_static(__FUNCTION__, []);
+
+  if (!$entity_info = entity_get_info($entity_type)) {
+    return;
+  }
+
+  $label_property = $entity_info['entity keys']['label'];
+
+  // Validate the current node type has at least one instance with XSS.
+  $xss_is_missing = empty($_hedley_devel_generate[$entity_type][$bundle]);
+
+  $randomly_add_xss = rand() % 2 == 0;
+  if (!$xss_is_missing && $randomly_add_xss) {
+    return;
+  }
+
+  // Indicate the current bundle has an XSS instance.
+  $_hedley_devel_generate[$entity_type][$bundle] = TRUE;
+
+  $wrapper = entity_metadata_wrapper($entity_type, $entity);
+
+  // Adjust node's title to include XSS.
+  $label = $wrapper->label();
+  $wrapper->{$label_property}->set("<script>alert('XSS-{$entity_type}-{$bundle}-{$label}')</script>");
+
+  // Handle all text fields.
+  foreach (field_info_instances($entity_type, $bundle) as $field_name => $field) {
+    $field = field_info_field($field_name);
+    if ($field['module'] != 'text') {
+      continue;
+    }
+
+    $field_instance_info = field_info_instance($entity_type, $field_name, $bundle);
+    $text_processing = !empty($field_instance_info['settings']['text_processing']);
+
+    // Handle each column.
+    foreach ($field['columns'] as $column => $column_info) {
+      if ($text_processing) {
+        if ($column == 'format') {
+          // We should not allow full html format for XSS attempt.
+          if ($wrapper->{$field_name}->format->value() == 'full_html') {
+            $wrapper->{$field_name}->format->set('filtered_html');
+          }
+        }
+        else {
+          $wrapper->{$field_name}->{$column}->set("<script>alert('XSS-{$entity_type}-{$bundle}-{$field_name}')</script>");
+        }
+      }
+      else {
+        $wrapper->{$field_name}->set("<script>alert('XSS-{$entity_type}-{$bundle}-{$field_name}')</script>");
+      }
+    }
+  }
 }
