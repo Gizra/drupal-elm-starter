@@ -7,6 +7,7 @@ import Html.Events exposing (onClick, onInput, onSubmit)
 import Pages.Login.Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Model exposing (..)
+import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (viewError)
 
 
@@ -44,7 +45,7 @@ viewForm user model =
                     div [ class "ui error message" ] [ viewError err ]
 
                 _ ->
-                    div [] []
+                    emptyNode
     in
         div []
             [ Html.form
@@ -74,7 +75,8 @@ viewForm user model =
                         ]
                         []
                     ]
-                  -- Submit button
+
+                -- Submit button
                 , button
                     [ disabled isLoading
                     , class "ui large fluid primary button"

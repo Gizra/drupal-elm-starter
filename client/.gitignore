@@ -4,6 +4,9 @@ serve
 dist
 bower_components
 
+# For local tests
+libsysconfcpus
+
 # WebDriverIO
 *.jar
 geckodriver

@@ -1,0 +1,6 @@
+client/node_modules
+client/serve
+client/dist
+client/elm-stuff
+client/bower_components
+server/www

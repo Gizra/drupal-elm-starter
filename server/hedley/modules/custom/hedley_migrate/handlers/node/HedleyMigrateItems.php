@@ -26,6 +26,7 @@ class HedleyMigrateItems extends HedleyMigrateBase {
     $column_names = [
       'title',
       'field_image',
+      'field_private_note',
     ];
 
     $columns = [];
@@ -51,6 +52,7 @@ class HedleyMigrateItems extends HedleyMigrateBase {
 
     $simple_fields = drupal_map_assoc([
       'title',
+      'field_private_note',
     ]);
 
     $this->addSimpleMappings($simple_fields);

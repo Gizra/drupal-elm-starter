@@ -8,10 +8,10 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z ${CODE_REVIEW+x} ] || [ "$CODE_REVIEW" -ne 1 ]; then
+if [ -z "${CODE_REVIEW+x}" ] || [ "$CODE_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
-cd $TRAVIS_BUILD_DIR
+cd "$TRAVIS_BUILD_DIR"
 composer global require drupal/coder
 phpcs --config-set installed_paths ~/.config/composer/vendor/drupal/coder/coder_sniffer

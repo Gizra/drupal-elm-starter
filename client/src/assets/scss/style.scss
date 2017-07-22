@@ -1,3 +1,8 @@
 @import "elm-plot";
 @import "layout";
 @import "pages/login";
+
+// Workaround for WDIO tests.
+#__bs_notify__ {
+  pointer-events: none;
+}

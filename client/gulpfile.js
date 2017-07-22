@@ -132,6 +132,9 @@ gulp.task("minify", ["styles"], function () {
   return gulp.src("serve/**/*.*")
     // Concatenate JavaScript files and preserve important comments
     .pipe($.if("*.js", $.uglify({preserveComments: "some"})))
+    .on('error', function(err) {
+        console.error(err);
+    })
     // Minify CSS
     .pipe($.if("*.css", $.minifyCss()))
     // Start cache busting the files
@@ -166,7 +169,7 @@ gulp.task('elm-init', elm.init);
 gulp.task('elm', ['elm-init'], function(){
   return gulp.src('src/elm/Main.elm')
     .pipe(plumber())
-    .pipe(elm({'debug': true, 'warn' : true}))
+    .pipe(elm({'debug': false, 'warn' : true}))
     .on('error', function(err) {
         console.error(err.message);
 

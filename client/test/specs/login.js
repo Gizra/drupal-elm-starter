@@ -5,8 +5,8 @@ describe('login page', function() {
         browser.url('/#login');
 
         browser.waitForVisible('.login-form');
-        browser.setValue('[name="username"]', 'admin');
-        browser.setValue('[name="password"]', 'admin');
+        browser.setValueSafe('[name="username"]', 'admin');
+        browser.setValueSafe('[name="password"]', 'admin');
         browser.submitForm('.login-form');
         browser.waitForVisible('.menu h4');
         var title = browser.getText('.menu h4');
@@ -21,8 +21,8 @@ describe('login page', function() {
         browser.url('/#login');
 
         browser.waitForVisible('.login-form');
-        browser.setValue('[name="username"]', 'wrong-name');
-        browser.setValue('[name="password"]', 'wrong-pass');
+        browser.setValueSafe('[name="username"]', 'wrong-name');
+        browser.setValueSafe('[name="password"]', 'wrong-pass');
         browser.submitForm('.login-form');
 
         browser.waitForVisible('.login .ui.error.message');

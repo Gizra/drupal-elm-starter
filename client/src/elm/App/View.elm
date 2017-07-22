@@ -12,6 +12,7 @@ import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
 import ItemManager.View exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
+import Utils.Html exposing (emptyNode)
 
 
 view : Model -> Html Msg
@@ -134,7 +135,7 @@ viewSidebar model sidebar =
                     ]
 
         _ ->
-            div [] []
+            emptyNode
 
 
 viewPageNotFoundItem : Page -> Html Msg

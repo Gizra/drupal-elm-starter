@@ -9,4 +9,5 @@ type alias User =
     { id : Int
     , name : String
     , avatarUrl : String
+    , pusherChannel : String
     }

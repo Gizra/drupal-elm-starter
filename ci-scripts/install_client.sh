@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # ---------------------------------------------------------------------------- #
@@ -8,7 +8,7 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z ${BUILD_CLIENT+x} ] || [ "$BUILD_CLIENT" -ne 1 ]; then
+if [ -z "${BUILD_CLIENT+x}" ] || [ "$BUILD_CLIENT" -ne 1 ]; then
  exit 0;
 fi
 
@@ -16,9 +16,9 @@ echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 # Install global packages.
 npm install -g elm@~0.18.0
-npm install -g elm-test
+npm install -g elm-test@0.18.2
 
-cd $TRAVIS_BUILD_DIR/client
+cd "$TRAVIS_BUILD_DIR"/client
 elm-package install -y
 
 # Getting elm-make to run quicker.
@@ -26,8 +26,8 @@ elm-package install -y
 if [ ! -d sysconfcpus/bin ];
 then
   git clone https://github.com/obmarg/libsysconfcpus.git;
-  cd libsysconfcpus;
-  ./configure --prefix=$TRAVIS_BUILD_DIR/sysconfcpus;
+  cd libsysconfcpus || exit;
+  ./configure --prefix="$TRAVIS_BUILD_DIR"/sysconfcpus;
   make && make install;
   pwd
   cd ..;

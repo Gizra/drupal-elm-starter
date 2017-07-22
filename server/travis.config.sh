@@ -8,6 +8,9 @@
 #
 #########################################################################################
 
+# GitHub Repository identifier
+GH_REPO="Gizra/drupal-elm-starter"
+
 
 # The profile used to install the platform.
 PROFILE_NAME="hedley"

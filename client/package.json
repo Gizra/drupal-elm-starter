@@ -9,6 +9,7 @@
   "devDependencies": {
     "browser-sync": "2.18.2",
     "del": "1.2.1",
+    "elm-test": "0.18.2",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "2.3.1",
     "gulp-cache": "0.2.10",
@@ -19,7 +20,7 @@
     "gulp-gh-pages": "0.5.4",
     "gulp-gzip": "0.0.8",
     "gulp-htmlmin": "0.2.0",
-    "gulp-if": "1.2.5",
+    "gulp-if": "2.0.2",
     "gulp-imagemin": "2.3.0",
     "gulp-jshint": "1.11.2",
     "gulp-load-plugins": "0.8.1",
@@ -38,7 +39,6 @@
     "merge-stream": "0.1.8",
     "wdio-browserstack-service": "0.1.4",
     "wdio-mocha-framework": "0.5.8",
-    "wdio-phantomjs-service": "0.2.2",
     "wdio-selenium-standalone-service": "0.0.7",
     "wdio-spec-reporter": "0.0.5",
     "wiredep": "2.2.2"
@@ -46,5 +46,7 @@
   "engines": {
     "node": ">0.10.0"
   },
-  "scripts": {}
+  "scripts": {
+    "test": "elm-test src/elm/TestRunner.elm"
+  }
 }

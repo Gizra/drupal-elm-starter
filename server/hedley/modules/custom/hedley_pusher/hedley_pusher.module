@@ -8,22 +8,22 @@
 /**
  * Trigger a Pusher event.
  *
+ * The event itself is fired after all the processing.
+ *
  * @param string $channel_name
- *   The channel na,e.
+ *   The channel name.
  * @param string $event_name
  *   The event name.
  * @param array $data
  *   The data to transmit.
- *
- * @throws \PusherException
- * @throws \RestfulServerConfigurationException
- *
- * @return bool
- *   The return value of the Pusher trigger action.
  */
 function hedley_pusher_trigger_event($channel_name, $event_name, array $data = array()) {
-  $pusher = hedley_pusher_get_pusher();
-  return $pusher->trigger($channel_name, $event_name, $data);
+  $queue = &drupal_static('hedley_pusher_static_queue', []);
+  $queue[] = [
+    'channel' => $channel_name,
+    'name' => $event_name,
+    'data' => $data,
+  ];
 }
 
 /**
@@ -45,7 +45,7 @@ function hedley_pusher_get_pusher() {
   $app_id = variable_get('hedley_pusher_app_id');
   $app_cluster = variable_get('hedley_pusher_app_cluster');
 
-  if (empty($app_key) || empty($app_secret) || empty($app_id) || empty($app_cluster)) {
+  if (!$app_key || !$app_secret || !$app_id || !$app_cluster) {
     throw new Exception('Pusher app is not configured properly.');
   }
 
@@ -55,4 +55,25 @@ function hedley_pusher_get_pusher() {
   ];
 
   return new Pusher($app_key, $app_secret, $app_id, $options);
+}
+
+/**
+ * Implements hook_exit().
+ *
+ * Sends out Pusher messages in a batch.
+ */
+function hedley_pusher_exit() {
+  $queue = &drupal_static('hedley_pusher_static_queue', []);
+  if (!$queue) {
+    // No registered pusher events.
+    return;
+  }
+
+  try {
+    $pusher = hedley_pusher_get_pusher();
+    $pusher->triggerBatch($queue);
+  }
+  catch (Exception $e) {
+    watchdog('hedley_pusher', 'Could not transmit Pusher events: !queue', ['!queue' => serialize($queue)]);
+  }
 }

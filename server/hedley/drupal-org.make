@@ -13,12 +13,13 @@ projects[auto_entitylabel][version] = "1.3"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.12"
+projects[ctools][patch][] = "https://www.drupal.org/files/issues/2067997-reload-plugins-class-7.patch"
 
 projects[composer_manager][subdir] = "contrib"
 projects[composer_manager][version] = "1.8"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -37,7 +38,7 @@ projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.2"
 
 projects[entity_validator][subdir] = "contrib"
-projects[entity_validator][version] = "1.x"
+projects[entity_validator][version] = "1.2"
 
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
@@ -73,7 +74,7 @@ projects[og][subdir] = "contrib"
 projects[og][version] = 2.x
 
 projects[restful][subdir] = "contrib"
-projects[restful][version] = "1.x-dev"
+projects[restful][version] = "1.8"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.12"
@@ -91,7 +92,7 @@ projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.14"
+projects[views][version] = "3.15"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"

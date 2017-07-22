@@ -15,6 +15,7 @@ type alias ItemId =
 type alias Item =
     { name : String
     , image : String
+    , privateNote : Maybe String
     }
 
 
