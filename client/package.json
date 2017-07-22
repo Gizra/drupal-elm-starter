@@ -10,6 +10,8 @@
     "browser-sync": "2.18.2",
     "del": "1.2.1",
     "elm-test": "0.18.2",
+    "galenframework-cli": "^2.3.4",
+    "geckodriver": "^1.8.0",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "2.3.1",
     "gulp-cache": "0.2.10",
@@ -47,6 +49,7 @@
     "node": ">0.10.0"
   },
   "scripts": {
-    "test": "elm-test src/elm/TestRunner.elm"
+    "test": "elm-test src/elm/TestRunner.elm",
+    "galen": "galen"
   }
 }

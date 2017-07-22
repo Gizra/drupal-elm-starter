@@ -40,9 +40,12 @@ Note: You will have 3 terminal tabs open: One with `gulp`, the other with the se
 
 ## Galen tests
 
-```
-galen check ./test/galen/login.gspec \
-     --url http://localhost:3000 \
-     --size 640x480  \
-     --htmlreport ./test/galen/report
-```
+1. Run `gulp`
+1. Copy `./test/galen/galen.config` to `./test/galen/galen.local.config`
+1. Make sure your `$.webdriver.chrome.driver` path is correct (Line 32).
+1. Run the Galen tests:
+
+`npm run galen -- check ./test/galen/login.gspec --url http://localhost:3000 --size 640x480 --htmlreport ./test/galen/report --config ./test/galen/galen.local.config`
+
+Note: You can see the galen reports by opening the following file in your browser:
+`file:///{PATH_TO_PROJECT}/drupal-elm-starter/client/test/galen/report/report.html` 

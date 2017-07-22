@@ -16,3 +16,4 @@ errorShots/
 LocalConfig.elm
 
 test/galen/report
+test/galen/galen.local.config
