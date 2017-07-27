@@ -150,6 +150,9 @@ enable_development_modules
 # Run post script (if any).
 run_post_script "reset"
 
+# Update settings.php.
+update_settings
+
 # Load demo content if requested.
 if [ $DEMO_CONTENT ]; then
   import_demo_content

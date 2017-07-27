@@ -348,6 +348,28 @@ function symlink_externals {
 }
 
 ##
+# Update settings.php.
+#
+# Write Pusher settings to settings.php.
+##
+function update_settings {
+  SETTINGS="$ROOT/www/sites/default/settings.php"
+  chmod 777 ${SETTINGS}
+
+  echo -e "\n" >> ${SETTINGS}
+  echo "/**" >> ${SETTINGS}
+  echo " * Pusher settings." >> ${SETTINGS}
+  echo " */" >> ${SETTINGS}
+  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';" >> ${SETTINGS}
+  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';" >> ${SETTINGS}
+  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';" >> ${SETTINGS}
+  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';" >> ${SETTINGS}
+
+  # Protect the settings from changes, to prevent drupal's warning.
+  chmod 755 ${SETTINGS}
+}
+
+##
 # Check if there is a post script and run it.
 #
 # @param string $1
@@ -367,10 +389,8 @@ function run_post_script {
     return 1
   fi
 
-  # Run the post script, with settings.php writable.
-  chmod 777 "$ROOT"/www/sites/default/settings.php
+  # Run the post script.
   echo -e "${LBLUE}> Run $POST_FUNCT_NAME script.${RESTORE}"
-  chmod 755 "$ROOT"/www/sites/default/settings.php
   $POST_FUNCT_NAME
   echo
 }
