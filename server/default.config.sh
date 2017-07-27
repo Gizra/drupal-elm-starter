@@ -73,13 +73,11 @@ PUSHER_APP_CLUSTER="pusher-app-cluster"
 
 # Post install script.
 function post_install {
-  chmod 777 www/sites/default/settings.php
-
   # Pusher integration.
-  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';"  >> www/sites/default/settings.php
-  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';"  >> www/sites/default/settings.php
-  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';"  >> www/sites/default/settings.php
-  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';"  >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';" >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';" >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';" >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';" >> www/sites/default/settings.php
 }
 
 # Post upgrade script.
@@ -87,11 +85,9 @@ function post_install {
 
 # Post reset script.
 function post_reset {
-  chmod 777 www/sites/default/settings.php
-
   # Pusher integration.
-  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';"  >> www/sites/default/settings.php
-  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';"  >> www/sites/default/settings.php
-  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';"  >> www/sites/default/settings.php
-  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';"  >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';" >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';" >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';" >> www/sites/default/settings.php
+  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';" >> www/sites/default/settings.php
 }

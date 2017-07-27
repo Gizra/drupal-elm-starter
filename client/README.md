@@ -34,6 +34,7 @@ npm test
 
 1. Run `gulp`
 1. Follow [steps 2-4](http://webdriver.io/guide.html)
-1. Execute tests with `./node_modules/.bin/wdio wdio.conf.js`
+1. `cp wdio.local.conf.js.example wdio.local.conf.js` and set your local configurations.
+1. Execute tests with `./node_modules/.bin/wdio wdio.local.conf.js`
 
 Note: You will have 3 terminal tabs open: One with `gulp`, the other with the selenium standalone server and the third with the executed tests.
