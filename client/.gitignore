@@ -14,3 +14,4 @@ errorShots/
 
 # Ignore the local config file.
 LocalConfig.elm
+wdio.local.conf.js
