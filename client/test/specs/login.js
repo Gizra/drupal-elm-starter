@@ -5,7 +5,7 @@ describe('login page', function() {
         browser.url('/#login');
 
         browser.waitForVisible('.login-form');
-        browser.setValueSafe('[name="username"]', 'admin');
+        browser.setValueSafe('[name="usernameNN"]', 'admin');
         browser.setValueSafe('[name="password"]', 'admin');
         browser.submitForm('.login-form');
         browser.waitForVisible('.menu h4');
