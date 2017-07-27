@@ -14,3 +14,6 @@ fi
 
 cd "$TRAVIS_BUILD_DIR"/client
 npm test
+
+# Run galen tests.
+npm run galen -- check ./test/galen/login.gspec --url http://server.local:3000 --size 640x480 --config ./test/galen/galen.travis.config
