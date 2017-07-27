@@ -39,6 +39,7 @@ for SPEC in test/specs/*js; do
     echo "$SPEC_BASENAME" >> /tmp/test_results/failed_tests
     WDIO_ALL_RET="$WDIO_RET"
     WDIO_FAILED_SPECS+=("$SPEC")
+    break
   fi
 done
 
