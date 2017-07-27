@@ -354,19 +354,19 @@ function symlink_externals {
 ##
 function update_settings {
   SETTINGS="$ROOT/www/sites/default/settings.php"
-  chmod 777 ${SETTINGS}
+  chmod 777 "$SETTINGS"
 
-  echo -e "\n" >> ${SETTINGS}
-  echo "/**" >> ${SETTINGS}
-  echo " * Pusher settings." >> ${SETTINGS}
-  echo " */" >> ${SETTINGS}
-  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';" >> ${SETTINGS}
-  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';" >> ${SETTINGS}
-  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';" >> ${SETTINGS}
-  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';" >> ${SETTINGS}
+  echo -e "\n" >> "$SETTINGS"
+  echo "/**" >> "$SETTINGS"
+  echo " * Pusher settings." >> "$SETTINGS"
+  echo " */" >> "$SETTINGS"
+  echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';" >> "$SETTINGS"
+  echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';" >> "$SETTINGS"
+  echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';" >> "$SETTINGS"
+  echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';" >> "$SETTINGS"
 
   # Protect the settings from changes, to prevent drupal's warning.
-  chmod 755 ${SETTINGS}
+  chmod 755 "$SETTINGS"
 }
 
 ##
