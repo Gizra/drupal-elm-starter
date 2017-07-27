@@ -147,11 +147,11 @@ create_sites_default_files_directory
 # Enable the development modules.
 enable_development_modules
 
-# Run post script (if any).
-run_post_script "install"
-
 # Update settings.php.
 update_settings
+
+# Run post script (if any).
+run_post_script "install"
 
 # Load demo content if required.
 if [ $DEMO_CONTENT ]; then
