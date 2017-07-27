@@ -153,10 +153,6 @@ function hedley_standard_install() {
   // Enable default permissions for system roles.
   $permissions = array(
     'access content',
-    'access comments',
-    'post comments',
-    'skip comment approval',
-    // "View user profiles" is for viewing the task_assignee field.
     'access user profiles',
     filter_permission_name($filtered_html_format),
   );

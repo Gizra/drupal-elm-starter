@@ -147,6 +147,9 @@ create_sites_default_files_directory
 # Enable the development modules.
 enable_development_modules
 
+# Protect settings.php, to prevent a warning in the status report.
+chmod 755 "$ROOT"/www/sites/default/settings.php
+
 # Run post script (if any).
 run_post_script "install"
 
