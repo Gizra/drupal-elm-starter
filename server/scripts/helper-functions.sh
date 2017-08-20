@@ -74,9 +74,9 @@ function check_config_file {
 #  Will exit with an error message if the bootstrap does not exists!
 ##
 function check_drupal_bootstrap {
-  cd $ROOT/www
-  BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-  cd $ROOT
+  cd "$ROOT"/www
+  BOOTSTRAP_SUCCESS=$(drush status grep "Drupal bootstrap" | grep "Successful")
+  cd "$ROOT"
 
   if [ ! "$BOOTSTRAP_SUCCESS" ]; then
     echo
