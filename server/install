@@ -160,19 +160,7 @@ fi
 
 
 # Check if we have a working bootstrap.
-cd $ROOT/www
-BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd $ROOT
-
-if [ ! "$BOOTSTRAP_SUCCESS" ]; then
-  echo
-  echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo -e "${BGLRED}  Installation failure!                                          ${RESTORE}"
-  echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
-  echo -e  "${BGRED}                                                                 ${RESTORE}"
-  echo
-  exit 1
-fi
+check_drupal_bootstrap
 
 
 # If we managed to get to here: the installation was successful!
