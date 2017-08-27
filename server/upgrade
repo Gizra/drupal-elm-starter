@@ -11,8 +11,7 @@
 
 
 # Define the root of the GIT repository.
-cd ${0%/*}
-ROOT=$(pwd)
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $ROOT
 
 # Load the colors.
