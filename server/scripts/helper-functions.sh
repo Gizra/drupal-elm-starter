@@ -68,6 +68,30 @@ function check_config_file {
 }
 
 
+##
+# Check if there's a working drupal's bootstrap in the www dir.
+#
+#  Will exit with an error message if the bootstrap does not exists!
+##
+function check_drupal_bootstrap {
+  cd "$ROOT"/www
+  BOOTSTRAP_SUCCESS=$(drush status grep "Drupal bootstrap" | grep "Successful")
+  cd "$ROOT"
+
+  if [ ! "$BOOTSTRAP_SUCCESS" ]; then
+    echo
+    echo -e  "${BGRED}                                                                 ${RESTORE}"
+    echo -e "${BGLRED}  No working Drupal installation!                                ${RESTORE}"
+    echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
+    echo -e  "${BGRED}  > An upgrade can only be run on a working environment.         ${RESTORE}"
+    echo -e  "${BGRED}                                                                 ${RESTORE}"
+    echo -e  "${BGRED}  Run the ${BGLRED}./install${BGRED} command to install the platform.             ${RESTORE}"
+    echo -e  "${BGRED}                                                                 ${RESTORE}"
+    echo
+    exit 1
+  fi
+}
+
 
 ##
 # Cleanup the sites/default/ directory:
