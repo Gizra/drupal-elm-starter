@@ -37,4 +37,5 @@ npm test
 1. `cp wdio.local.conf.js.example wdio.local.conf.js` and set your local configurations.
 1. Execute tests with `./node_modules/.bin/wdio wdio.local.conf.js`
 
-Note: You will have 3 terminal tabs open: One with `gulp`, the other with the selenium standalone server and the third with the executed tests.
+Beware that you do not need to (should not) execute a standalone Selenium Server alongside WDIO to run the tests.
+To simulate Travis test execution, see `../ci-scripts/README.md`
