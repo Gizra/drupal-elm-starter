@@ -45,6 +45,16 @@ exports.config = {
         maxInstances: 1,
         //
         browserName: 'chrome',
+        chromeOptions: {
+            binary: '/tmp/google-chrome-stable',
+            args: [
+                'headless',
+                // Use --disable-gpu to avoid an error from a missing Mesa
+                // library, as per
+                // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+                'disable-gpu',
+            ],
+        },
         name: '<<SPECNAME>>'
     }],
     //

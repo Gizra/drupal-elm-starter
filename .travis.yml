@@ -18,7 +18,6 @@ services:
 addons:
   chrome: stable
 before_install:
-- google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 - "([ ! -z $BUILD_WEBDRIVERIO ] && sudo pip install docker-compose) || :"
 - openssl aes-256-cbc -K $encrypted_b2dc5bc8fb77_key -iv $encrypted_b2dc5bc8fb77_iv
