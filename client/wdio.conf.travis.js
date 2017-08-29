@@ -139,9 +139,6 @@ exports.config = {
         ui: 'bdd'
     },
 
-    // Via docker-compose, hub becomes a resolvable hostname.
-    host: 'hub',
-    port: 4444,
     // =====
     // Hooks
     // =====
