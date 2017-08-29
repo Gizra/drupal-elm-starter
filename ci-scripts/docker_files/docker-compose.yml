@@ -1,25 +1,5 @@
 version: '2'
 services:
-    hub:
-        privileged: true
-        image: dosel/zalenium:3.3.1j
-        tty: true
-        command: >
-          start --chromeContainers 1
-            --firefoxContainers 0
-            --maxDockerSeleniumContainers 2
-            --screenWidth 1600 --screenHeight 950
-            --timeZone "Asia/Jerusalem"
-            --videoRecordingEnabled true
-            --sauceLabsEnabled false
-            --browserStackEnabled false
-            --testingBotEnabled false
-            --startTunnel false
-        volumes:
-          - /tmp/videos:/home/seluser/videos
-          - /var/run/docker.sock:/var/run/docker.sock
-          - /usr/bin/docker:/usr/bin/docker
-
     server.local:
         privileged: true
         image: server
