@@ -18,7 +18,7 @@ export CXX=g++-4.8
 # Java 8 for recent Selenium.
 # https://www.npmjs.com/package/selenium-standalone#ensure-you-have-the-minimum-required-java-version.
 echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list
-apt-get update && apt-get install openjdk-8-jdk
+apt-get update && apt-get install openjdk-8-jre
 update-alternatives --config java
 
 # Install global packages.
