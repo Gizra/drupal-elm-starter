@@ -21,6 +21,30 @@ You may need to update `src/elm/LocalConfig.elm` if your local URLs are differen
 1. Prepare file for publishing (e.g. minify, and rev file names): `gulp publish`
 1. Deploy to GitHub's pages (`gh-pages` branch of your repository): `gulp deploy`
 
+## Linting
+Travis does linting on the source code, you can find below the details and how to trigger the same check locally.
+
+## Elm
+
+### Setup
+`npm install -g elm-format@0.6.1-alpha`
+
+### Execution
+For a specific source file, you may execute:
+`elm-format --validate src/Example/View.elm`
+
+## SCSS
+
+### Setup
+
+To check the stylesheets, locally, you can initialize the checks:
+`bash ../ci-scripts/install_scss.sh`
+
+### Execution
+`bash ../ci-scripts/test_scss.sh`
+
+It will include all the SASS files from the client and the server part too.
+
 ## Unit Tests
 
 In order to view the tests on the browser Start elm reactor (elm-reactor) and navigate to http://0.0.0.0:8000/src/elm/TestRunner.elm

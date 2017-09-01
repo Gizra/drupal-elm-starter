@@ -1,5 +1,5 @@
 {
-  "extends": "BASEDIR/stylelint-config-standard",
+  "extends": "BASEDIR/.stylelint-config-standard",
   "rules": {
     "at-rule-empty-line-before": null,
     "block-no-empty": null,

@@ -46,3 +46,8 @@ Thumbs.db
 # Google Drive secrets #
 # ######################
 gdrive-service-account.json
+
+# Linting related temporary directories #
+#########################################
+.stylelint-config-standard
+.stylelintrc.json
