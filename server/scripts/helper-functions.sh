@@ -284,6 +284,51 @@ function import_demo_content {
     echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
   fi
 
+  # Make sure we have random content for all the existing content-types and
+  # random taxonomy terms for all the existing vocabularies.
+  generate_demo_content
+
+  cd "$ROOT"
+  echo
+}
+
+##
+# Generating demo content including users, content types and vocabularies.
+#
+# For content types we based on the 'node_type' table, and for vocabularies on
+# the 'taxonomy_vocabulary' table.
+##
+function generate_demo_content {
+  echo -e "${LBLUE}> Starting the process of generating demo content using the devel_generate module.${RESTORE}"
+  cd "$ROOT"/www
+
+  # Make sure devel-generate is enabled.
+  drush en devel_generate -y
+
+  # Generate users.
+  echo -e "${LBLUE}Generating users.${RESTORE}"
+  drush generate-users 50
+
+  # Generating taxonomy terms for all defined vocabularies.
+  # Taxonomy terms has no dependencies, hence we can automate the list.
+  VOCABS=$(drush sqlq "SELECT machine_name FROM taxonomy_vocabulary")
+  for VOCAB in $(echo "$VOCABS" | tr ";" "\n")
+  do
+    echo -e "${LBLUE}Generating terms of vocabulary: $VOCAB ${RESTORE}"
+    drush generate-terms "$VOCAB"
+  done
+
+  # Generating all types of nodes.
+  # Hardcoding the list because of the dependencies between them.
+  TYPES=(
+    item
+  )
+  for TYPE in "${TYPES[@]}"
+  do
+    echo -e "${LBLUE}Generating nodes of type: $TYPE ${RESTORE}"
+    drush generate-content 20 0 --types="$TYPE"
+  done
+
   cd "$ROOT"
   echo
 }
