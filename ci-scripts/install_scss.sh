@@ -8,15 +8,30 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [[ ( -z "${SCSS_REVIEW+x}" || "$SCSS_REVIEW" -ne 1 ) && "$CI" -eq "TRUE" ]]; then
- exit 0;
+if [[ -z ${CI+x} ]]; then
+  echo "Local environment is detected"
+else
+  if [[ -z "${SCSS_REVIEW+x}" || "$SCSS_REVIEW" -ne 1 ]]; then
+    exit 0;
+  fi
 fi
 
-npm install -g stylelint@7.12.0
+sudo npm install -g stylelint@7.12.0
 gem install -v 3.4.24 sass
 gem install -v 1.3.3 csscss
-git clone https://github.com/stylelint/stylelint-config-standard.git .stylelint-config-standard
+if [ ! -d .stylelint-config-standard ]; then
+  git clone https://github.com/stylelint/stylelint-config-standard.git .stylelint-config-standard
+fi
 
 # stylelint is sensitive to have the full path for the base ruleset.
-sed -i "s|BASEDIR|$TRAVIS_BUILD_DIR|g" .stylelintrc.json.example
+if [[ -z ${CI+x} ]]; then
+  DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  ROOT_DIR="$( cd "$( dirname "$DIR" )/" && pwd )"
+  echo $ROOT_DIR
+  sed -i "s|BASEDIR|$ROOT_DIR|g" .stylelintrc.json.example
+else
+  sed -i "s|BASEDIR|$TRAVIS_BUILD_DIR|g" .stylelintrc.json.example
+fi
+
 cp .stylelintrc.json.example .stylelintrc.json
+git checkout .stylelintrc.json.example
