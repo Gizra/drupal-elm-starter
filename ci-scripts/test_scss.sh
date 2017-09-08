@@ -22,9 +22,6 @@ HAS_ERRORS=0
 
 SCRIPTS=$(find client/src/assets/scss server/"$PROFILE_NAME"/themes/custom -name '*.scss')
 for FILE in $SCRIPTS;  do
-  if ! csscss "$FILE"; then
-    HAS_ERRORS=1
-  fi
   if ! stylelint "$FILE" --formatter verbose; then
     HAS_ERRORS=1
   fi
