@@ -16,11 +16,14 @@ else
   fi
 fi
 
-sudo npm install -g stylelint@7.12.0
+sudo npm install -g stylelint@8.1.1
 gem install -v 3.4.24 sass
 gem install -v 1.3.3 csscss
 if [ ! -d .stylelint-config-standard ]; then
   git clone https://github.com/stylelint/stylelint-config-standard.git .stylelint-config-standard
+  cd .stylelint-config-standard
+  npm install
+  cd ..
 fi
 
 # stylelint is sensitive to have the full path for the base ruleset.

@@ -10,8 +10,7 @@
 if [[ -z ${CI+x} ]]; then
   echo "Local environment is detected"
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-  source "$DIR"../server/travis.config.sh
-
+  source "$DIR"/../server/travis.config.sh
 else
   if [[ -z "${SCSS_REVIEW+x}" || "$SCSS_REVIEW" -ne 1 ]]; then
     exit 0;
