@@ -3,7 +3,7 @@ set -e
 
 # ---------------------------------------------------------------------------- #
 #
-# Install Elm Format.
+# Install elm-analyse.
 #
 # ---------------------------------------------------------------------------- #
 
@@ -13,3 +13,4 @@ if [ -z "${ELM_REVIEW+x}" ] || [ "$ELM_REVIEW" -ne 1 ]; then
 fi
 
 npm install -g elm-format@0.6.1-alpha
+npm install -g elm-analyse
