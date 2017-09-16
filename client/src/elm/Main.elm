@@ -12,8 +12,8 @@ main =
     RouteUrl.programWithFlags
         { delta2url = delta2url
         , location2messages = location2messages
-        , init = App.Update.init
-        , update = App.Update.update
-        , view = App.View.view
-        , subscriptions = App.Update.subscriptions
+        , init = init
+        , update = update
+        , view = view
+        , subscriptions = subscriptions
         }

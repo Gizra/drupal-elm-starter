@@ -4,21 +4,21 @@ import App.Model exposing (..)
 import App.PageType exposing (Page(..))
 import Config.View
 import Html exposing (..)
-import Html.Attributes exposing (alt, class, classList, href, src, style, target)
+import Html.Attributes exposing (alt, class, classList, src)
 import Html.Events exposing (onClick)
 import User.Model exposing (..)
 import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
 import ItemManager.View exposing (..)
-import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData exposing (RemoteData(..))
 import Utils.Html exposing (emptyNode)
 
 
 view : Model -> Html Msg
 view model =
     case model.config of
-        Failure err ->
+        Failure _ ->
             Config.View.view
 
         _ ->
@@ -181,9 +181,9 @@ viewMainContent model =
                     -- at this higher level that we could present a UI related to loading
                     -- the user information.
                     case model.user of
-                        Success user ->
+                        Success _ ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewItems model.currentDate user model.pageItem
+                                ItemManager.View.viewItems model.pageItem
 
                         _ ->
                             div []
@@ -195,9 +195,9 @@ viewMainContent model =
                     -- at this higher level that we could present a UI related to loading
                     -- the user information.
                     case model.user of
-                        Success user ->
+                        Success _ ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewPageItem model.currentDate id user model.pageItem
+                                ItemManager.View.viewPageItem id model.pageItem
 
                         _ ->
                             div []

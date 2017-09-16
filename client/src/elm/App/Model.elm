@@ -10,10 +10,10 @@ module App.Model
 import App.PageType exposing (Page(..))
 import Config.Model
 import Date exposing (Date)
-import Pages.Login.Model exposing (emptyModel, Model)
+import Pages.Login.Model exposing (Model)
 import Pusher.Model
 import RemoteData exposing (RemoteData(..), WebData)
-import ItemManager.Model exposing (emptyModel, Model)
+import ItemManager.Model exposing (Model)
 import Time exposing (Time)
 import User.Model exposing (..)
 

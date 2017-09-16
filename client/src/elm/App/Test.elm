@@ -8,7 +8,7 @@ import Expect
 import Http
 import Test exposing (describe, test, Test)
 import Test.Html.Query as Query
-import Test.Html.Selector exposing (text, tag)
+import Test.Html.Selector exposing (text)
 import RemoteData exposing (RemoteData(..))
 
 

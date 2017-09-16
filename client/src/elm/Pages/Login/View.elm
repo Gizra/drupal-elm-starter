@@ -3,7 +3,7 @@ module Pages.Login.View exposing (view)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Attributes.Aria exposing (ariaLabel)
-import Html.Events exposing (onClick, onInput, onSubmit)
+import Html.Events exposing (onInput, onSubmit)
 import Pages.Login.Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Model exposing (..)
@@ -28,7 +28,7 @@ viewForm user model =
         spinner =
             i [ class "notched circle loading icon" ] []
 
-        ( isLoading, isError ) =
+        ( isLoading, _ ) =
             case user of
                 Loading ->
                     ( True, False )
@@ -59,7 +59,7 @@ viewForm user model =
                         , name "username"
                         , placeholder "Username"
                         , onInput SetName
-                        , value model.loginForm.name
+                        , value model.name
                         , ariaLabel "Enter your username"
                         ]
                         []
@@ -70,7 +70,7 @@ viewForm user model =
                         , placeholder "Password"
                         , name "password"
                         , onInput SetPassword
-                        , value model.loginForm.pass
+                        , value model.pass
                         , ariaLabel "Enter your password"
                         ]
                         []

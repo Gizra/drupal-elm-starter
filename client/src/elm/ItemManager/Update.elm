@@ -2,26 +2,24 @@ port module ItemManager.Update exposing (update, subscriptions)
 
 import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
-import Date exposing (Date)
-import Dict exposing (Dict)
-import Item.Model exposing (Item, ItemId)
+import Dict
+import Item.Model exposing (ItemId)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
 import Json.Decode exposing (decodeValue)
 import Json.Encode exposing (Value)
-import HttpBuilder exposing (get, withQueryParams)
+import HttpBuilder exposing (withQueryParams)
 import Pages.Item.Update
 import Pages.Items.Update
 import Pusher.Decoder exposing (decodePusherEvent)
 import Pusher.Model exposing (PusherEventData(..))
 import RemoteData exposing (RemoteData(..))
-import User.Model exposing (User)
 import Utils.WebData exposing (sendWithHandler)
 
 
-update : Date -> BackendUrl -> String -> User -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
-update currentDate backendUrl accessToken user msg model =
+update : BackendUrl -> String -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
+update backendUrl accessToken msg model =
     case msg of
         Subscribe id ->
             -- Note that we're waiting to get the response from the server
@@ -71,7 +69,7 @@ update currentDate backendUrl accessToken user msg model =
                 Success item ->
                     let
                         ( subModel, subCmd, redirectPage ) =
-                            Pages.Item.Update.update backendUrl accessToken user subMsg item
+                            Pages.Item.Update.update subMsg item
                     in
                         ( { model | items = Dict.insert id (Success subModel) model.items }
                         , Cmd.map (MsgPagesItem id) subCmd
@@ -92,7 +90,7 @@ update currentDate backendUrl accessToken user msg model =
         MsgPagesItems subMsg ->
             let
                 ( subModel, subCmd, redirectPage ) =
-                    Pages.Items.Update.update backendUrl accessToken user subMsg (unwrapItemsDict model.items) model.itemsPage
+                    Pages.Items.Update.update subMsg model.itemsPage
             in
                 ( { model | itemsPage = subModel }
                 , Cmd.map MsgPagesItems subCmd
@@ -115,8 +113,6 @@ update currentDate backendUrl accessToken user msg model =
         HandleFetchedItem itemId (Ok item) ->
             let
                 -- Let Item settings fetch own data.
-                -- @todo: Pass the activePage here, so we can fetch
-                -- data only when really needed.
                 updatedModel =
                     { model | items = Dict.insert itemId (Success item) model.items }
             in
@@ -187,4 +183,11 @@ fetchAllItemsFromBackend backendUrl accessToken model =
 
 subscriptions : Model -> Page -> Sub Msg
 subscriptions model activePage =
-    pusherItemMessages (decodeValue decodePusherEvent >> HandlePusherEvent)
+    let
+        _ =
+            Debug.log "model" model
+
+        _ =
+            Debug.log "activePage" activePage
+    in
+        pusherItemMessages (decodeValue decodePusherEvent >> HandlePusherEvent)

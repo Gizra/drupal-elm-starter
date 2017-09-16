@@ -1,7 +1,7 @@
 module Pages.MyAccount.View exposing (view)
 
-import Html exposing (a, div, h2, i, p, text, img, Html)
-import Html.Attributes exposing (class, href, src)
+import Html exposing (div, text, img, Html)
+import Html.Attributes exposing (class, src)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Model exposing (..)
 import Utils.Html exposing (emptyNode)

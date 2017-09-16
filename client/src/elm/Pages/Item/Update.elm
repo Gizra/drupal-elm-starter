@@ -1,15 +1,13 @@
 module Pages.Item.Update exposing (update)
 
 import App.PageType exposing (Page(..))
-import Config.Model exposing (BackendUrl)
-import User.Model exposing (..)
 import Pages.Item.Model exposing (Msg(..))
 import Pusher.Model exposing (PusherEventData(..))
 import Item.Model exposing (Item)
 
 
-update : BackendUrl -> String -> User -> Msg -> Item -> ( Item, Cmd Msg, Maybe Page )
-update backendUrl accessToken user msg item =
+update : Msg -> Item -> ( Item, Cmd Msg, Maybe Page )
+update msg item =
     case msg of
         HandlePusherEventData event ->
             case event of

@@ -11,7 +11,7 @@ import HttpBuilder exposing (..)
 viewError : Http.Error -> Html any
 viewError error =
     case error of
-        Http.BadUrl message ->
+        Http.BadUrl _ ->
             div [] [ text "URL is not valid." ]
 
         Http.BadPayload message _ ->

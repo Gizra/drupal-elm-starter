@@ -4,7 +4,7 @@ import App.Model exposing (..)
 import App.PageType exposing (..)
 import Navigation exposing (Location)
 import RouteUrl exposing (HistoryEntry(..), UrlChange)
-import UrlParser exposing (Parser, map, parseHash, s, oneOf, (</>), int, string)
+import UrlParser exposing (Parser, map, s, oneOf, (</>), int)
 
 
 delta2url : Model -> Model -> Maybe UrlChange

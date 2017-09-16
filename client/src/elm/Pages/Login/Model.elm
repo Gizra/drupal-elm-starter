@@ -20,8 +20,7 @@ type UserMessage
 
 
 type alias Model =
-    { loginForm : LoginForm
-    }
+    LoginForm
 
 
 type Msg
@@ -34,5 +33,4 @@ type Msg
 
 emptyModel : Model
 emptyModel =
-    { loginForm = LoginForm "admin" "admin"
-    }
+    LoginForm "admin" "admin"

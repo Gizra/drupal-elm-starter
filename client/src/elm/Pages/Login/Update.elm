@@ -4,7 +4,7 @@ import Config.Model exposing (BackendUrl)
 import Http exposing (Error(BadStatus))
 import HttpBuilder exposing (..)
 import User.Model exposing (..)
-import Pages.Login.Model as Login exposing (..)
+import Pages.Login.Model exposing (..)
 import Pages.Login.Decoder exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Decoder exposing (decodeUser)
@@ -32,12 +32,12 @@ update backendUrl msg model =
             , ( Success user, accessToken )
             )
 
-        HandleFetchedUser accessToken (Err err) ->
+        HandleFetchedUser _ (Err err) ->
             let
                 -- If Access token in local storage is invalid, make sure we don't show a "bad credentials" error.
                 webdata =
                     case err of
-                        BadStatus e ->
+                        BadStatus _ ->
                             NotAsked
 
                         _ ->
@@ -49,45 +49,31 @@ update backendUrl msg model =
                 )
 
         SetName name ->
-            let
-                loginForm =
-                    model.loginForm
-
-                loginForm_ =
-                    { loginForm | name = name }
-            in
-                ( { model | loginForm = loginForm_ }
-                , Cmd.none
-                , ( NotAsked, "" )
-                )
+            ( { model | name = name }
+            , Cmd.none
+            , ( NotAsked, "" )
+            )
 
         SetPassword pass ->
-            let
-                loginForm =
-                    model.loginForm
-
-                loginForm_ =
-                    { loginForm | pass = pass }
-            in
-                ( { model | loginForm = loginForm_ }
-                , Cmd.none
-                , ( NotAsked, "" )
-                )
+            ( { model | pass = pass }
+            , Cmd.none
+            , ( NotAsked, "" )
+            )
 
         TryLogin ->
             ( model
-            , fetchAccessTokenFromBackend backendUrl model.loginForm
+            , fetchAccessTokenFromBackend backendUrl model
             , ( Loading, "" )
             )
 
 
 {-| Get access token from backend.
 -}
-fetchAccessTokenFromBackend : BackendUrl -> LoginForm -> Cmd Msg
-fetchAccessTokenFromBackend backendUrl loginForm =
+fetchAccessTokenFromBackend : BackendUrl -> Model -> Cmd Msg
+fetchAccessTokenFromBackend backendUrl model =
     let
         credentials =
-            encodeCredentials ( loginForm.name, loginForm.pass )
+            encodeCredentials ( model.name, model.pass )
     in
         HttpBuilder.get (backendUrl ++ "/api/login-token")
             |> withHeader "Authorization" ("Basic " ++ credentials)

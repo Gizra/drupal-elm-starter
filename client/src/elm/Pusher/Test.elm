@@ -1,7 +1,5 @@
 module Pusher.Test exposing (all)
 
-import Date
-import Dict
 import Expect
 import Json.Decode exposing (decodeString)
 import Pusher.Decoder exposing (..)

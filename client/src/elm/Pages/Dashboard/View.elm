@@ -2,13 +2,10 @@ module Pages.Dashboard.View exposing (view)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
-import Item.Model exposing (Item, ItemId)
-import User.Model exposing (User)
 
 
-view : User -> ItemsDict -> Html Msg
-view currentUser items =
+view : ItemsDict -> Html Msg
+view items =
     div []
         [ h1 [ class "ui header" ] [ text "Dashboard" ]
         , div [ class "ui divider" ] []
@@ -22,8 +19,7 @@ viewActiveIncidents items =
         orderedIncidentes =
             getOrderedIncidents items
     in
-        -- @todo: Filter out
-        if (List.isEmpty orderedIncidentes) then
+        if List.isEmpty orderedIncidentes then
             div [ style [ ( "font-size", "300%" ) ] ]
                 [ i [ class "ui icon check circle teal huge" ] []
                 , text "No active incidents!"

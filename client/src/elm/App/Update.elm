@@ -25,24 +25,24 @@ init flags =
             NotAsked
 
         ( config, cmds, activePage ) =
-            case (Dict.get flags.hostname Config.configs) of
-                Just config ->
+            case Dict.get flags.hostname Config.configs of
+                Just config_ ->
                     let
                         defaultCmds =
                             [ Task.perform SetCurrentDate Date.now
                             ]
 
-                        ( cmds, activePage_ ) =
-                            if (String.isEmpty flags.accessToken) then
+                        ( cmds_, activePage_ ) =
+                            if String.isEmpty flags.accessToken then
                                 -- Check if we have already an access token.
                                 ( defaultCmds, Login )
                             else
-                                ( [ Cmd.map PageLogin <| Pages.Login.Update.fetchUserFromBackend config.backendUrl flags.accessToken ] ++ defaultCmds
+                                ( (Cmd.map PageLogin <| Pages.Login.Update.fetchUserFromBackend config_.backendUrl flags.accessToken) :: defaultCmds
                                 , emptyModel.activePage
                                 )
                     in
-                        ( Success config
-                        , cmds
+                        ( Success config_
+                        , cmds_
                         , activePage_
                         )
 
@@ -63,7 +63,7 @@ init flags =
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update updateMsg model =
     let
         backendUrl =
             case model.config of
@@ -73,11 +73,11 @@ update msg model =
                 _ ->
                     ""
     in
-        case msg of
+        case updateMsg of
             HandleOfflineEvent (Ok offline) ->
                 { model | offline = offline } ! []
 
-            HandleOfflineEvent (Err err) ->
+            HandleOfflineEvent (Err _) ->
                 model ! []
 
             Logout ->
@@ -99,10 +99,10 @@ update msg model =
 
             MsgItemManager subMsg ->
                 case model.user of
-                    Success user ->
+                    Success _ ->
                         let
                             ( val, cmds, redirectPage ) =
-                                ItemManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageItem
+                                ItemManager.Update.update backendUrl model.accessToken subMsg model.pageItem
 
                             modelUpdated =
                                 { model | pageItem = val }
@@ -138,10 +138,10 @@ update msg model =
             NoOp ->
                 model ! []
 
-            PageLogin msg ->
+            PageLogin pageLoginMsg ->
                 let
                     ( val, cmds, ( webDataUser, accessToken ) ) =
-                        Pages.Login.Update.update backendUrl msg model.pageLogin
+                        Pages.Login.Update.update backendUrl pageLoginMsg model.pageLogin
 
                     ( pusherModelUpdated, pusherLoginCmd ) =
                         pusherLogin model webDataUser accessToken

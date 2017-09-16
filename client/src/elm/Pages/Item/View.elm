@@ -1,16 +1,14 @@
 module Pages.Item.View exposing (view)
 
-import Date exposing (Date)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Pages.Item.Model exposing (Msg(..))
-import Item.Model exposing (ItemId, Item)
-import User.Model exposing (User)
+import Item.Model exposing (Item)
 import Utils.Html exposing (divider, showMaybe)
 
 
-view : Date -> User -> ItemId -> Item -> Html Msg
-view currentDate currentUser itemId item =
+view : Item -> Html Msg
+view item =
     let
         privateNote =
             showMaybe <|

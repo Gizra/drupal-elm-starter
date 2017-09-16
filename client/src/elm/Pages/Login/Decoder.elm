@@ -1,6 +1,6 @@
 module Pages.Login.Decoder exposing (..)
 
-import Base64 exposing (encode)
+import Base64
 import Json.Decode as Decode
 import Pages.Login.Model exposing (AccessToken)
 
@@ -25,5 +25,5 @@ encodeCredentials ( name, pass ) =
             Ok result ->
                 result
 
-            Err err ->
+            Err _ ->
                 ""
