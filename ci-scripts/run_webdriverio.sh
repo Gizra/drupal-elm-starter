@@ -9,6 +9,7 @@ fi
 # Load helper functionality.
 source helper_functions.sh
 
+
 print_message "Test WebDriverIO."
 cd "$ROOT_DIR"/client
 
@@ -68,4 +69,7 @@ if [[ $WDIO_ALL_RET -ne 0 ]]; then
   done;
 
 fi
+
+source post_cache.sh
+
 exit $WDIO_ALL_RET

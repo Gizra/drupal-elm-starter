@@ -12,16 +12,10 @@ if [ -z "${BUILD_SERVER+x}" ] || [ "$BUILD_SERVER" -ne 1 ]; then
  exit 0;
 fi
 
-# Simple Docker run to execute Behat.
-if [ -z "${BUILD_WEBDRIVERIO+x}" ]; then
-  bash run_behat.sh
-  exit $?
-fi
-
-VIDEO_DIR=/tmp/videos
+DB_DIR=/tmp/dbs
 
 # Execute our server container alongside with Selenium container for WDIO.
-mkdir -p "$VIDEO_DIR"
+mkdir -p "$DB_DIR"
 
 if ! bash run_webdriverio.sh
 then
