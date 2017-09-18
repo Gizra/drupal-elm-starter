@@ -23,19 +23,12 @@ VIDEO_DIR=/tmp/videos
 # Execute our server container alongside with Selenium container for WDIO.
 mkdir -p "$VIDEO_DIR"
 
-bash run_webdriverio.sh
-
-if [ ! "$code" = "0" ]; then
+if ! bash run_webdriverio.sh
+then
   source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
   sudo chmod -R 777 /tmp/test_results
 
-  echo "One of the containers exited with $code"
-  VID_COUNT=$(find "$VIDEO_DIR" -type f -name '*mp4'  -printf '.' | wc -c)
-  echo "Detected $VID_COUNT videos"
-  if [[ $VID_COUNT -eq 0 ]]; then
-    echo "No videos, skipping upload"
-    exit "$code"
-  fi
+  echo "The Webdriver.io test failed"
   cd /tmp
   ! rm gdrive-linux-x64.zip
   wget https://github.com/prasmussen/gdrive/files/879060/gdrive-linux-x64.zip
@@ -43,40 +36,19 @@ if [ ! "$code" = "0" ]; then
   chmod +x ./gdrive
   mkdir ~/.gdrive
   cp "$TRAVIS_BUILD_DIR"/gdrive-service-account.json ~/.gdrive/
-  GH_COMMENT=/tmp/video_urls
+  GH_COMMENT=/tmp/db_urls
   echo -n '{
   "body": "' >> $GH_COMMENT
-  for VIDEO_FILE in $VIDEO_DIR/*mp4
-  do
-    # Test if the spec is a failing one or not.
-    UPLOAD=0
-    cp /tmp/test_results/failed_tests /tmp/test_results/failed_tests.tmp
-    while IFS= read -r FAILED_SPEC
-    do
-      if [[ $VIDEO_FILE == *"$FAILED_SPEC"* ]]; then
-        UPLOAD=1
-        # Uploading one video per failed spec. Assuming that it failed
-        # 3 times, it failed always the same way, removing the line from
-        # the file, so next time, it won't match.
-        sed -i "/$FAILED_SPEC/d" /tmp/test_results/failed_tests
-        break
-      fi
-    done < /tmp/test_results/failed_tests.tmp
 
-    if [[ $UPLOAD -eq 0 ]]; then
-      echo "$VIDEO_FILE contains a passed test, skipping"
-      continue
-    fi
-
-    echo "Uploading $VIDEO_FILE, it contains a failed test"
-    ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json "$VIDEO_FILE" | tail -n1 | cut -d ' ' -f 2)
+    ## Todo create $DB_FILE
+    echo "Uploading $DB_FILE, it contains a failed test"
+    ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json "$DB_FILE" | tail -n1 | cut -d ' ' -f 2)
     /tmp/gdrive share --service-account gdrive-service-account.json "$ID"
     URL=$(/tmp/gdrive info --service-account gdrive-service-account.json "$ID" | grep ViewUrl | sed s/ViewUrl:\ //)
-    echo -n "* Video of the failed WebdriverIO test [$FAILED_SPEC]($URL)." | tee -a $GH_COMMENT
+    echo -n "* DB dump after the failed WebdriverIO test [$FAILED_SPEC]($URL)." | tee -a $GH_COMMENT
     echo ""
     printf '\\n' >> $GH_COMMENT
 
-  done;
   echo '"}' >> $GH_COMMENT
 
   # Todo: make it non-Gizra specific by detecting the user of the repository.
@@ -88,7 +60,7 @@ if [ ! "$code" = "0" ]; then
     echo "Detected issue: $PR_URL. Posting GitHub comment..."
     ! curl -H "Authorization: token $GH_TOKEN" --data @$GH_COMMENT "$PR_URL"/comments
   fi
-  exit "$code"
+  exit 1
 fi
 
 exit 0
