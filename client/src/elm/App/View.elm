@@ -1,9 +1,9 @@
-module App.View exposing (..)
+module App.View exposing (view)
 
 import App.Model exposing (Model, Msg(Logout, PageLogin, MsgItemManager, SetActivePage, ToggleSideBar), Sidebar(Left, Top))
 import App.PageType exposing (Page(AccessDenied, Dashboard, Item, Login, MyAccount, PageNotFound))
 import Config.View
-import Html exposing (a, Attribute, div, i, img, Html, h4, span, text)
+import Html exposing (a, div, i, img, Html, h4, span, text)
 import Html.Attributes exposing (alt, class, classList, src)
 import Html.Events exposing (onClick)
 import User.Model exposing (User)
@@ -138,15 +138,6 @@ viewSidebar model sidebar =
             emptyNode
 
 
-viewPageNotFoundItem : Page -> Html Msg
-viewPageNotFoundItem activePage =
-    a
-        [ classByPage PageNotFound activePage
-        , onClick <| SetActivePage PageNotFound
-        ]
-        [ text "404 page" ]
-
-
 viewAvatar : User -> Html Msg
 viewAvatar user =
     img
@@ -216,14 +207,3 @@ viewMainContent model =
 
             _ ->
                 viewContent
-
-
-{-| Get menu items classes. This function gets the active page and checks if
-it is indeed the page used.
--}
-classByPage : Page -> Page -> Attribute a
-classByPage page activePage =
-    classList
-        [ ( "item", True )
-        , ( "active", page == activePage )
-        ]

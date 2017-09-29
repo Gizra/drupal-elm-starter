@@ -1,4 +1,18 @@
-module ItemManager.Model exposing (..)
+module ItemManager.Model
+    exposing
+        ( emptyModel
+        , Model
+        , Msg
+            ( FetchAll
+            , HandleFetchedItem
+            , HandleFetchedItems
+            , HandlePusherEvent
+            , MsgPagesItem
+            , MsgPagesItems
+            , Subscribe
+            , Unsubscribe
+            )
+        )
 
 import Dict exposing (Dict)
 import Http

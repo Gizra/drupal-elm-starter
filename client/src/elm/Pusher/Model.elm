@@ -1,4 +1,18 @@
-module Pusher.Model exposing (..)
+module Pusher.Model
+    exposing
+        ( AccessToken(AccessToken)
+        , ConnectionStatus(Connected, Connecting, Disconnected, Failed, Initialized, Other, Unavailable)
+        , Cluster(ApSouthEast1, EuWest1, UsEast1)
+        , emptyModel
+        , eventNames
+        , Model
+        , Msg(HandleError, HandleStateChange, Login, Logout)
+        , PusherAppKey
+        , PusherConfig
+        , PusherError
+        , PusherEvent
+        , PusherEventData(ItemUpdate)
+        )
 
 import Item.Model exposing (Item, ItemId)
 

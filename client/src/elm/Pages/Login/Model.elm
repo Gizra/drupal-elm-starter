@@ -1,4 +1,10 @@
-module Pages.Login.Model exposing (..)
+module Pages.Login.Model
+    exposing
+        ( AccessToken
+        , emptyModel
+        , Model
+        , Msg(HandleFetchedAccessToken, HandleFetchedUser, SetName, SetPassword, TryLogin)
+        )
 
 import Http
 import User.Model exposing (User)
@@ -12,11 +18,6 @@ type alias LoginForm =
     { name : String
     , pass : String
     }
-
-
-type UserMessage
-    = None
-    | Error String
 
 
 type alias Model =

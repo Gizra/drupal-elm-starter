@@ -2,9 +2,20 @@ module App.Model
     exposing
         ( emptyModel
         , Flags
-        , Msg(..)
+        , Msg
+            ( HandleOfflineEvent
+            , Logout
+            , MsgItemManager
+            , MsgPusher
+            , NoOp
+            , PageLogin
+            , SetActivePage
+            , SetCurrentDate
+            , Tick
+            , ToggleSideBar
+            )
         , Model
-        , Sidebar(..)
+        , Sidebar(Left, Top)
         )
 
 import App.PageType exposing (Page(Login))
