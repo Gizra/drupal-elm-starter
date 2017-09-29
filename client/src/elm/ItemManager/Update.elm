@@ -116,12 +116,8 @@ update backendUrl accessToken msg model =
             , Nothing
             )
 
-        HandleFetchedItems (Err err) ->
-            let
-                _ =
-                    Debug.log "HandleFetchedItems" err
-            in
-                ( model, Cmd.none, Nothing )
+        HandleFetchedItems (Err _) ->
+            ( model, Cmd.none, Nothing )
 
         HandleFetchedItem itemId (Ok item) ->
             let
@@ -152,13 +148,9 @@ update backendUrl accessToken msg model =
                             , Nothing
                             )
 
-                Err err ->
-                    let
-                        _ =
-                            Debug.log "Pusher decode Err" err
-                    in
-                        -- We'll log the error decoding the pusher event
-                        ( model, Cmd.none, Nothing )
+                Err _ ->
+                    -- We'll log the error decoding the pusher event
+                    ( model, Cmd.none, Nothing )
 
 
 {-| A single port for all messages coming in from pusher for a `Item` ... they
@@ -195,12 +187,5 @@ fetchAllItemsFromBackend backendUrl accessToken model =
 
 
 subscriptions : Model -> Page -> Sub Msg
-subscriptions model activePage =
-    let
-        _ =
-            Debug.log "model" model
-
-        _ =
-            Debug.log "activePage" activePage
-    in
-        pusherItemMessages (decodeValue decodePusherEvent >> HandlePusherEvent)
+subscriptions _ _ =
+    pusherItemMessages (decodeValue decodePusherEvent >> HandlePusherEvent)
