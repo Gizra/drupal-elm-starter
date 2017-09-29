@@ -6,6 +6,7 @@ Make sure the following are installed:
 * Elm (e.g. `npm install -g elm@~0.18.0`)
 * Compass (for SASS) (`gem update --system && gem install compass`)
 * Elm Format (`npm install -g elm-format@0.6.1-alpha`), not strictly required for the development, but the standard must be followed, as Travis checks that. Therefore it's highly suggested to run Elm Format upon save at your IDE (https://github.com/avh4/elm-format#editor-integration).
+* Elm Analyse (`npm install -g elm-analyse@0.11.0`), not strictly required for the development, but the standard must be followed, as Travis checks that. Configure inspection / linting in your IDE if possible.
 
 ## Installation
 
