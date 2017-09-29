@@ -1,9 +1,9 @@
 module App.Router exposing (delta2url, location2messages)
 
-import App.Model exposing (..)
-import App.PageType exposing (..)
+import App.Model exposing (Model, Msg(SetActivePage))
+import App.PageType exposing (Page(AccessDenied, Dashboard, Item, Login, MyAccount, PageNotFound))
 import Navigation exposing (Location)
-import RouteUrl exposing (HistoryEntry(..), UrlChange)
+import RouteUrl exposing (HistoryEntry(ModifyEntry, NewEntry), UrlChange)
 import UrlParser exposing (Parser, map, s, oneOf, (</>), int)
 
 
@@ -12,18 +12,6 @@ delta2url previous current =
     case current.activePage of
         AccessDenied ->
             Nothing
-
-        Login ->
-            Just <| UrlChange NewEntry "#/login"
-
-        MyAccount ->
-            Just <| UrlChange NewEntry "#/my-account"
-
-        PageNotFound ->
-            Just <| UrlChange NewEntry "#/404"
-
-        Item id ->
-            Just <| UrlChange NewEntry ("#/item/" ++ id)
 
         Dashboard ->
             Just <|
@@ -38,6 +26,18 @@ delta2url previous current =
 
                     _ ->
                         UrlChange NewEntry "#/"
+
+        Item id ->
+            Just <| UrlChange NewEntry ("#/item/" ++ id)
+
+        Login ->
+            Just <| UrlChange NewEntry "#/login"
+
+        MyAccount ->
+            Just <| UrlChange NewEntry "#/my-account"
+
+        PageNotFound ->
+            Just <| UrlChange NewEntry "#/404"
 
 
 location2messages : Location -> List Msg

@@ -2,7 +2,7 @@ module Item.Decoder exposing (decodeItem, decodeItemsDict)
 
 import Json.Decode exposing (Decoder, nullable, string)
 import Json.Decode.Pipeline exposing (decode, optional, optionalAt, required)
-import Item.Model exposing (..)
+import Item.Model exposing (Item, ItemsDict)
 import Utils.Json exposing (decodeListAsDict)
 
 

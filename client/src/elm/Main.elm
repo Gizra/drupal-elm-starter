@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import App.Model exposing (Flags, Model, Msg)
 import App.Update exposing (init, update, subscriptions)
-import App.Router exposing (..)
+import App.Router exposing (delta2url, location2messages)
 import App.View exposing (view)
 import RouteUrl
 

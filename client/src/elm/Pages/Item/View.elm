@@ -1,8 +1,8 @@
 module Pages.Item.View exposing (view)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Pages.Item.Model exposing (Msg(..))
+import Html exposing (a, div, Html, h2, img, text)
+import Html.Attributes exposing (alt, class, src)
+import Pages.Item.Model exposing (Msg)
 import Item.Model exposing (Item)
 import Utils.Html exposing (divider, showMaybe)
 

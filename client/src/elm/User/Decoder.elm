@@ -2,7 +2,7 @@ module User.Decoder exposing (decodeUser)
 
 import Json.Decode exposing (string, Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
-import User.Model exposing (..)
+import User.Model exposing (User)
 import Utils.Json exposing (decodeInt)
 
 

@@ -1,7 +1,6 @@
 {
   "checks" : {
     "DebugLog": false,
-    "ExposeAll": false,
-    "ImportAll": false
+    "ExposeAll": false
   }
 }

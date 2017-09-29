@@ -1,12 +1,12 @@
 module Pages.Login.View exposing (view)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (button, div, Html, i, input, span, text)
+import Html.Attributes exposing (action, class, disabled, hidden, name, placeholder, type_, value)
 import Html.Attributes.Aria exposing (ariaLabel)
 import Html.Events exposing (onInput, onSubmit)
-import Pages.Login.Model exposing (..)
-import RemoteData exposing (RemoteData(..), WebData)
-import User.Model exposing (..)
+import Pages.Login.Model exposing (Model, Msg(SetName, SetPassword, TryLogin))
+import RemoteData exposing (RemoteData(Failure, Loading), WebData)
+import User.Model exposing (User)
 import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (viewError)
 

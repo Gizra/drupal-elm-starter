@@ -3,7 +3,7 @@ module Pages.Item.Model
         ( Msg(..)
         )
 
-import App.PageType exposing (Page(..))
+import App.PageType exposing (Page)
 import Pusher.Model exposing (PusherEventData)
 
 

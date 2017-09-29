@@ -1,17 +1,17 @@
 module App.View exposing (..)
 
-import App.Model exposing (..)
-import App.PageType exposing (Page(..))
+import App.Model exposing (Model, Msg(Logout, PageLogin, MsgItemManager, SetActivePage, ToggleSideBar), Sidebar(Left, Top))
+import App.PageType exposing (Page(AccessDenied, Dashboard, Item, Login, MyAccount, PageNotFound))
 import Config.View
-import Html exposing (..)
+import Html exposing (a, Attribute, div, i, img, Html, h4, span, text)
 import Html.Attributes exposing (alt, class, classList, src)
 import Html.Events exposing (onClick)
-import User.Model exposing (..)
-import Pages.Login.View exposing (..)
-import Pages.MyAccount.View exposing (..)
-import Pages.PageNotFound.View exposing (..)
-import ItemManager.View exposing (..)
-import RemoteData exposing (RemoteData(..))
+import User.Model exposing (User)
+import Pages.Login.View
+import Pages.MyAccount.View
+import Pages.PageNotFound.View
+import ItemManager.View
+import RemoteData exposing (RemoteData(Failure, NotAsked, Success))
 import Utils.Html exposing (emptyNode)
 
 

@@ -1,14 +1,14 @@
 module Pages.Items.View exposing (view)
 
-import App.PageType exposing (Page(..))
+import App.PageType
 import Dict
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (a, div, Html, h2, input, text)
+import Html.Attributes exposing (class, placeholder, style)
 import Html.Attributes.Aria exposing (ariaLabel)
 import Html.Events exposing (onClick, onInput)
-import Pages.Items.Model exposing (Model, Msg(..))
+import Pages.Items.Model exposing (Model, Msg(SetQuery, SetRedirectPage, SetTableState))
 import Item.Model exposing (Item, ItemId, ItemsDict)
-import Table exposing (..)
+import Table exposing (defaultCustomizations)
 import Utils.Html exposing (emptyNode)
 
 

@@ -1,9 +1,9 @@
 module Config exposing (configs)
 
 import Config.Model exposing (Model)
-import Dict exposing (..)
+import Dict exposing (Dict)
 import LocalConfig exposing (localConfigs)
-import Pusher.Model exposing (Cluster(..), PusherAppKey)
+import Pusher.Model exposing (Cluster(UsEast1), PusherAppKey)
 
 
 devPantheon : Model

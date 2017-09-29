@@ -1,9 +1,9 @@
 module Utils.WebData exposing (sendWithHandler, viewError)
 
 import Json.Decode exposing (Decoder)
-import Html exposing (..)
+import Html exposing (div, Html, p, text)
 import Http
-import HttpBuilder exposing (..)
+import HttpBuilder exposing (RequestBuilder, send, withExpect)
 
 
 {-| Provide some `Html` to view an error message.

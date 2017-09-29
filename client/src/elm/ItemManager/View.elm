@@ -5,14 +5,14 @@ module ItemManager.View
         )
 
 import Pages.Item.View
-import Html exposing (..)
+import Html exposing (div, Html, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Pages.Items.View
 import Item.Model exposing (ItemId)
-import ItemManager.Model exposing (..)
+import ItemManager.Model exposing (Model, Msg(MsgPagesItem, MsgPagesItems, Subscribe))
 import ItemManager.Utils exposing (getItem, unwrapItemsDict)
-import RemoteData exposing (RemoteData(..))
+import RemoteData exposing (RemoteData(Failure, Loading, NotAsked, Success))
 import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (viewError)
 

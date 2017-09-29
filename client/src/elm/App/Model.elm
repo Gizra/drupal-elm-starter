@@ -7,15 +7,15 @@ module App.Model
         , Sidebar(..)
         )
 
-import App.PageType exposing (Page(..))
+import App.PageType exposing (Page(Login))
 import Config.Model
 import Date exposing (Date)
 import Pages.Login.Model exposing (Model)
 import Pusher.Model
-import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData exposing (RemoteData(NotAsked), WebData)
 import ItemManager.Model exposing (Model)
 import Time exposing (Time)
-import User.Model exposing (..)
+import User.Model exposing (User)
 
 
 type Msg

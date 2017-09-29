@@ -5,7 +5,7 @@ import Http
 import Pages.Item.Model
 import Pages.Items.Model
 import Pusher.Model exposing (PusherEvent)
-import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData exposing (WebData)
 import Item.Model exposing (Item, ItemId, ItemsDict)
 
 

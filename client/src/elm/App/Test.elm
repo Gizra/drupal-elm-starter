@@ -1,15 +1,15 @@
 module App.Test exposing (all)
 
-import App.Model exposing (..)
-import App.PageType exposing (Page(..))
-import App.Update exposing (..)
+import App.Model exposing (emptyModel, Msg(SetActivePage))
+import App.PageType exposing (Page(AccessDenied, Login, MyAccount, PageNotFound))
+import App.Update exposing (update)
 import App.View exposing (view)
 import Expect
 import Http
 import Test exposing (describe, test, Test)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (text)
-import RemoteData exposing (RemoteData(..))
+import RemoteData exposing (RemoteData(Failure, Success))
 
 
 setActivePageTest : Test

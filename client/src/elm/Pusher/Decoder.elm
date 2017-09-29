@@ -2,7 +2,7 @@ module Pusher.Decoder exposing (decodePusherEvent)
 
 import Json.Decode exposing (Decoder, andThen, fail, field, map, string)
 import Json.Decode.Pipeline exposing (custom, decode, requiredAt)
-import Pusher.Model exposing (..)
+import Pusher.Model exposing (PusherEvent, PusherEventData(ItemUpdate))
 import Item.Decoder exposing (decodeItem)
 import Item.Model exposing (Item)
 

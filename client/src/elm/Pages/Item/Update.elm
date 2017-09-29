@@ -1,8 +1,8 @@
 module Pages.Item.Update exposing (update)
 
-import App.PageType exposing (Page(..))
-import Pages.Item.Model exposing (Msg(..))
-import Pusher.Model exposing (PusherEventData(..))
+import App.PageType exposing (Page)
+import Pages.Item.Model exposing (Msg(HandlePusherEventData, SetRedirectPage))
+import Pusher.Model exposing (PusherEventData(ItemUpdate))
 import Item.Model exposing (Item)
 
 

@@ -1,20 +1,33 @@
 port module ItemManager.Update exposing (update, subscriptions)
 
-import App.PageType exposing (Page(..))
+import App.PageType exposing (Page)
 import Config.Model exposing (BackendUrl)
 import Dict
 import Item.Model exposing (ItemId)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
-import ItemManager.Model exposing (..)
-import ItemManager.Utils exposing (..)
+import ItemManager.Model
+    exposing
+        ( Model
+        , Msg
+            ( FetchAll
+            , HandleFetchedItem
+            , HandleFetchedItems
+            , HandlePusherEvent
+            , MsgPagesItem
+            , MsgPagesItems
+            , Subscribe
+            , Unsubscribe
+            )
+        )
+import ItemManager.Utils exposing (getItem, wrapItemsDict)
 import Json.Decode exposing (decodeValue)
 import Json.Encode exposing (Value)
 import HttpBuilder exposing (withQueryParams)
 import Pages.Item.Update
 import Pages.Items.Update
 import Pusher.Decoder exposing (decodePusherEvent)
-import Pusher.Model exposing (PusherEventData(..))
-import RemoteData exposing (RemoteData(..))
+import Pusher.Model exposing (PusherEventData(ItemUpdate))
+import RemoteData exposing (RemoteData(Failure, Loading, NotAsked, Success))
 import Utils.WebData exposing (sendWithHandler)
 
 
