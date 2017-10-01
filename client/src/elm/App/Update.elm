@@ -2,6 +2,7 @@ port module App.Update exposing (init, update, subscriptions)
 
 import App.Model exposing (..)
 import App.PageType exposing (Page(..))
+import App.Utils exposing (handleErrors)
 import Config
 import Date
 import Dict
@@ -101,7 +102,7 @@ update msg model =
                 case model.user of
                     Success user ->
                         let
-                            ( val, cmds, redirectPage ) =
+                            ( val, cmds, redirectPage, maybeError ) =
                                 ItemManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageItem
 
                             modelUpdated =
@@ -114,8 +115,11 @@ update msg model =
                                     )
                                     redirectPage
                                     |> Maybe.withDefault ( modelUpdated, Cmd.none )
+
+                            modelUpdatedWithError =
+                                handleErrors maybeError modelUpdatedWithSetPage
                         in
-                            ( modelUpdatedWithSetPage
+                            ( modelUpdatedWithError
                             , Cmd.batch
                                 [ Cmd.map MsgItemManager cmds
                                 , setPageCmds
