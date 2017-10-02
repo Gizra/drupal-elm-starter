@@ -39,7 +39,7 @@ fetchUnauthorized =
                 , url = "http://localhost/server/www/api/me?access_token=some-wrong-token"
                 }
 
-        ( updatedModel, cmds, ( webdata, accessToken ) ) =
+        ( updatedModel, cmds, ( webdata, accessToken ), _ ) =
             update url (HandleFetchedAccessToken (Err badRequest)) emptyModel
     in
         describe "Unauthorized tests"
@@ -76,7 +76,7 @@ fetchUserUnauthorized =
         invalidToken =
             "some-wrong-token"
 
-        ( updatedModel, cmds, ( webdata, accessToken ) ) =
+        ( updatedModel, cmds, ( webdata, accessToken ), _ ) =
             update url (HandleFetchedUser invalidToken (Err badRequest)) emptyModel
     in
         describe "Invalid Token tests"
