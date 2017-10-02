@@ -3,16 +3,18 @@ module App.View exposing (..)
 import App.Model exposing (..)
 import App.PageType exposing (Page(..))
 import Config.View
+import Error.View
 import Html exposing (..)
 import Html.Attributes exposing (alt, class, classList, href, src, style, target)
 import Html.Events exposing (onClick)
-import User.Model exposing (..)
+import ItemManager.View exposing (..)
 import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
-import ItemManager.View exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
-import Utils.Html exposing (emptyNode)
+import Translate exposing (Language(English))
+import User.Model exposing (..)
+import Utils.Html exposing (emptyNode, showIf)
 
 
 view : Model -> Html Msg
@@ -21,7 +23,7 @@ view model =
         Failure err ->
             Config.View.view
 
-        _ ->
+        Success config ->
             case model.activePage of
                 Login ->
                     viewMainContent model
@@ -36,6 +38,10 @@ view model =
                             else
                                 [ class "pusher"
                                 ]
+
+                        -- The errors Debug can always be in English.
+                        debugErrors =
+                            showIf config.debug <| Error.View.view English model.errors
                     in
                         div [ class "pushable" ]
                             -- Sidebar menu - responsive only
@@ -48,12 +54,17 @@ view model =
                                     [ viewSidebar model Left
                                     , div
                                         [ class "ui main grid" ]
-                                        [ viewTopMenu
+                                        [ debugErrors
+                                        , viewTopMenu
                                         , viewMainContent model
                                         ]
                                     ]
                                 ]
                             ]
+
+        _ ->
+            -- This should be instantaneous
+            emptyNode
 
 
 {-| Responsive top menu.
