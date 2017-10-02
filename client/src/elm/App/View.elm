@@ -166,7 +166,7 @@ viewMainContent model =
                     div [] [ text "Access denied" ]
 
                 Login ->
-                    Html.map PageLogin (Pages.Login.View.view model.user model.pageLogin)
+                    Html.map PageLogin (Pages.Login.View.view model.language model.user model.pageLogin)
 
                 MyAccount ->
                     Pages.MyAccount.View.view model.user
