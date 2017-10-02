@@ -5,7 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Pages.Login.Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
-import Translate as Trans exposing (Language, translateString)
+import Translate as Trans exposing (Language, translateString, translateText)
 import User.Model exposing (..)
 import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (errorString, viewError)
@@ -80,7 +80,7 @@ viewForm language user model =
                     , class "ui large fluid primary button"
                     ]
                     [ span [ hidden <| not isLoading ] [ spinner ]
-                    , span [ hidden isLoading ] [ translateText language <| Trans.Login Trans.Login ]
+                    , span [ hidden isLoading ] [ translateText language <| Trans.Login Trans.LoginVerb ]
                     ]
                 ]
             , error
