@@ -14,19 +14,19 @@ errorString : Language -> Http.Error -> String
 errorString language error =
     case error of
         Http.BadUrl message ->
-            translateString language Trans.ErrorBadUrl
+            translateString language <| Trans.HttpError Trans.ErrorBadUrl
 
         Http.BadPayload message _ ->
-            translateString language <| Trans.ErrorBadPayload message
+            translateString language <| Trans.HttpError <| Trans.ErrorBadPayload message
 
         Http.NetworkError ->
-            translateString language Trans.ErrorNetworkError
+            translateString language <| Trans.HttpError Trans.ErrorNetworkError
 
         Http.Timeout ->
-            translateString language Trans.ErrorTimeout
+            translateString language <| Trans.HttpError Trans.ErrorTimeout
 
         Http.BadStatus response ->
-            translateString language <| Trans.ErrorBadStatus response.status.message
+            translateString language <| Trans.HttpError <| Trans.ErrorBadStatus response.status.message
 
 
 {-| Provide some `Html` to view an error message.

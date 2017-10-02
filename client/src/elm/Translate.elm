@@ -45,14 +45,25 @@ type HtmlTranslationId
     = AgreedWithTerms Url
 
 
-{-| Translations that are just plain Strings.
--}
-type StringTranslationId
+type StringTranslationIdLogin
+    = EnterYourPassword
+    | EnterYourUsername
+    | LoginVerb
+
+
+type StringTranslationIdHttpError
     = ErrorBadUrl
     | ErrorBadPayload String
     | ErrorBadStatus String
     | ErrorNetworkError
     | ErrorTimeout
+
+
+{-| Translations that are just plain Strings.
+-}
+type StringTranslationId
+    = HttpError StringTranslationIdHttpError
+    | Login StringTranslationIdLogin
 
 
 {-| Shorthand for the common case of
@@ -88,20 +99,33 @@ translateString language transId =
     let
         translationSet =
             case transId of
-                ErrorBadUrl ->
-                    { english = "URL is not valid.", german = "", hebrew = "כתובת שגוייה" }
+                HttpError stringId ->
+                    case stringId of
+                        ErrorBadUrl ->
+                            { english = "URL is not valid.", german = "", hebrew = "כתובת שגוייה" }
 
-                ErrorBadPayload message ->
-                    { english = "The server responded with data of an unexpected type: " ++ message, german = "" ++ message, hebrew = "השרת שלח מידע בלתי צפוי: " ++ message }
+                        ErrorBadPayload message ->
+                            { english = "The server responded with data of an unexpected type: " ++ message, german = "" ++ message, hebrew = "השרת שלח מידע בלתי צפוי: " ++ message }
 
-                ErrorBadStatus err ->
-                    { english = "The server indicated the following error:\n\n" ++ err, german = "", hebrew = "השרת שלך הודעת שגיאה:\n\n" ++ err }
+                        ErrorBadStatus err ->
+                            { english = "The server indicated the following error:\n\n" ++ err, german = "", hebrew = "השרת שלך הודעת שגיאה:\n\n" ++ err }
 
-                ErrorNetworkError ->
-                    { english = "There was a network error.", german = "", hebrew = "בעיית רשת" }
+                        ErrorNetworkError ->
+                            { english = "There was a network error.", german = "", hebrew = "בעיית רשת" }
 
-                ErrorTimeout ->
-                    { english = "The network request timed out.", german = "", hebrew = "הקריאה לשרת ארכה זמן רב מדי" }
+                        ErrorTimeout ->
+                            { english = "The network request timed out.", german = "", hebrew = "הקריאה לשרת ארכה זמן רב מדי" }
+
+                Login stringId ->
+                    case stringId of
+                        EnterYourPassword ->
+                            { english = "Enter your password", german = "Bitte geben Sie Ihr Passwort ein", hebrew = "הכניסו את סיסמתכם" }
+
+                        EnterYourUsername ->
+                            { english = "Enter your username", german = "Ihr Benutzername", hebrew = "שם המשתמש" }
+
+                        LoginVerb ->
+                            { english = "Login", german = "Anmeldung", hebrew = "התחברות" }
     in
         selectTranslation language translationSet
 
