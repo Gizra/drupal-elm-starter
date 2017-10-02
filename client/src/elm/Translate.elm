@@ -45,13 +45,7 @@ type HtmlTranslationId
     = AgreedWithTerms Url
 
 
-type StringTranslationIdLogin
-    = EnterYourPassword
-    | EnterYourUsername
-    | LoginVerb
-
-
-type StringTranslationIdHttpError
+type StringIdHttpError
     = ErrorBadUrl
     | ErrorBadPayload String
     | ErrorBadStatus String
@@ -59,11 +53,24 @@ type StringTranslationIdHttpError
     | ErrorTimeout
 
 
+type StringIdItem
+    = Items
+    | SearchByName
+    | Overview
+
+
+type StringIdLogin
+    = EnterYourPassword
+    | EnterYourUsername
+    | LoginVerb
+
+
 {-| Translations that are just plain Strings.
 -}
 type StringTranslationId
-    = HttpError StringTranslationIdHttpError
-    | Login StringTranslationIdLogin
+    = HttpError StringIdHttpError
+    | Item StringIdItem
+    | Login StringIdLogin
 
 
 {-| Shorthand for the common case of
@@ -115,6 +122,17 @@ translateString language transId =
 
                         ErrorTimeout ->
                             { english = "The network request timed out.", german = "", hebrew = "הקריאה לשרת ארכה זמן רב מדי" }
+
+                Item stringId ->
+                    case stringId of
+                        Items ->
+                            { english = "Items", german = "", hebrew = "" }
+
+                        SearchByName ->
+                            { english = "Search By Name", german = "", hebrew = "" }
+
+                        Overview ->
+                            { english = "Overview", german = "", hebrew = "" }
 
                 Login stringId ->
                     case stringId of
