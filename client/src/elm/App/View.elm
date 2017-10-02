@@ -12,7 +12,7 @@ import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
-import Translate exposing (Language(English))
+import Translate as Trans exposing (Language(English), translateText)
 import User.Model exposing (..)
 import Utils.Html exposing (emptyNode, showIf)
 
@@ -93,20 +93,15 @@ viewSidebar model sidebar =
                 wrapperClasses =
                     case sidebar of
                         Top ->
-                            let
-                                visibleClass =
-                                    if model.sidebarOpen then
-                                        " visible"
-                                    else
-                                        ""
-                            in
-                                String.concat [ "ui sidebar inverted vertical menu", visibleClass ]
+                            [ ( "ui sidebar inverted vertical menu", True )
+                            , ( "visible", model.sidebarOpen )
+                            ]
 
                         Left ->
-                            "ui left fixed vertical inverted menu"
+                            [ ( "ui left fixed vertical inverted menu", True ) ]
             in
                 div
-                    [ class wrapperClasses ]
+                    [ classList wrapperClasses ]
                     [ a
                         [ class "item"
                         , onClick <| SetActivePage MyAccount
@@ -121,15 +116,16 @@ viewSidebar model sidebar =
                         [ class "item"
                         , onClick <| SetActivePage Dashboard
                         ]
-                        [ text "Dashboard" ]
+                        [ translateText model.language <| Trans.Sidebar Trans.Dashboard ]
                     , span
                         [ class "item"
                         ]
-                        [ text <|
-                            if model.offline then
-                                "Not Connected"
-                            else
-                                "Connected"
+                        [ translateText model.language <|
+                            Trans.Sidebar <|
+                                if model.offline then
+                                    Trans.NotConnected
+                                else
+                                    Trans.Connected
                         , i
                             [ classList
                                 [ ( "icon wifi", True )
@@ -142,7 +138,7 @@ viewSidebar model sidebar =
                         [ class "item"
                         , onClick Logout
                         ]
-                        [ text "Sign Out" ]
+                        [ translateText model.language <| Trans.Sidebar Trans.SignOut ]
                     ]
 
         _ ->

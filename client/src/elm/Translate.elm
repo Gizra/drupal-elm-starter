@@ -65,12 +65,20 @@ type StringIdLogin
     | LoginVerb
 
 
+type StringIdSidebar
+    = Dashboard
+    | Connected
+    | NotConnected
+    | SignOut
+
+
 {-| Translations that are just plain Strings.
 -}
 type StringTranslationId
     = HttpError StringIdHttpError
     | Item StringIdItem
     | Login StringIdLogin
+    | Sidebar StringIdSidebar
 
 
 {-| Shorthand for the common case of
@@ -144,6 +152,20 @@ translateString language transId =
 
                         LoginVerb ->
                             { english = "Login", german = "Anmeldung", hebrew = "התחברות" }
+
+                Sidebar stringId ->
+                    case stringId of
+                        Dashboard ->
+                            { english = "Dashboard", german = "", hebrew = "" }
+
+                        Connected ->
+                            { english = "Connected", german = "", hebrew = "" }
+
+                        NotConnected ->
+                            { english = "Not Connected", german = "", hebrew = "" }
+
+                        SignOut ->
+                            { english = "Sign Out", german = "", hebrew = "" }
     in
         selectTranslation language translationSet
 
