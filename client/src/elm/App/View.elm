@@ -43,20 +43,22 @@ view model =
                         debugErrors =
                             showIf config.debug <| Error.View.view English model.errors
                     in
-                        div [ class "pushable" ]
-                            -- Sidebar menu - responsive only
-                            [ viewSidebar model Top
-                            , div
-                                mainAttributes
-                                [ div
-                                    [ class "ui grid container" ]
-                                    -- Non-responsive menu
-                                    [ viewSidebar model Left
-                                    , div
-                                        [ class "ui main grid" ]
-                                        [ debugErrors
-                                        , viewTopMenu
-                                        , viewMainContent model
+                        div []
+                            [ debugErrors
+                            , div [ class "pushable" ]
+                                [ -- Sidebar menu - responsive only
+                                  viewSidebar model Top
+                                , div
+                                    mainAttributes
+                                    [ div
+                                        [ class "ui grid container" ]
+                                        -- Non-responsive menu
+                                        [ viewSidebar model Left
+                                        , div
+                                            [ class "ui main grid" ]
+                                            [ viewTopMenu
+                                            , viewMainContent model
+                                            ]
                                         ]
                                     ]
                                 ]
