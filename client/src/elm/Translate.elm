@@ -77,9 +77,11 @@ type StringIdSidebar
 {-| Translations that are just plain Strings.
 -}
 type StringTranslationId
-    = HttpError StringIdHttpError
+    = AccessDenied
+    | HttpError StringIdHttpError
     | Item StringIdItem
     | Login StringIdLogin
+    | PageNotFound
     | Sidebar StringIdSidebar
 
 
@@ -116,6 +118,9 @@ translateString language transId =
     let
         translationSet =
             case transId of
+                AccessDenied ->
+                    { english = "Access Denied", german = "", hebrew = "" }
+
                 HttpError stringId ->
                     case stringId of
                         ErrorBadUrl ->
@@ -160,6 +165,9 @@ translateString language transId =
 
                         LoginVerb ->
                             { english = "Login", german = "Anmeldung", hebrew = "התחברות" }
+
+                PageNotFound ->
+                    { english = "Page Not Found", german = "", hebrew = "" }
 
                 Sidebar stringId ->
                     case stringId of

@@ -145,15 +145,6 @@ viewSidebar model sidebar =
             emptyNode
 
 
-viewPageNotFoundItem : Page -> Html Msg
-viewPageNotFoundItem activePage =
-    a
-        [ classByPage PageNotFound activePage
-        , onClick <| SetActivePage PageNotFound
-        ]
-        [ text "404 page" ]
-
-
 viewAvatar : User -> Html Msg
 viewAvatar user =
     img
@@ -170,7 +161,7 @@ viewMainContent model =
         viewContent =
             case model.activePage of
                 AccessDenied ->
-                    div [] [ text "Access denied" ]
+                    div [] [ translateText model.language <| Trans.AccessDenied ]
 
                 Login ->
                     Html.map PageLogin (Pages.Login.View.view model.language model.user model.pageLogin)
@@ -180,7 +171,7 @@ viewMainContent model =
 
                 PageNotFound ->
                     -- We don't need to pass any cmds, so we can call the view directly
-                    Pages.PageNotFound.View.view
+                    Pages.PageNotFound.View.view model.language
 
                 Dashboard ->
                     -- We get the user information before diving down a level, since
