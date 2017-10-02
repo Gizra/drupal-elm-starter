@@ -6,24 +6,25 @@ import Html.Attributes.Aria exposing (ariaLabel)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Pages.Login.Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
+import Translate exposing (Language)
 import User.Model exposing (..)
 import Utils.Html exposing (emptyNode)
-import Utils.WebData exposing (viewError)
+import Utils.WebData exposing (errorString, viewError)
 
 
-view : WebData User -> Model -> Html Msg
-view user model =
+view : Language -> WebData User -> Model -> Html Msg
+view language user model =
     div [ class "ui container login" ]
         [ div
             [ class "ui segment" ]
             [ i [ class "huge grey dashboard brand icon" ] []
-            , viewForm user model
+            , viewForm language user model
             ]
         ]
 
 
-viewForm : WebData User -> Model -> Html Msg
-viewForm user model =
+viewForm : Language -> WebData User -> Model -> Html Msg
+viewForm language user model =
     let
         spinner =
             i [ class "notched circle loading icon" ] []
@@ -41,8 +42,8 @@ viewForm user model =
 
         error =
             case user of
-                Failure err ->
-                    div [ class "ui error message" ] [ viewError err ]
+                Failure error ->
+                    div [ class "ui error message" ] [ text <| errorString language error ]
 
                 _ ->
                     emptyNode

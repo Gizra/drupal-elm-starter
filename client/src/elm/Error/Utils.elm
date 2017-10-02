@@ -1,7 +1,14 @@
-module Error.Utils exposing (debugLog, httpError, is401, noError, plainError)
+module Error.Utils
+    exposing
+        ( debugLog
+        , httpError
+        , noError
+        , plainError
+        )
 
 import Error.Model exposing (Error, ErrorType(..))
 import Http
+import Translate exposing (Language(English))
 import Utils.WebData exposing (viewError)
 
 
@@ -14,7 +21,7 @@ debugLog error =
             case error.error of
                 Http err ->
                     -- Debug.log can always be in English.
-                    Utils.WebData.errorString err
+                    Utils.WebData.errorString English err
 
                 Plain txt ->
                     txt
@@ -23,18 +30,6 @@ debugLog error =
             error.module_ ++ "." ++ error.location
     in
         Debug.log id message
-
-
-{-| Checks whether an error is a 401.
--}
-is401 : Http.Error -> Bool
-is401 err =
-    case err of
-        Http.BadStatus { status } ->
-            status.code == 401
-
-        _ ->
-            False
 
 
 

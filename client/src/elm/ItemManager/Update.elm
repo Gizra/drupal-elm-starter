@@ -4,13 +4,15 @@ import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
 import Date exposing (Date)
 import Dict exposing (Dict)
+import Error.Model exposing (Error)
+import Error.Utils exposing (httpError, noError, plainError)
+import HttpBuilder exposing (get, withQueryParams)
 import Item.Model exposing (Item, ItemId)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
 import ItemManager.Model exposing (..)
 import ItemManager.Utils exposing (..)
 import Json.Decode exposing (decodeValue)
 import Json.Encode exposing (Value)
-import HttpBuilder exposing (get, withQueryParams)
 import Pages.Item.Update
 import Pages.Items.Update
 import Pusher.Decoder exposing (decodePusherEvent)
@@ -20,7 +22,7 @@ import User.Model exposing (User)
 import Utils.WebData exposing (sendWithHandler)
 
 
-update : Date -> BackendUrl -> String -> User -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
+update : Date -> BackendUrl -> String -> User -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page, Maybe Error )
 update currentDate backendUrl accessToken user msg model =
     case msg of
         Subscribe id ->
@@ -35,10 +37,11 @@ update currentDate backendUrl accessToken user msg model =
                         ( updatedModel
                         , updatedCmds
                         , Nothing
+                        , noError
                         )
 
                 Loading ->
-                    ( model, Cmd.none, Nothing )
+                    ( model, Cmd.none, Nothing, noError )
 
                 Failure _ ->
                     let
@@ -48,15 +51,17 @@ update currentDate backendUrl accessToken user msg model =
                         ( val
                         , cmds
                         , Nothing
+                        , noError
                         )
 
                 Success _ ->
-                    ( model, Cmd.none, Nothing )
+                    ( model, Cmd.none, Nothing, noError )
 
         Unsubscribe id ->
             ( { model | items = Dict.remove id model.items }
             , Cmd.none
             , Nothing
+            , noError
             )
 
         FetchAll ->
@@ -64,7 +69,7 @@ update currentDate backendUrl accessToken user msg model =
                 ( val, cmds ) =
                     fetchAllItemsFromBackend backendUrl accessToken model
             in
-                ( val, cmds, Nothing )
+                ( val, cmds, Nothing, noError )
 
         MsgPagesItem id subMsg ->
             case getItem id model of
@@ -76,6 +81,7 @@ update currentDate backendUrl accessToken user msg model =
                         ( { model | items = Dict.insert id (Success subModel) model.items }
                         , Cmd.map (MsgPagesItem id) subCmd
                         , redirectPage
+                        , noError
                         )
 
                 _ ->
@@ -87,7 +93,7 @@ update currentDate backendUrl accessToken user msg model =
                     -- arrive before the initial data, and if so, should we ignore
                     -- them or queue them up? We may need server timestamps on the initial
                     -- data and the pusher messages to know.)
-                    ( model, Cmd.none, Nothing )
+                    ( model, Cmd.none, Nothing, noError )
 
         MsgPagesItems subMsg ->
             let
@@ -97,20 +103,22 @@ update currentDate backendUrl accessToken user msg model =
                 ( { model | itemsPage = subModel }
                 , Cmd.map MsgPagesItems subCmd
                 , redirectPage
+                , noError
                 )
 
         HandleFetchedItems (Ok items) ->
             ( { model | items = wrapItemsDict items }
             , Cmd.none
             , Nothing
+            , noError
             )
 
-        HandleFetchedItems (Err err) ->
-            let
-                _ =
-                    Debug.log "HandleFetchedItems" err
-            in
-                ( model, Cmd.none, Nothing )
+        HandleFetchedItems (Err error) ->
+            ( model
+            , Cmd.none
+            , Nothing
+            , httpError "ItemManager.Update" "HandleFetchedItems" error
+            )
 
         HandleFetchedItem itemId (Ok item) ->
             let
@@ -123,12 +131,14 @@ update currentDate backendUrl accessToken user msg model =
                 ( updatedModel
                 , Cmd.none
                 , Nothing
+                , noError
                 )
 
-        HandleFetchedItem itemId (Err err) ->
-            ( { model | items = Dict.insert itemId (Failure err) model.items }
+        HandleFetchedItem itemId (Err error) ->
+            ( { model | items = Dict.insert itemId (Failure error) model.items }
             , Cmd.none
             , Nothing
+            , httpError "ItemManager.Update" "HandleFetchedItem" error
             )
 
         HandlePusherEvent result ->
@@ -141,15 +151,15 @@ update currentDate backendUrl accessToken user msg model =
                             ( { model | items = Dict.insert event.itemId (Success data) model.items }
                             , Cmd.none
                             , Nothing
+                            , noError
                             )
 
-                Err err ->
-                    let
-                        _ =
-                            Debug.log "Pusher decode Err" err
-                    in
-                        -- We'll log the error decoding the pusher event
-                        ( model, Cmd.none, Nothing )
+                Err error ->
+                    ( model
+                    , Cmd.none
+                    , Nothing
+                    , plainError "ItemManager.Update" "HandlePusherEvent" error
+                    )
 
 
 {-| A single port for all messages coming in from pusher for a `Item` ... they

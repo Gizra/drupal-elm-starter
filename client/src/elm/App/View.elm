@@ -183,7 +183,7 @@ viewMainContent model =
                     case model.user of
                         Success user ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewItems model.currentDate user model.pageItem
+                                ItemManager.View.viewItems model.currentDate model.language user model.pageItem
 
                         _ ->
                             div []
@@ -197,7 +197,7 @@ viewMainContent model =
                     case model.user of
                         Success user ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewPageItem model.currentDate id user model.pageItem
+                                ItemManager.View.viewPageItem model.currentDate model.language id user model.pageItem
 
                         _ ->
                             div []

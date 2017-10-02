@@ -22,9 +22,6 @@ import User.Model exposing (..)
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
-        user =
-            NotAsked
-
         ( config, cmds, activePage ) =
             case (Dict.get flags.hostname Config.configs) of
                 Just config ->
@@ -57,7 +54,7 @@ init flags =
             | accessToken = flags.accessToken
             , activePage = activePage
             , config = config
-            , user = user
+            , user = NotAsked
           }
         , Cmd.batch cmds
         )

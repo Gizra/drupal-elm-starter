@@ -10,11 +10,13 @@ module App.Model
 import App.PageType exposing (Page(..))
 import Config.Model
 import Date exposing (Date)
-import Pages.Login.Model exposing (emptyModel, Model)
+import Error.Model exposing (Error)
+import ItemManager.Model exposing (Model, emptyModel)
+import Pages.Login.Model exposing (Model, emptyModel)
 import Pusher.Model
 import RemoteData exposing (RemoteData(..), WebData)
-import ItemManager.Model exposing (emptyModel, Model)
 import Time exposing (Time)
+import Translate exposing (Language(English))
 import User.Model exposing (..)
 
 
@@ -36,6 +38,8 @@ type alias Model =
     , activePage : Page
     , config : RemoteData String Config.Model.Model
     , currentDate : Date
+    , errors : List Error
+    , language : Language
     , offline : Bool
     , pageLogin : Pages.Login.Model.Model
     , pageItem : ItemManager.Model.Model
@@ -62,6 +66,8 @@ emptyModel =
     , activePage = Login
     , config = NotAsked
     , currentDate = Date.fromTime 0
+    , errors = []
+    , language = English
     , offline = False
     , pageLogin = Pages.Login.Model.emptyModel
     , pageItem = ItemManager.Model.emptyModel
