@@ -55,6 +55,8 @@ type StringIdHttpError
 
 type StringIdItem
     = Items
+    | NoItemsFound
+    | ReloadItem
     | SearchByName
     | Overview
 
@@ -135,6 +137,12 @@ translateString language transId =
                     case stringId of
                         Items ->
                             { english = "Items", german = "", hebrew = "" }
+
+                        NoItemsFound ->
+                            { english = "No Items Found", german = "", hebrew = "" }
+
+                        ReloadItem ->
+                            { english = "Reload Item", german = "", hebrew = "" }
 
                         SearchByName ->
                             { english = "Search By Name", german = "", hebrew = "" }

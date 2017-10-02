@@ -14,7 +14,7 @@ import ItemManager.Utils exposing (getItem, unwrapItemsDict)
 import Pages.Item.View
 import Pages.Items.View
 import RemoteData exposing (RemoteData(..))
-import Translate exposing (Language)
+import Translate as Trans exposing (Language, translateText)
 import User.Model exposing (User)
 import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (errorString, viewError)
@@ -43,7 +43,7 @@ viewPageItem currentDate language id user model =
                 [ class "ui button"
                 , onClick <| Subscribe id
                 ]
-                [ text "Re-load Item" ]
+                [ translateText language <| Trans.Item Trans.ReloadItem ]
 
         Loading ->
             emptyNode
@@ -55,7 +55,7 @@ viewPageItem currentDate language id user model =
                     [ class "ui button"
                     , onClick <| Subscribe id
                     ]
-                    [ text "Retry" ]
+                    [ translateText language <| Trans.Item Trans.ReloadItem ]
                 ]
 
         Success item ->

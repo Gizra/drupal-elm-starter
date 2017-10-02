@@ -14,7 +14,7 @@ view language errors =
         emptyNode
     else
         div [ class "debug-errors" ]
-            [ h2 [] [ text " Debug Errors" ]
+            [ h2 [] [ text "Debug Errors" ]
             , ul [] (List.map (viewError language) errors)
             ]
 

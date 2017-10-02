@@ -5,7 +5,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Item.Model exposing (Item, ItemId)
 import Pages.Item.Model exposing (Msg(..))
-import Translate exposing (Language)
+import Translate as Trans exposing (Language, translateText)
 import User.Model exposing (User)
 import Utils.Html exposing (divider, showMaybe)
 
@@ -29,7 +29,7 @@ view currentDate language currentUser itemId item =
                     [ class "right menu" ]
                     [ a
                         [ class "ui active item" ]
-                        [ text "Overview" ]
+                        [ translateText language <| Trans.Item Trans.Overview ]
                     ]
                 ]
             , div []

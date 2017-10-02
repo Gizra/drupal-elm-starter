@@ -35,7 +35,7 @@ view currentDate language currentUser items model =
                     -- them.
                     emptyNode
                 else
-                    div [ class "ui segment" ] [ text "No items found" ]
+                    div [ class "ui segment" ] [ translateText language <| Trans.Item Trans.NoItemsFound ]
             else
                 Table.view config model.tableState acceptableItems
     in
