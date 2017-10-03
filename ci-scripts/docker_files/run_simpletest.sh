@@ -16,7 +16,11 @@ print_message "Run SimpleTest."
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 drush @server.local en simpletest -y
 cd "$ROOT_DIR"/server
+print_message "Starting SimpleTest tests"
+date
 php ./www/scripts/run-tests.sh --cache --php "$(which php)" --concurrency 4 --verbose --color --url http://server.local Hedley 2>&1 | tee /tmp/simpletest-result.txt
+print_message "Finished SimpleTest tests"
+date
 egrep -i "([1-9]+ fail)|(Fatal error)|([1-9]+ exception)" /tmp/simpletest-result.txt && exit 1
 
 exit 0
