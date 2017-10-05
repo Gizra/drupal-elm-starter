@@ -10,13 +10,10 @@ import Utils.WebData exposing (viewError)
 
 view : Language -> List Error -> Html msg
 view language errors =
-    if List.isEmpty errors then
-        emptyNode
-    else
-        div [ class "debug-errors" ]
-            [ h2 [] [ text "Debug Errors" ]
-            , ul [] (List.map (viewError language) errors)
-            ]
+    div [ class "debug-errors" ]
+        [ h2 [] [ text "Debug Errors" ]
+        , ul [] (List.map (viewError language) errors)
+        ]
 
 
 viewError : Language -> Error -> Html msg
