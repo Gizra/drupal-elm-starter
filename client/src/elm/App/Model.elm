@@ -2,20 +2,31 @@ module App.Model
     exposing
         ( emptyModel
         , Flags
-        , Msg(..)
+        , Msg
+            ( HandleOfflineEvent
+            , Logout
+            , MsgItemManager
+            , MsgPusher
+            , NoOp
+            , PageLogin
+            , SetActivePage
+            , SetCurrentDate
+            , Tick
+            , ToggleSideBar
+            )
         , Model
-        , Sidebar(..)
+        , Sidebar(Left, Top)
         )
 
-import App.PageType exposing (Page(..))
+import App.PageType exposing (Page(Login))
 import Config.Model
 import Date exposing (Date)
-import Pages.Login.Model exposing (emptyModel, Model)
+import Pages.Login.Model exposing (Model)
 import Pusher.Model
-import RemoteData exposing (RemoteData(..), WebData)
-import ItemManager.Model exposing (emptyModel, Model)
+import RemoteData exposing (RemoteData(NotAsked), WebData)
+import ItemManager.Model exposing (Model)
 import Time exposing (Time)
-import User.Model exposing (..)
+import User.Model exposing (User)
 
 
 type Msg

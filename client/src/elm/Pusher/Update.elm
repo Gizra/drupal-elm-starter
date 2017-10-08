@@ -1,7 +1,15 @@
 port module Pusher.Update exposing (update, subscription)
 
 import Config.Model exposing (BackendUrl)
-import Pusher.Model exposing (..)
+import Pusher.Model
+    exposing
+        ( AccessToken(AccessToken)
+        , ConnectionStatus(Connected, Connecting, Disconnected, Failed, Initialized, Other, Unavailable)
+        , Model
+        , Msg(HandleError, HandleStateChange, Login, Logout)
+        , PusherConfig
+        , PusherError
+        )
 import Pusher.Utils exposing (getClusterName)
 
 

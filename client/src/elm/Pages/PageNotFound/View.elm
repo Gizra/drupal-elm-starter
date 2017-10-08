@@ -1,7 +1,7 @@
 module Pages.PageNotFound.View exposing (view)
 
-import Html exposing (a, div, h2, text, Html)
-import Html.Attributes exposing (class, href)
+import Html exposing (div, h2, text, Html)
+import Html.Attributes exposing (class)
 
 
 -- VIEW

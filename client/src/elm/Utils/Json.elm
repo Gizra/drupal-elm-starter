@@ -11,7 +11,7 @@ module Utils.Json
 
 import Date exposing (Date)
 import Dict exposing (Dict)
-import Json.Decode exposing (Decoder, andThen, dict, fail, field, float, int, list, map, map2, nullable, oneOf, string, succeed, value)
+import Json.Decode exposing (Decoder, andThen, fail, field, float, int, list, map2, oneOf, string, succeed, value)
 import Json.Decode.Extra exposing (date)
 import String
 
@@ -19,17 +19,17 @@ import String
 decodeDate : Decoder Date
 decodeDate =
     string
-        |> andThen (\val -> date)
+        |> andThen (\_ -> date)
 
 
 decodeEmptyArrayAsEmptyDict : Decoder (Dict.Dict k v)
 decodeEmptyArrayAsEmptyDict =
     list value
         |> andThen
-            (\list ->
+            (\list_ ->
                 let
                     length =
-                        List.length list
+                        List.length list_
                 in
                     if length == 0 then
                         succeed Dict.empty
@@ -51,8 +51,8 @@ decodeFloat =
             |> andThen
                 (\val ->
                     case String.toFloat val of
-                        Ok int ->
-                            succeed int
+                        Ok int_ ->
+                            succeed int_
 
                         Err _ ->
                             fail "Cannot convert string to float"
@@ -70,8 +70,8 @@ decodeInt =
             |> andThen
                 (\val ->
                     case String.toInt val of
-                        Ok int ->
-                            succeed int
+                        Ok int_ ->
+                            succeed int_
 
                         Err _ ->
                             fail "Cannot convert string to integer"
@@ -89,7 +89,7 @@ decodeListAsDictByProperty property keyDecoder valDecoder stringFunc =
     list (map2 (,) (field property keyDecoder) valDecoder)
         |> andThen
             (\valList ->
-                List.map (\( id, value ) -> ( stringFunc id, value )) valList
+                List.map (\( id, value_ ) -> ( stringFunc id, value_ )) valList
                     |> Dict.fromList
                     |> succeed
             )

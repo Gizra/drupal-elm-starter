@@ -1,8 +1,8 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import App.Model exposing (Flags, Model, Msg)
 import App.Update exposing (init, update, subscriptions)
-import App.Router exposing (..)
+import App.Router exposing (delta2url, location2messages)
 import App.View exposing (view)
 import RouteUrl
 
@@ -12,8 +12,8 @@ main =
     RouteUrl.programWithFlags
         { delta2url = delta2url
         , location2messages = location2messages
-        , init = App.Update.init
-        , update = App.Update.update
-        , view = App.View.view
-        , subscriptions = App.Update.subscriptions
+        , init = init
+        , update = update
+        , view = view
+        , subscriptions = subscriptions
         }

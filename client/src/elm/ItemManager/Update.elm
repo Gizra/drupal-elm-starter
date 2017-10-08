@@ -1,27 +1,38 @@
 port module ItemManager.Update exposing (update, subscriptions)
 
-import App.PageType exposing (Page(..))
+import App.PageType exposing (Page)
 import Config.Model exposing (BackendUrl)
-import Date exposing (Date)
-import Dict exposing (Dict)
-import Item.Model exposing (Item, ItemId)
+import Dict
+import Item.Model exposing (ItemId)
 import ItemManager.Decoder exposing (decodeItemFromResponse, decodeItemsFromResponse)
-import ItemManager.Model exposing (..)
-import ItemManager.Utils exposing (..)
+import ItemManager.Model
+    exposing
+        ( Model
+        , Msg
+            ( FetchAll
+            , HandleFetchedItem
+            , HandleFetchedItems
+            , HandlePusherEvent
+            , MsgPagesItem
+            , MsgPagesItems
+            , Subscribe
+            , Unsubscribe
+            )
+        )
+import ItemManager.Utils exposing (getItem, wrapItemsDict)
 import Json.Decode exposing (decodeValue)
 import Json.Encode exposing (Value)
-import HttpBuilder exposing (get, withQueryParams)
+import HttpBuilder exposing (withQueryParams)
 import Pages.Item.Update
 import Pages.Items.Update
 import Pusher.Decoder exposing (decodePusherEvent)
-import Pusher.Model exposing (PusherEventData(..))
-import RemoteData exposing (RemoteData(..))
-import User.Model exposing (User)
+import Pusher.Model exposing (PusherEventData(ItemUpdate))
+import RemoteData exposing (RemoteData(Failure, Loading, NotAsked, Success))
 import Utils.WebData exposing (sendWithHandler)
 
 
-update : Date -> BackendUrl -> String -> User -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
-update currentDate backendUrl accessToken user msg model =
+update : BackendUrl -> String -> Msg -> Model -> ( Model, Cmd Msg, Maybe Page )
+update backendUrl accessToken msg model =
     case msg of
         Subscribe id ->
             -- Note that we're waiting to get the response from the server
@@ -71,7 +82,7 @@ update currentDate backendUrl accessToken user msg model =
                 Success item ->
                     let
                         ( subModel, subCmd, redirectPage ) =
-                            Pages.Item.Update.update backendUrl accessToken user subMsg item
+                            Pages.Item.Update.update subMsg item
                     in
                         ( { model | items = Dict.insert id (Success subModel) model.items }
                         , Cmd.map (MsgPagesItem id) subCmd
@@ -92,7 +103,7 @@ update currentDate backendUrl accessToken user msg model =
         MsgPagesItems subMsg ->
             let
                 ( subModel, subCmd, redirectPage ) =
-                    Pages.Items.Update.update backendUrl accessToken user subMsg (unwrapItemsDict model.items) model.itemsPage
+                    Pages.Items.Update.update subMsg model.itemsPage
             in
                 ( { model | itemsPage = subModel }
                 , Cmd.map MsgPagesItems subCmd
@@ -105,18 +116,12 @@ update currentDate backendUrl accessToken user msg model =
             , Nothing
             )
 
-        HandleFetchedItems (Err err) ->
-            let
-                _ =
-                    Debug.log "HandleFetchedItems" err
-            in
-                ( model, Cmd.none, Nothing )
+        HandleFetchedItems (Err _) ->
+            ( model, Cmd.none, Nothing )
 
         HandleFetchedItem itemId (Ok item) ->
             let
                 -- Let Item settings fetch own data.
-                -- @todo: Pass the activePage here, so we can fetch
-                -- data only when really needed.
                 updatedModel =
                     { model | items = Dict.insert itemId (Success item) model.items }
             in
@@ -143,13 +148,9 @@ update currentDate backendUrl accessToken user msg model =
                             , Nothing
                             )
 
-                Err err ->
-                    let
-                        _ =
-                            Debug.log "Pusher decode Err" err
-                    in
-                        -- We'll log the error decoding the pusher event
-                        ( model, Cmd.none, Nothing )
+                Err _ ->
+                    -- We'll log the error decoding the pusher event
+                    ( model, Cmd.none, Nothing )
 
 
 {-| A single port for all messages coming in from pusher for a `Item` ... they
@@ -186,5 +187,5 @@ fetchAllItemsFromBackend backendUrl accessToken model =
 
 
 subscriptions : Model -> Page -> Sub Msg
-subscriptions model activePage =
+subscriptions _ _ =
     pusherItemMessages (decodeValue decodePusherEvent >> HandlePusherEvent)

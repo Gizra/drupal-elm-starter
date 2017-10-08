@@ -1,9 +1,9 @@
 module Utils.WebData exposing (sendWithHandler, viewError)
 
 import Json.Decode exposing (Decoder)
-import Html exposing (..)
+import Html exposing (div, Html, p, text)
 import Http
-import HttpBuilder exposing (..)
+import HttpBuilder exposing (RequestBuilder, send, withExpect)
 
 
 {-| Provide some `Html` to view an error message.
@@ -11,7 +11,7 @@ import HttpBuilder exposing (..)
 viewError : Http.Error -> Html any
 viewError error =
     case error of
-        Http.BadUrl message ->
+        Http.BadUrl _ ->
             div [] [ text "URL is not valid." ]
 
         Http.BadPayload message _ ->

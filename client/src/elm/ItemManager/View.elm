@@ -4,36 +4,34 @@ module ItemManager.View
         , viewItems
         )
 
-import Date exposing (Date)
 import Pages.Item.View
-import Html exposing (..)
+import Html exposing (div, Html, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Pages.Items.View
-import Item.Model exposing (ItemId, ItemsDict)
-import ItemManager.Model exposing (..)
+import Item.Model exposing (ItemId)
+import ItemManager.Model exposing (Model, Msg(MsgPagesItem, MsgPagesItems, Subscribe))
 import ItemManager.Utils exposing (getItem, unwrapItemsDict)
-import RemoteData exposing (RemoteData(..))
-import User.Model exposing (User)
+import RemoteData exposing (RemoteData(Failure, Loading, NotAsked, Success))
 import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (viewError)
 
 
 {-| Show all Items page.
 -}
-viewItems : Date -> User -> Model -> Html Msg
-viewItems currentDate user model =
+viewItems : Model -> Html Msg
+viewItems model =
     let
         items =
             unwrapItemsDict model.items
     in
-        Html.map MsgPagesItems <| Pages.Items.View.view currentDate user items model.itemsPage
+        Html.map MsgPagesItems <| Pages.Items.View.view items model.itemsPage
 
 
 {-| Show the Item page.
 -}
-viewPageItem : Date -> ItemId -> User -> Model -> Html Msg
-viewPageItem currentDate id user model =
+viewPageItem : ItemId -> Model -> Html Msg
+viewPageItem id model =
     case getItem id model of
         NotAsked ->
             -- This shouldn't happen, but if it does, we provide
@@ -59,4 +57,4 @@ viewPageItem currentDate id user model =
 
         Success item ->
             div []
-                [ Html.map (MsgPagesItem id) <| Pages.Item.View.view currentDate user id item ]
+                [ Html.map (MsgPagesItem id) <| Pages.Item.View.view item ]

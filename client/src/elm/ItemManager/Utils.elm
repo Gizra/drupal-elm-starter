@@ -8,7 +8,7 @@ module ItemManager.Utils
 import Dict exposing (Dict)
 import Item.Model exposing (Item, ItemId, ItemsDict)
 import ItemManager.Model as ItemManager
-import RemoteData exposing (RemoteData(..), WebData)
+import RemoteData exposing (RemoteData(NotAsked, Success), WebData)
 
 
 getItem : ItemId -> ItemManager.Model -> WebData Item

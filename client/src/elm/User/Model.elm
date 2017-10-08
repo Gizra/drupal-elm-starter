@@ -1,8 +1,4 @@
-module User.Model exposing (..)
-
-
-type alias UserId =
-    String
+module User.Model exposing (User)
 
 
 type alias User =

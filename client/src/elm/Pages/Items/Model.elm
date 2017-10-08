@@ -1,6 +1,6 @@
-module Pages.Items.Model exposing (..)
+module Pages.Items.Model exposing (emptyModel, Model, Msg(SetRedirectPage, SetTableState, SetQuery))
 
-import App.PageType exposing (Page(..))
+import App.PageType exposing (Page)
 import Table
 
 

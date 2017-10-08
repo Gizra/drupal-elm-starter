@@ -1,11 +1,9 @@
 module Pusher.Test exposing (all)
 
-import Date
-import Dict
 import Expect
 import Json.Decode exposing (decodeString)
-import Pusher.Decoder exposing (..)
-import Pusher.Model exposing (..)
+import Pusher.Decoder exposing (decodePusherEvent)
+import Pusher.Model exposing (PusherEventData(ItemUpdate))
 import Test exposing (Test, describe, test)
 
 

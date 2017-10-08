@@ -3,7 +3,7 @@ module Pusher.Utils
         ( getClusterName
         )
 
-import Pusher.Model exposing (Cluster(..))
+import Pusher.Model exposing (Cluster(ApSouthEast1, EuWest1, UsEast1))
 
 
 getClusterName : Cluster -> String

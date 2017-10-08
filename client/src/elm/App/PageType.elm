@@ -1,4 +1,14 @@
-module App.PageType exposing (Page(..))
+module App.PageType
+    exposing
+        ( Page
+            ( AccessDenied
+            , Dashboard
+            , Item
+            , Login
+            , MyAccount
+            , PageNotFound
+            )
+        )
 
 {-| Prevent circular dependency.
 -}

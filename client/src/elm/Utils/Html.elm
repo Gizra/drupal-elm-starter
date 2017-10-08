@@ -1,6 +1,6 @@
 module Utils.Html exposing (divider, emptyNode, showMaybe)
 
-import Html exposing (..)
+import Html exposing (div, Html, text)
 import Html.Attributes exposing (class)
 
 

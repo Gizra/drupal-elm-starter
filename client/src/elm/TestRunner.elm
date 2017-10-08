@@ -1,9 +1,9 @@
-port module Main exposing (..)
+port module Main exposing (main)
 
-import App.Test exposing (all)
+import App.Test
 import Json.Encode exposing (Value)
 import Pages.Login.Test
-import Pusher.Test exposing (all)
+import Pusher.Test
 import Test exposing (Test, describe)
 import Test.Runner.Node exposing (TestProgram, run)
 

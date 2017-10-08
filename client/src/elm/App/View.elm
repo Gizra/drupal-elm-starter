@@ -1,24 +1,24 @@
-module App.View exposing (..)
+module App.View exposing (view)
 
-import App.Model exposing (..)
-import App.PageType exposing (Page(..))
+import App.Model exposing (Model, Msg(Logout, PageLogin, MsgItemManager, SetActivePage, ToggleSideBar), Sidebar(Left, Top))
+import App.PageType exposing (Page(AccessDenied, Dashboard, Item, Login, MyAccount, PageNotFound))
 import Config.View
-import Html exposing (..)
-import Html.Attributes exposing (alt, class, classList, href, src, style, target)
+import Html exposing (a, div, i, img, Html, h4, span, text)
+import Html.Attributes exposing (alt, class, classList, src)
 import Html.Events exposing (onClick)
-import User.Model exposing (..)
-import Pages.Login.View exposing (..)
-import Pages.MyAccount.View exposing (..)
-import Pages.PageNotFound.View exposing (..)
-import ItemManager.View exposing (..)
-import RemoteData exposing (RemoteData(..), WebData)
+import User.Model exposing (User)
+import Pages.Login.View
+import Pages.MyAccount.View
+import Pages.PageNotFound.View
+import ItemManager.View
+import RemoteData exposing (RemoteData(Failure, NotAsked, Success))
 import Utils.Html exposing (emptyNode)
 
 
 view : Model -> Html Msg
 view model =
     case model.config of
-        Failure err ->
+        Failure _ ->
             Config.View.view
 
         _ ->
@@ -138,15 +138,6 @@ viewSidebar model sidebar =
             emptyNode
 
 
-viewPageNotFoundItem : Page -> Html Msg
-viewPageNotFoundItem activePage =
-    a
-        [ classByPage PageNotFound activePage
-        , onClick <| SetActivePage PageNotFound
-        ]
-        [ text "404 page" ]
-
-
 viewAvatar : User -> Html Msg
 viewAvatar user =
     img
@@ -181,9 +172,9 @@ viewMainContent model =
                     -- at this higher level that we could present a UI related to loading
                     -- the user information.
                     case model.user of
-                        Success user ->
+                        Success _ ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewItems model.currentDate user model.pageItem
+                                ItemManager.View.viewItems model.pageItem
 
                         _ ->
                             div []
@@ -195,9 +186,9 @@ viewMainContent model =
                     -- at this higher level that we could present a UI related to loading
                     -- the user information.
                     case model.user of
-                        Success user ->
+                        Success _ ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewPageItem model.currentDate id user model.pageItem
+                                ItemManager.View.viewPageItem id model.pageItem
 
                         _ ->
                             div []
@@ -216,14 +207,3 @@ viewMainContent model =
 
             _ ->
                 viewContent
-
-
-{-| Get menu items classes. This function gets the active page and checks if
-it is indeed the page used.
--}
-classByPage : Page -> Page -> Attribute a
-classByPage page activePage =
-    classList
-        [ ( "item", True )
-        , ( "active", page == activePage )
-        ]
