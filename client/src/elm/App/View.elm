@@ -3,16 +3,18 @@ module App.View exposing (..)
 import App.Model exposing (..)
 import App.PageType exposing (Page(..))
 import Config.View
+import Error.View
 import Html exposing (..)
 import Html.Attributes exposing (alt, class, classList, href, src, style, target)
 import Html.Events exposing (onClick)
-import User.Model exposing (..)
+import ItemManager.View exposing (..)
 import Pages.Login.View exposing (..)
 import Pages.MyAccount.View exposing (..)
 import Pages.PageNotFound.View exposing (..)
-import ItemManager.View exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
-import Utils.Html exposing (emptyNode)
+import Translate as Trans exposing (Language(English), translateText)
+import User.Model exposing (..)
+import Utils.Html exposing (emptyNode, showIf)
 
 
 view : Model -> Html Msg
@@ -21,7 +23,7 @@ view model =
         Failure err ->
             Config.View.view
 
-        _ ->
+        Success config ->
             case model.activePage of
                 Login ->
                     viewMainContent model
@@ -36,13 +38,18 @@ view model =
                             else
                                 [ class "pusher"
                                 ]
+
+                        -- The errors Debug can always be in English.
+                        debugErrors =
+                            showIf config.debug <| Error.View.view English model.errors
                     in
                         div [ class "pushable" ]
-                            -- Sidebar menu - responsive only
-                            [ viewSidebar model Top
+                            [ -- Sidebar menu - responsive only
+                              viewSidebar model Top
                             , div
                                 mainAttributes
-                                [ div
+                                [ debugErrors
+                                , div
                                     [ class "ui grid container" ]
                                     -- Non-responsive menu
                                     [ viewSidebar model Left
@@ -54,6 +61,10 @@ view model =
                                     ]
                                 ]
                             ]
+
+        _ ->
+            -- This should be instantaneous
+            emptyNode
 
 
 {-| Responsive top menu.
@@ -82,20 +93,15 @@ viewSidebar model sidebar =
                 wrapperClasses =
                     case sidebar of
                         Top ->
-                            let
-                                visibleClass =
-                                    if model.sidebarOpen then
-                                        " visible"
-                                    else
-                                        ""
-                            in
-                                String.concat [ "ui sidebar inverted vertical menu", visibleClass ]
+                            [ ( "ui sidebar inverted vertical menu", True )
+                            , ( "visible", model.sidebarOpen )
+                            ]
 
                         Left ->
-                            "ui left fixed vertical inverted menu"
+                            [ ( "ui left fixed vertical inverted menu", True ) ]
             in
                 div
-                    [ class wrapperClasses ]
+                    [ classList wrapperClasses ]
                     [ a
                         [ class "item"
                         , onClick <| SetActivePage MyAccount
@@ -110,15 +116,16 @@ viewSidebar model sidebar =
                         [ class "item"
                         , onClick <| SetActivePage Dashboard
                         ]
-                        [ text "Dashboard" ]
+                        [ translateText model.language <| Trans.Sidebar Trans.Dashboard ]
                     , span
                         [ class "item"
                         ]
-                        [ text <|
-                            if model.offline then
-                                "Not Connected"
-                            else
-                                "Connected"
+                        [ translateText model.language <|
+                            Trans.Sidebar <|
+                                if model.offline then
+                                    Trans.NotConnected
+                                else
+                                    Trans.Connected
                         , i
                             [ classList
                                 [ ( "icon wifi", True )
@@ -131,20 +138,11 @@ viewSidebar model sidebar =
                         [ class "item"
                         , onClick Logout
                         ]
-                        [ text "Sign Out" ]
+                        [ translateText model.language <| Trans.Sidebar Trans.SignOut ]
                     ]
 
         _ ->
             emptyNode
-
-
-viewPageNotFoundItem : Page -> Html Msg
-viewPageNotFoundItem activePage =
-    a
-        [ classByPage PageNotFound activePage
-        , onClick <| SetActivePage PageNotFound
-        ]
-        [ text "404 page" ]
 
 
 viewAvatar : User -> Html Msg
@@ -163,17 +161,17 @@ viewMainContent model =
         viewContent =
             case model.activePage of
                 AccessDenied ->
-                    div [] [ text "Access denied" ]
+                    div [] [ translateText model.language <| Trans.AccessDenied ]
 
                 Login ->
-                    Html.map PageLogin (Pages.Login.View.view model.user model.pageLogin)
+                    Html.map PageLogin (Pages.Login.View.view model.language model.user model.pageLogin)
 
                 MyAccount ->
                     Pages.MyAccount.View.view model.user
 
                 PageNotFound ->
                     -- We don't need to pass any cmds, so we can call the view directly
-                    Pages.PageNotFound.View.view
+                    Pages.PageNotFound.View.view model.language
 
                 Dashboard ->
                     -- We get the user information before diving down a level, since
@@ -183,7 +181,7 @@ viewMainContent model =
                     case model.user of
                         Success user ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewItems model.currentDate user model.pageItem
+                                ItemManager.View.viewItems model.currentDate model.language user model.pageItem
 
                         _ ->
                             div []
@@ -197,7 +195,7 @@ viewMainContent model =
                     case model.user of
                         Success user ->
                             Html.map MsgItemManager <|
-                                ItemManager.View.viewPageItem model.currentDate id user model.pageItem
+                                ItemManager.View.viewPageItem model.currentDate model.language id user model.pageItem
 
                         _ ->
                             div []

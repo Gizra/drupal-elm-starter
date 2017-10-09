@@ -5,17 +5,17 @@ import Date exposing (Date)
 import Dict
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Attributes.Aria exposing (ariaLabel)
 import Html.Events exposing (on, onClick, onInput, onWithOptions)
-import Pages.Items.Model exposing (Model, Msg(..))
 import Item.Model exposing (Item, ItemId, ItemsDict)
+import Pages.Items.Model exposing (Model, Msg(..))
 import Table exposing (..)
+import Translate as Trans exposing (Language, translateString, translateText)
 import User.Model exposing (User)
 import Utils.Html exposing (emptyNode)
 
 
-view : Date -> User -> ItemsDict -> Model -> Html Msg
-view currentDate currentUser items model =
+view : Date -> Language -> User -> ItemsDict -> Model -> Html Msg
+view currentDate language currentUser items model =
     let
         lowerQuery =
             String.toLower model.query
@@ -35,7 +35,7 @@ view currentDate currentUser items model =
                     -- them.
                     emptyNode
                 else
-                    div [ class "ui segment" ] [ text "No items found" ]
+                    div [ class "ui segment" ] [ translateText language <| Trans.Item Trans.NoItemsFound ]
             else
                 Table.view config model.tableState acceptableItems
     in
@@ -44,19 +44,18 @@ view currentDate currentUser items model =
                 [ class "ui secondary pointing fluid menu" ]
                 [ h2
                     [ class "ui header" ]
-                    [ text "Items" ]
+                    [ translateText language <| Trans.Item Trans.Items ]
                 , div
                     [ class "right menu" ]
                     [ a
                         [ class "ui active item" ]
-                        [ text "Overview" ]
+                        [ translateText language <| Trans.Item Trans.Overview ]
                     ]
                 ]
             , div [ class "ui input" ]
                 [ input
-                    [ placeholder "Search by Name"
+                    [ placeholder <| translateString language <| Trans.Item Trans.SearchByName
                     , onInput SetQuery
-                    , ariaLabel "Search by Name"
                     ]
                     []
                 ]
