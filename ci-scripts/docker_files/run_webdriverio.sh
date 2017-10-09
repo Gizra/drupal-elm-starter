@@ -27,7 +27,7 @@ for SPEC in test/specs/*js; do
   for i in $(seq 3); do
     ./node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"  2>&1 | tee /tmp/"$SPEC_BASENAME"-"$i".txt
     WDIO_CMD_RET=$?
-    if egrep -i "(Debug errors appears, due to an error)" /tmp/"$SPEC_BASENAME"-"$i".txt; then
+    if grep -E -i "(Debug errors appears, due to an error)" /tmp/"$SPEC_BASENAME"-"$i".txt; then
       WDIO_RET=1
     else
       WDIO_RET=$WDIO_CMD_RET
