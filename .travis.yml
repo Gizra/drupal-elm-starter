@@ -15,6 +15,8 @@ env:
   - secure: GX8KrT3dB0JMAKGCp6ktBkSFb0X1KWxkS5tpKHjpohBnI/vqzmhqNcnJyGIE3SFIZIyH4HKfJPJc+eYogvbQ+YGk5HgaKTN5/pcPgKPt5V0xIUzt9xGpWH5bh0WD7Kws1TW+TGAm4aCaGDPHa+o+JCDzF5cdxldeF0NhVNhYLauVQCrSR1MYJk911LXzfaOYDZJZ53TMTtLb83GB5U7Z6pvzKKXd/D4ywfk49VgooSak45dMHKCOuPv/XF3OZDe2JQnZBQVqhf7irpdcBoyWPO1XQddxTPvuZ6ZR3oq42XWx2CQt/6w/ItaZZRS8qtaqZ+/dPxwRBnhQ39bMX6XIPmuvVAO1ikjbINcUzomITN0A0Au0Rex2m4KfQqQWIghM8oEAvoGKx7vm9bmyqON3oiIlBaQXUuyw6azbf0+UBppvCAN7MVpjJIuIpblFScqSRPJlRAZanSFyZ5TWb3yK/54kxKHPeU0+7rcd6yYeeDLpUIFbP7GhzCwPZ+VkfCN8FOOh9Y7aWCHW7BMK6S5s92lnXZvJpOYnih00tdmMrkcsyqWyLMxeMYxuyluxbD52mW4f5MlLefZ5CbFXdXndoPJEDTpLXL4EoAQiBJY5kDNjw2O0VFNHNzhvi+a06alfub4tN1TU4QFNoA43owlVUDjqdRzMhJjUE0AHQpzyrwo=
 services:
 - docker
+addons:
+  chrome: stable
 before_install:
 - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 - "([ ! -z $BUILD_WEBDRIVERIO ] && sudo pip install docker-compose) || :"

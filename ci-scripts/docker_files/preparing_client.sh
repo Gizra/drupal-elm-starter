@@ -15,6 +15,12 @@ apt-get -y install g++-4.8 bzip2
 # Fibers Node 7.x issue: https://github.com/laverdet/node-fibers/issues/331
 export CXX=g++-4.8
 
+# Java 8 for recent Selenium.
+# https://www.npmjs.com/package/selenium-standalone#ensure-you-have-the-minimum-required-java-version.
+echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list
+apt-get update && apt-get install openjdk-8-jre
+update-alternatives --config java
+
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g elm-test
