@@ -12,6 +12,7 @@ if [ -z "$DOCKER_DEBUG" ]; then
 
   bash run_behat.sh
   bash run_webdriverio.sh
+  bash run_simpletest.sh
 
   bash post_cache.sh
 
@@ -23,6 +24,7 @@ else
 
   bash run_behat.sh || :
   bash run_webdriverio.sh || :
+  bash run_simpletest.sh || :
 
   bash
 fi
