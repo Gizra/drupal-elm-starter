@@ -2,6 +2,7 @@ port module App.Update exposing (init, update, subscriptions)
 
 import App.Model exposing (..)
 import App.PageType exposing (Page(..))
+import App.Utils exposing (handleErrors)
 import Config
 import Date
 import Dict
@@ -21,9 +22,6 @@ import User.Model exposing (..)
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
-        user =
-            NotAsked
-
         ( config, cmds, activePage ) =
             case (Dict.get flags.hostname Config.configs) of
                 Just config ->
@@ -56,7 +54,7 @@ init flags =
             | accessToken = flags.accessToken
             , activePage = activePage
             , config = config
-            , user = user
+            , user = NotAsked
           }
         , Cmd.batch cmds
         )
@@ -101,7 +99,7 @@ update msg model =
                 case model.user of
                     Success user ->
                         let
-                            ( val, cmds, redirectPage ) =
+                            ( val, cmds, redirectPage, maybeError ) =
                                 ItemManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageItem
 
                             modelUpdated =
@@ -114,8 +112,11 @@ update msg model =
                                     )
                                     redirectPage
                                     |> Maybe.withDefault ( modelUpdated, Cmd.none )
+
+                            modelUpdatedWithError =
+                                handleErrors maybeError modelUpdatedWithSetPage
                         in
-                            ( modelUpdatedWithSetPage
+                            ( modelUpdatedWithError
                             , Cmd.batch
                                 [ Cmd.map MsgItemManager cmds
                                 , setPageCmds
@@ -140,7 +141,7 @@ update msg model =
 
             PageLogin msg ->
                 let
-                    ( val, cmds, ( webDataUser, accessToken ) ) =
+                    ( val, cmds, ( webDataUser, accessToken ), maybeError ) =
                         Pages.Login.Update.update backendUrl msg model.pageLogin
 
                     ( pusherModelUpdated, pusherLoginCmd ) =
@@ -154,7 +155,7 @@ update msg model =
                             , user = webDataUser
                         }
 
-                    ( modelWithRedirect, setActivePageCmds ) =
+                    ( modelUpdatedWithSetPage, setPageCmds ) =
                         case webDataUser of
                             -- If user was successfuly fetched, reditect to my
                             -- account page.
@@ -178,12 +179,15 @@ update msg model =
 
                             _ ->
                                 modelUpdated ! []
+
+                    modelUpdatedWithError =
+                        handleErrors maybeError modelUpdatedWithSetPage
                 in
-                    ( modelWithRedirect
+                    ( modelUpdatedWithError
                     , Cmd.batch
                         [ Cmd.map PageLogin cmds
                         , accessTokenPort accessToken
-                        , setActivePageCmds
+                        , setPageCmds
                         , pusherLoginCmd
                         ]
                     )

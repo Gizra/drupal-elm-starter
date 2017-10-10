@@ -63,6 +63,8 @@ class HedleyPusherAuth extends DrupalWebTestCase {
     ];
 
     $node = entity_create('node', $values);
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $wrapper->field_private_note->set('Private note');
     node_save($node);
     $this->itemNid = $node->nid;
   }
@@ -101,13 +103,13 @@ class HedleyPusherAuth extends DrupalWebTestCase {
     $messages = self::getPusherMessages(TRUE, 'item__update');
     $this->assertTrue(is_array($messages) && $messages, 'Got at least one item__update message on the private channel.');
     foreach ($messages as $message) {
-      $this->assertTrue(!empty($message['data']['private_field']), '"private_field" is exposed on the private channel.');
+      $this->assertEqual($message['data']['private_note'], 'Private note', '"private_note" is exposed on the private channel.');
     }
 
     $messages = self::getPusherMessages(FALSE, 'item__update');
     $this->assertTrue(is_array($messages) && $messages, 'Got at least one item__update message on the public channel.');
     foreach ($messages as $message) {
-      $this->assertTrue(!array_key_exists('private_field', $message['data']), '"private_field" is not exposed on the public channel.');
+      $this->assertTrue(!array_key_exists('private_note', $message['data']), '"private_note" is not exposed on the public channel.');
     }
   }
 
