@@ -11,15 +11,8 @@ service mysql start
 check_last_command
 
 # -------------------------------------------------- #
-# Configure apache2.
+# Prepare serving Drupal.
 # -------------------------------------------------- #
-print_message "Configure apache2."
-cd "$ROOT_DIR" || exit 1
-cp ci-scripts/docker_files/default.apache2.conf /etc/apache2/apache2.conf
-service apache2 restart
-cp ci-scripts/docker_files/server.conf /etc/apache2/sites-available/
-a2ensite server.conf
-service apache2 reload
 echo "127.0.0.1 server.local" >> /etc/hosts
 check_last_command
 
@@ -31,7 +24,7 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 # Check drush version.
 drush --version
 cd "$ROOT_DIR" || exit 1
-cp ci-scripts/docker_files/aliases.drushrc.php ~/.drush/
+cp ci-scripts/aliases.drushrc.php ~/.drush/
 check_last_command
 
 # -------------------------------------------------- #
@@ -49,3 +42,9 @@ else
 ./install -dy
 fi
 check_last_command
+
+# -------------------------------------------------- #
+# Starting native webserver via Drush.
+# -------------------------------------------------- #
+drush runserver 127.0.0.1:8080 &
+until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
