@@ -178,6 +178,17 @@ exports.config = {
     // },
     //
     // Runs after a WebdriverIO command gets executed
+    afterCommand: function(commandName, args, result, error) {
+        if (commandName == 'isVisible') {
+            // Prevent recursion.
+            return;
+        }
+
+        // Validate the Debug Errors page is not visible.
+        const hasErrors = browser.isVisible('.debug-errors');
+        const assert = require('assert');
+        assert.equal(hasErrors, false, "Debug errors appears, due to an error (most likely a decoder one)");
+    },
     // afterCommand: function (commandName, args, result, error) {
     // },
     //

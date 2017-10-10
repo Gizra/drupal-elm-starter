@@ -26,8 +26,13 @@ for SPEC in test/specs/*js; do
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
   sed "s/<<SPECNAME>>/$SPEC_BASENAME/" < $WDIO_CONF.orig > "$WDIO_CONF"
   for i in $(seq 3); do
-    ./node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"
-    WDIO_RET=$?
+    ./node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"  2>&1 | tee /tmp/"$SPEC_BASENAME"-"$i".txt
+    WDIO_CMD_RET=$?
+    if grep -E -i "(Debug errors appears, due to an error)" /tmp/"$SPEC_BASENAME"-"$i".txt; then
+      WDIO_RET=1
+    else
+      WDIO_RET=$WDIO_CMD_RET
+    fi
     if [[ "$WDIO_RET" -eq 0 ]]; then
       # We give 3 chances to complete
       # but of course we quit on first success

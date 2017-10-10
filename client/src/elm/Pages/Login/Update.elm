@@ -1,51 +1,63 @@
-module Pages.Login.Update exposing (fetchUserFromBackend, update)
+module Pages.Login.Update
+    exposing
+        ( fetchUserFromBackend
+        , update
+        )
 
 import Config.Model exposing (BackendUrl)
+import Error.Model exposing (Error)
+import Error.Utils exposing (httpError, noError)
 import Http exposing (Error(BadStatus))
 import HttpBuilder exposing (..)
-import User.Model exposing (..)
-import Pages.Login.Model as Login exposing (..)
 import Pages.Login.Decoder exposing (..)
+import Pages.Login.Model as Login exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Decoder exposing (decodeUser)
+import User.Model exposing (..)
 import Utils.WebData exposing (sendWithHandler)
 
 
-update : BackendUrl -> Msg -> Model -> ( Model, Cmd Msg, ( WebData User, AccessToken ) )
+update : BackendUrl -> Msg -> Model -> ( Model, Cmd Msg, ( WebData User, AccessToken ), Maybe Error.Model.Error )
 update backendUrl msg model =
     case msg of
         HandleFetchedAccessToken (Ok accessToken) ->
             ( model
             , fetchUserFromBackend backendUrl accessToken
             , ( Loading, accessToken )
+            , noError
             )
 
-        HandleFetchedAccessToken (Err err) ->
+        HandleFetchedAccessToken (Err error) ->
             ( model
             , Cmd.none
-            , ( Failure err, "" )
+            , ( Failure error, "" )
+            , httpError "Pages.Login.Update" "HandleFetchedAccessToken" error
             )
 
         HandleFetchedUser accessToken (Ok user) ->
             ( model
             , Cmd.none
             , ( Success user, accessToken )
+            , noError
             )
 
-        HandleFetchedUser accessToken (Err err) ->
+        HandleFetchedUser accessToken (Err error) ->
             let
                 -- If Access token in local storage is invalid, make sure we don't show a "bad credentials" error.
-                webdata =
-                    case err of
+                ( webdata, errorType ) =
+                    case error of
                         BadStatus e ->
-                            NotAsked
+                            ( NotAsked, noError )
 
                         _ ->
-                            Failure err
+                            ( Failure error
+                            , httpError "Pages.Login.Update" "HandleFetchedUser" error
+                            )
             in
                 ( model
                 , Cmd.none
                 , ( webdata, "" )
+                , errorType
                 )
 
         SetName name ->
@@ -59,6 +71,7 @@ update backendUrl msg model =
                 ( { model | loginForm = loginForm_ }
                 , Cmd.none
                 , ( NotAsked, "" )
+                , noError
                 )
 
         SetPassword pass ->
@@ -72,12 +85,14 @@ update backendUrl msg model =
                 ( { model | loginForm = loginForm_ }
                 , Cmd.none
                 , ( NotAsked, "" )
+                , noError
                 )
 
         TryLogin ->
             ( model
             , fetchAccessTokenFromBackend backendUrl model.loginForm
             , ( Loading, "" )
+            , noError
             )
 
 
