@@ -2,6 +2,9 @@ sudo: required
 language: php
 php:
 - 7.0
+addons:
+  hosts:
+    - server.local
 env:
   matrix:
   - BUILD_SERVER=1

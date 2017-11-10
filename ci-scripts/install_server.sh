@@ -6,7 +6,7 @@ if [ -z "${BUILD_SERVER+x}" ] || [ "$BUILD_SERVER" -ne 1 ]; then
 fi
 
 # Load helper functionality.
-source helper_functions.sh
+source ci-scripts/helper_functions.sh
 
 # -------------------------------------------------- #
 # Start MySQL.
@@ -16,19 +16,15 @@ service mysql start
 check_last_command
 
 # -------------------------------------------------- #
-# Prepare serving Drupal.
-# -------------------------------------------------- #
-echo "127.0.0.1 server.local" >> /etc/hosts
-check_last_command
-
-# -------------------------------------------------- #
 # Installing Drush.
 # -------------------------------------------------- #
 print_message "Install drush."
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 # Check drush version.
+composer global require drush/drush:8.*
 drush --version
 cd "$ROOT_DIR" || exit 1
+mkdir ~/.drush/
 cp ci-scripts/aliases.drushrc.php ~/.drush/
 check_last_command
 

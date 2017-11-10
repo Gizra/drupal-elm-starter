@@ -24,4 +24,4 @@ function check_last_command() {
   fi
 }
 
-export ROOT_DIR="/var/www/html/Server"
+export ROOT_DIR="$TRAVIS_BUILD_DIR/server/www"
