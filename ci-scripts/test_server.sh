@@ -3,18 +3,18 @@ set -euo pipefail
 
 # ---------------------------------------------------------------------------- #
 #
-# Run the Behat/WebDriverIO tests.
+# Run the WebDriverIO tests.
 #
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-if [ -z "${BUILD_SERVER+x}" ] || [ "$BUILD_SERVER" -ne 1 ]; then
+if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
+
 DB_DIR=/tmp/dbs
 
-# Execute our server container alongside with Selenium container for WDIO.
 mkdir -p "$DB_DIR"
 
 if ! bash run_webdriverio.sh
