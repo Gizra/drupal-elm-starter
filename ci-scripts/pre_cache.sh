@@ -12,6 +12,11 @@ date
 # Uses the cached objects from Travis cache or invalidate
 
 TRAVIS_CACHE_DIR=/tmp/travis-cache
+
+if [ ! -d "$TRAVIS_CACHE_DIR" ]; then
+  mkdir -p "$TRAVIS_CACHE_DIR"
+fi
+
 NPM_HASH_FILE="$TRAVIS_CACHE_DIR"/.npm.sum
 DRUPAL_HASH_FILE="$TRAVIS_CACHE_DIR"/.drupal.sum
 

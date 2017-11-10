@@ -42,4 +42,4 @@ cache:
   directories:
   - client/elm-stuff/packages
   - client/sysconfcpus
-  - travis-cache
+  - /tmp/travis-cache
