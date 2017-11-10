@@ -26,7 +26,7 @@ cp ci-scripts/aliases.drushrc.php ~/.drush/
 # -------------------------------------------------- #
 print_message "Install Drupal."
 
-source pre_cache.sh
+source ci-scripts/pre_cache.sh
 
 cd "$ROOT_DIR"/server || exit 1
 cp travis.config.sh config.sh
