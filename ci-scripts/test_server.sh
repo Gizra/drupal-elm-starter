@@ -17,7 +17,7 @@ DB_DIR=/tmp/dbs
 
 mkdir -p "$DB_DIR"
 
-if ! bash run_webdriverio.sh
+if ! bash ci-scripts/run_webdriverio.sh
 then
   source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
   sudo chmod -R 777 /tmp/test_results

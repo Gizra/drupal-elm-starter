@@ -7,7 +7,7 @@ if [ "${BUILD_WEBDRIVERIO}" -ne 1 ]; then
 fi
 
 # Load helper functionality.
-source helper_functions.sh
+source ci-scripts/helper_functions.sh
 
 
 print_message "Test WebDriverIO."
