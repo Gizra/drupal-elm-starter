@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Load helper functionality.
-source helper_functions.sh
+source ci-scripts/helper_functions.sh
 
 # Check the current build.
 if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
@@ -19,19 +19,7 @@ npm install
 bower install --allow-root
 
 elm-package install -y
-cp "$ROOT_DIR"/ci-scripts/docker_files/LocalConfig.elm src/elm/LocalConfig.elm
-
-# Getting elm-make to run quicker.
-# See https://github.com/elm-lang/elm-compiler/issues/1473#issuecomment-245704142
-if [ ! -d sysconfcpus/bin ];
-then
-  git clone https://github.com/obmarg/libsysconfcpus.git;
-  cd libsysconfcpus || exit;
-  ./configure --prefix="$ROOT_DIR"/sysconfcpus;
-  make && make install;
-  pwd
-  cd ..;
-fi
+cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 
 # Run gulp in the background.
 gulp &

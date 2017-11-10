@@ -30,6 +30,7 @@ install:
 - "$TRAVIS_BUILD_DIR/ci-scripts/install_elm_format.sh"
 before_script:
 - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_client.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/prepare_frontend.sh"
 script:
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
