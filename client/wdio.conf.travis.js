@@ -45,7 +45,7 @@ exports.config = {
         maxInstances: 1,
         browserName: 'chrome',
         chromeOptions: {
-          binary: '/tmp/google-chrome-stable',
+          binary: '/usr/bin/google-chrome-stable',
           args: [
             'headless',
             // Use --disable-gpu to avoid an error from a missing Mesa
