@@ -1,16 +1,27 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
 
-# ---------------------------------------------------------------------------- #
-#
-# Prepare client.
-#
-# ---------------------------------------------------------------------------- #
+# Load helper functionality.
+source ci-scripts/helper_functions.sh
 
 # Check the current build.
-if [ -z "${BUILD_CLIENT+x}" ] || [ "$BUILD_CLIENT" -ne 1 ]; then
+if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
-"$TRAVIS_BUILD_DIR"/sysconfcpus/bin/sysconfcpus -n 2 elm-make --yes
-cp ./client/src/elm/LocalConfig.Example.elm ./client/src/elm/LocalConfig.elm
+# Install global packages.
+npm install -g elm@~0.18.0
+npm install -g elm-test
+npm install -g bower
+npm install -g gulp
+
+cd "$ROOT_DIR"/client || exit 1
+npm install
+bower install --allow-root
+
+elm-package install -y
+cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
+
+# Run gulp in the background.
+gulp &
+# But wait for the availability of the app.
+until (curl --output /dev/null --silent --head --fail http://localhost:3000); do sleep 1; done
