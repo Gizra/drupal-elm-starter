@@ -43,8 +43,17 @@ exports.config = {
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
         maxInstances: 1,
-        //
         browserName: 'chrome',
+        chromeOptions: {
+          binary: '/tmp/google-chrome-stable',
+          args: [
+            'headless',
+            // Use --disable-gpu to avoid an error from a missing Mesa
+            // library, as per
+            // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+            'disable-gpu',
+          ],
+        },
         name: '<<SPECNAME>>'
     }],
     //
@@ -107,7 +116,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: [],
+    services: ['selenium-standalone'],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -129,9 +138,6 @@ exports.config = {
         ui: 'bdd'
     },
 
-    // Via docker-compose, hub becomes a resolvable hostname.
-    host: 'hub',
-    port: 4444,
     // =====
     // Hooks
     // =====
