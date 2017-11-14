@@ -19,7 +19,7 @@ npm install -g elm@~0.18.0
 npm install -g elm-test@0.18.2
 
 cd "$TRAVIS_BUILD_DIR"/client
-cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
+cp ../ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 elm-package install -y
 
 
