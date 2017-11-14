@@ -20,7 +20,6 @@ mkdir -p "$DB_DIR"
 if ! bash ci-scripts/run_webdriverio.sh
 then
   source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
-  sudo chmod -R 777 /tmp/test_results
 
   echo "The Webdriver.io test failed"
   cd /tmp
@@ -30,13 +29,17 @@ then
   chmod +x ./gdrive
   mkdir ~/.gdrive
   cp "$TRAVIS_BUILD_DIR"/gdrive-service-account.json ~/.gdrive/
+  export PATH="$HOME/.composer/vendor/bin:$PATH"
   GH_COMMENT=/tmp/db_urls
   echo -n '{
   "body": "' >> $GH_COMMENT
 
-    ## Todo create $DB_FILE
+    cd "$TRAVIS_BUILD_DIR/server"
+    DB_FILE="drupal.sql"
+    drush sql-dump > "$DB_FILE"
+    gzip "$DB_FILE"
     echo "Uploading $DB_FILE, it contains a failed test"
-    ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json "$DB_FILE" | tail -n1 | cut -d ' ' -f 2)
+    ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json "$DB_FILE.gz" | tail -n1 | cut -d ' ' -f 2)
     /tmp/gdrive share --service-account gdrive-service-account.json "$ID"
     URL=$(/tmp/gdrive info --service-account gdrive-service-account.json "$ID" | grep ViewUrl | sed s/ViewUrl:\ //)
     echo -n "* DB dump after the failed WebdriverIO test [$FAILED_SPEC]($URL)." | tee -a $GH_COMMENT
