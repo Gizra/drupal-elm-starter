@@ -10,9 +10,8 @@ fi
 
 # Install global packages.
 npm install -g elm@~0.18.0
-npm install -g elm-test
-npm install -g bower
-npm install -g gulp
+npm install -g bower@~1.8.2
+npm install -g gulp@~3.9.1
 
 cd "$ROOT_DIR"/client || exit 1
 npm install
