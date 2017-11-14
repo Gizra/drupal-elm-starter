@@ -75,6 +75,6 @@ if [[ $WDIO_ALL_RET -ne 0 ]]; then
 
 fi
 
-source ci-scripts/post_cache.sh
+source "$ROOT_DIR/ci-scripts/post_cache.sh"
 
 exit $WDIO_ALL_RET
