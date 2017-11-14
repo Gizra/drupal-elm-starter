@@ -18,7 +18,6 @@ composer global require drush/drush:8.*
 check_last_command
 drush --version
 cd "$ROOT_DIR" || exit 1
-mkdir ~/.drush/
 cp ci-scripts/aliases.drushrc.php ~/.drush/
 
 # -------------------------------------------------- #
