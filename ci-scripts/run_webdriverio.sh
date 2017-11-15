@@ -20,6 +20,7 @@ cp "$WDIO_CONF" "$WDIO_CONF".orig
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
+set -o pipefail
 for SPEC in test/specs/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
