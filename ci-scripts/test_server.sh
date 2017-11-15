@@ -34,7 +34,7 @@ then
   echo -n '{
   "body": "' >> $GH_COMMENT
 
-    cd "$TRAVIS_BUILD_DIR/server"
+    cd "$TRAVIS_BUILD_DIR/server/www"
     DB_FILE="drupal.sql"
     drush sql-dump > "$DB_FILE"
     gzip "$DB_FILE"
