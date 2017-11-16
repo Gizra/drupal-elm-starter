@@ -38,6 +38,7 @@ then
     DB_FILE="drupal.sql"
     drush sql-dump > "$DB_FILE"
     gzip "$DB_FILE"
+    FAILED_SPEC=$(</tmp/test_results/failed_tests)
     echo "Uploading $DB_FILE, it contains a failed test"
     ID=$(/tmp/gdrive upload --service-account gdrive-service-account.json "$DB_FILE.gz" | tail -n1 | cut -d ' ' -f 2)
     /tmp/gdrive share --service-account gdrive-service-account.json "$ID"
