@@ -12,10 +12,7 @@ if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
-
-DB_DIR=/tmp/dbs
-
-mkdir -p "$DB_DIR"
+mkdir -p /tmp/test_results
 
 if ! bash ci-scripts/run_webdriverio.sh
 then
