@@ -41,5 +41,5 @@ script:
 cache:
   directories:
   - client/elm-stuff/packages
+  - client/sysconfcpus
   - /tmp/travis-cache
-  - $HOME/.composer/cache
