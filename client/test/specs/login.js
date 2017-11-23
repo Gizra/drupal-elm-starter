@@ -25,6 +25,6 @@ describe('login page', function() {
         browser.setValueSafe('[name="password"]', 'wrong-pass');
         browser.submitForm('.login-form');
 
-        browser.waitForVisible('.login .ui.error.messageNN');
+        browser.waitForVisible('.login .ui.error.message');
     });
 });
