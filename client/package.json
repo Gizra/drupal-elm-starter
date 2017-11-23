@@ -39,7 +39,7 @@
     "merge-stream": "0.1.8",
     "wdio-browserstack-service": "0.1.4",
     "wdio-mocha-framework": "0.5.8",
-    "wdio-selenium-standalone-service": "0.0.7",
+    "wdio-selenium-standalone-service": "0.0.9",
     "wdio-spec-reporter": "0.0.5",
     "wiredep": "2.2.2"
   },

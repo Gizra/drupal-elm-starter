@@ -20,6 +20,7 @@ cp "$WDIO_CONF" "$WDIO_CONF".orig
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
+set -o pipefail
 for SPEC in test/specs/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
@@ -62,19 +63,8 @@ if [[ $WDIO_ALL_RET -ne 0 ]]; then
   do
     print_error_message "$SPEC"
   done;
-
-  # Potentially wait for video encoding ending.
-  # ps aux shows all the processes from hosts + other containers.
-  COUNT=0
-  FFMPEG_COUNT=$(pgrep -c ffmpeg)
-  while [[ $FFMPEG_COUNT -ne 0 ]]; do
-    FFMPEG_COUNT=$(pgrep -c ffmpeg)
-    ((COUNT++)) && ((COUNT==30)) && break
-    sleep 5
-  done;
-
 fi
 
-source ci-scripts/post_cache.sh
+source "$ROOT_DIR/ci-scripts/post_cache.sh"
 
 exit $WDIO_ALL_RET

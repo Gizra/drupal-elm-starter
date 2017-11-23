@@ -7,7 +7,7 @@ import Pusher.Model exposing (Cluster(..), PusherAppKey)
 
 local : Model
 local =
-    { backendUrl = "http://server.local"
+    { backendUrl = "http://server.local:8080"
     , debug = True
     , name = "local"
     , pusherKey = PusherAppKey "" UsEast1
