@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -e
+# ---------------------------------------------------------------------------- #
+#
+# Run the Webdriver.IO test.
+#
+# ---------------------------------------------------------------------------- #
 
-# We should not run the current test under the WebDriverIO build.
-if [ "${BUILD_WEBDRIVERIO}" -ne 1 ]; then
+# Check the current build.
+if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
