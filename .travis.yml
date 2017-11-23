@@ -27,14 +27,13 @@ install:
 - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/install_elm_format.sh"
-before_script:
-- "$TRAVIS_BUILD_DIR/ci-scripts/prepare_client.sh"
 script:
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_coder.sh"
-- "$TRAVIS_BUILD_DIR/ci-scripts/test_server.sh"
+- "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_simpletest.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
 - "$TRAVIS_BUILD_DIR/ci-scripts/test_elm_format.sh"
