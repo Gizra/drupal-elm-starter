@@ -7,6 +7,16 @@ fi
 
 # Load helper functionality.
 source ci-scripts/helper_functions.sh
+# -------------------------------------------------- #
+# Move MySQL to RAM.
+# -------------------------------------------------- #
+print_message "Move MySQL to ramdisk."
+sudo service postgresql stop
+sudo rm -rf /var/run/tmpfs/*postgres*
+sudo service mysql stop
+sudo mv /var/lib/mysql /var/run/tmpfs
+sudo ln -s /var/run/tmpfs /var/lib/mysql
+sudo service mysql start
 
 # -------------------------------------------------- #
 # Installing Drush.
