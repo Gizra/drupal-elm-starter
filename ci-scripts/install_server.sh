@@ -10,7 +10,7 @@ source ci-scripts/helper_functions.sh
 # -------------------------------------------------- #
 # Move MySQL to RAM.
 # -------------------------------------------------- #
-print_message "Move MySQL to ramdisk."
+print_message "Move MySQL datadir to RAM disk."
 sudo service mysql stop
 sudo mv /var/lib/mysql /var/run/tmpfs
 sudo ln -s /var/run/tmpfs /var/lib/mysql
