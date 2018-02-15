@@ -43,6 +43,7 @@ if [[ "$PREVIOUS_NPM_HASH" == "$CURRENT_NPM_HASH" && -d "$TRAVIS_CACHE_DIR"/node
   cp -r "$TRAVIS_CACHE_DIR"/node_modules "$ROOT_DIR"/client
 else
   echo "NPM build hash does not match, purging cache ($PREVIOUS_NPM_HASH <> $CURRENT_NPM_HASH)"
+  chmod -R +w "$TRAVIS_CACHE_DIR"/node_modules
   rm -rf "$TRAVIS_CACHE_DIR"/node_modules
 fi
 
@@ -52,6 +53,7 @@ if [[ "$PREVIOUS_DRUPAL_HASH" == "$CURRENT_DRUPAL_HASH" && -d "$TRAVIS_CACHE_DIR
   cp -r "$TRAVIS_CACHE_DIR"/www_ignored/* "$ROOT_DIR"/
 else
   echo "Drupal build hash does not match, purging cache ($PREVIOUS_DRUPAL_HASH <> $CURRENT_DRUPAL_HASH)"
+  chmod -R +w "$TRAVIS_CACHE_DIR"/www
   rm -rf "$TRAVIS_CACHE_DIR"/www
 fi
 date
