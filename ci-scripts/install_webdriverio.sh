@@ -20,8 +20,6 @@ bower install --allow-root
 elm-package install -y
 cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 
-
-
 # Run gulp in the background.
 gulp &
 # But wait for the availability of the app.
