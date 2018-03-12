@@ -5,7 +5,6 @@ php:
 addons:
   hosts:
     - server.local
-  chrome: stable
 env:
   matrix:
   - BUILD_SERVER=1
