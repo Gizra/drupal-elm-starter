@@ -20,7 +20,14 @@ bower install --allow-root
 elm-package install -y
 cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 
+
+
 # Run gulp in the background.
 gulp &
 # But wait for the availability of the app.
 until (curl --output /dev/null --silent --head --fail http://localhost:3000); do sleep 1; done
+
+# Install Google Chrome.
+cd /tmp || exit 1
+wget http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_64.0.3282.186-1_amd64.deb
+sudo dpkg -i google-chrome-stable_64.0.3282.186-1_amd64.deb
