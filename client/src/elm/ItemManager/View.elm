@@ -1,10 +1,11 @@
 module ItemManager.View
     exposing
-        ( viewPageItem
-        , viewItems
+        ( viewItems
+        , viewPageItem
         )
 
 import Date exposing (Date)
+import Gizra.Html exposing (emptyNode)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
@@ -16,7 +17,6 @@ import Pages.Items.View
 import RemoteData exposing (RemoteData(..))
 import Translate as Trans exposing (Language, translateText)
 import User.Model exposing (User)
-import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (errorString, viewError)
 
 

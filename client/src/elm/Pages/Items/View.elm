@@ -3,6 +3,7 @@ module Pages.Items.View exposing (view)
 import App.PageType exposing (Page(..))
 import Date exposing (Date)
 import Dict
+import Gizra.Html exposing (emptyNode)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, onClick, onInput, onWithOptions)
@@ -11,7 +12,6 @@ import Pages.Items.Model exposing (Model, Msg(..))
 import Table exposing (..)
 import Translate as Trans exposing (Language, translateString, translateText)
 import User.Model exposing (User)
-import Utils.Html exposing (emptyNode)
 
 
 view : Date -> Language -> User -> ItemsDict -> Model -> Html Msg

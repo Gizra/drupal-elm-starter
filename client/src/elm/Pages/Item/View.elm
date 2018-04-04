@@ -1,13 +1,14 @@
 module Pages.Item.View exposing (view)
 
 import Date exposing (Date)
+import Gizra.Html exposing (showMaybe)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Item.Model exposing (Item, ItemId)
 import Pages.Item.Model exposing (Msg(..))
 import Translate as Trans exposing (Language, translateText)
 import User.Model exposing (User)
-import Utils.Html exposing (divider, showMaybe)
+import Utils.Html exposing (divider)
 
 
 view : Date -> Language -> User -> ItemId -> Item -> Html Msg
