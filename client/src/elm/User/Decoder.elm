@@ -1,9 +1,9 @@
 module User.Decoder exposing (decodeUser)
 
+import Gizra.Json exposing (decodeInt)
 import Json.Decode exposing (nullable, string, Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import User.Model exposing (..)
-import Utils.Json exposing (decodeInt)
 
 
 decodeUser : Decoder User
