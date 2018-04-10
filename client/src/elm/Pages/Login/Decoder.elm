@@ -17,13 +17,4 @@ decodeError =
 
 encodeCredentials : ( String, String ) -> String
 encodeCredentials ( name, pass ) =
-    let
-        base64 =
-            Base64.encode (name ++ ":" ++ pass)
-    in
-        case base64 of
-            Ok result ->
-                result
-
-            Err err ->
-                ""
+    Base64.encode (name ++ ":" ++ pass)
