@@ -22,7 +22,7 @@ function hedley_item_node_info() {
       'name' => t('Item'),
       'base' => 'node_content',
       'description' => '',
-      'has_title' => '1',
+      'has_title' => TRUE,
       'title_label' => t('Title'),
       'help' => '',
     ),
