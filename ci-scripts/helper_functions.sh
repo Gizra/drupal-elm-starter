@@ -26,6 +26,7 @@ function check_last_command() {
 
 # Make sure Features are in a default state after installation.
 function check_features() {
+  cd "$TRAVIS_BUILD_DIR"/server/www || exit 1
   if drush features-list --format=csv | grep Overridden ; then
   echo "----"
   print_error_message "The features are overridden, aborting the execution"
