@@ -44,6 +44,8 @@ else
 fi
 check_last_command
 
+check_features
+
 # -------------------------------------------------- #
 # Starting native webserver via Drush.
 # -------------------------------------------------- #
