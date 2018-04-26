@@ -12,6 +12,6 @@ type Page
     = AccessDenied
     | Dashboard
     | Item ItemId
-    | Login
+    | LoginPage
     | MyAccount
     | PageNotFound
