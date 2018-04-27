@@ -10,3 +10,4 @@ fi
 
 cd "$ROOT_DIR"/server/stress-test
 bash run.sh
+php acceptance.php gatling-charts-highcharts-bundle-2.3.0/results/server-*/js/global_stats.json
