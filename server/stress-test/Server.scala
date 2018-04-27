@@ -18,13 +18,40 @@ class Server extends Simulation {
   val scn = scenario("Gizra")
     .exec(http("request_0")
       .get("/")
+      .check(status.is(403))
     )
     .exec(http("request_1")
       .get("/api")
     )
+    .exec(http("request_2")
+      .get("/user/login")
+      .check(css("#user-login input[name=form_build_id]", "value").saveAs("buildid"))
+    )
+    .exec(http("request_3")
+      .post("/user/login")
+      .formParam("form_id", "user_login")
+      .formParam("form_build_id", "${buildid}")
+      .formParam("op", "Log+in")
+      .formParam("name", "admin")
+      .formParam("pass", "admin")
+    )
+    .exec(http("request_4")
+      .get("/")
+      .check(status.is(200))
+    )
+    .exec(http("request_5")
+      .get("/api")
+    )
+    .exec(http("request_6")
+      .get("/api/me")
+    )
+    .exec(http("request_7")
+      .get("/api/items")
+    )
+
 
   setUp(scn.inject(
-    rampUsers(10) over(10 seconds),
+    rampUsers(10) over(1 seconds),
   )).protocols(httpProtocol)
 
 }
