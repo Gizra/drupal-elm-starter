@@ -10,4 +10,5 @@ fi
 
 cd "$ROOT_DIR"/server/stress-test
 bash run.sh
+SERVER_BASE_URL=http://server.local:8080
 php acceptance.php gatling-charts-highcharts-bundle-2.3.0/results/server-*/js/global_stats.json
