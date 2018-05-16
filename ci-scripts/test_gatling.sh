@@ -14,7 +14,7 @@ bash run.sh
 php acceptance.php gatling-charts-highcharts-bundle-2.3.0/results/server-*/js/global_stats.json
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
 unzip ngrok-stable-linux-amd64.zip
-./ngrok http 8080  --log stdout --log-level debug | grep -o "URL:https://[a-zA-Z0-9./?=_-]*" 
+./ngrok http 8080  --log stdout --log-level debug &
 for i in `seq 600`; do
   sleep 10
   echo "."
