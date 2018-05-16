@@ -12,3 +12,6 @@ cd "$ROOT_DIR"/server/stress-test || exit 1
 export SERVER_BASE_URL=http://server.local:8080
 bash run.sh
 php acceptance.php gatling-charts-highcharts-bundle-2.3.0/results/server-*/js/global_stats.json
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip
+./ngrok http 8080  --log stdout --log-level debug | grep -o "URL:https://[a-zA-Z0-9./?=_-]*" &
