@@ -51,7 +51,7 @@ class Server extends Simulation {
 
 
   setUp(scn.inject(
-    rampUsers(10) over(1 seconds),
+    rampUsers(10) over(3 seconds),
   )).protocols(httpProtocol)
 
 }
