@@ -52,3 +52,11 @@ check_features
 cd "$ROOT_DIR"/server/www || exit 1
 drush runserver 127.0.0.1:8080 &
 until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+unzip ngrok-stable-linux-amd64.zip
+(./ngrok http 8080 --log stdout --log-level debug  | grep -o "URL:https://[a-zA-Z0-9./?=_-]*") &
+for i in `seq 180`; do
+  sleep 10
+  echo "."
+done;
