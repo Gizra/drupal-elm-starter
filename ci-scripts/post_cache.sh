@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Load helper functionality.
-source helper_functions.sh
+source "$TRAVIS_BUILD_DIR"/ci-scripts/helper_functions.sh
 
 # Load various configuration variables.
 source "$ROOT_DIR"/server/travis.config.sh

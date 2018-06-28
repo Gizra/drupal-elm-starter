@@ -4,6 +4,7 @@ import App.Model exposing (..)
 import App.PageType exposing (Page(..))
 import Config.View
 import Error.View
+import Gizra.Html exposing (emptyNode, showIf)
 import Html exposing (..)
 import Html.Attributes exposing (alt, class, classList, href, src, style, target)
 import Html.Events exposing (onClick)
@@ -14,7 +15,6 @@ import Pages.PageNotFound.View exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Translate as Trans exposing (Language(English), translateText)
 import User.Model exposing (..)
-import Utils.Html exposing (emptyNode, showIf)
 
 
 view : Model -> Html Msg

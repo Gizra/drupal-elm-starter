@@ -1,10 +1,10 @@
 module Pages.MyAccount.View exposing (view)
 
-import Html exposing (a, div, h2, i, p, text, img, Html)
+import Gizra.Html exposing (emptyNode)
+import Html exposing (Html, a, div, h2, i, img, p, text)
 import Html.Attributes exposing (class, href, src)
 import RemoteData exposing (RemoteData(..), WebData)
 import User.Model exposing (..)
-import Utils.Html exposing (emptyNode)
 
 
 -- VIEW

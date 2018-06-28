@@ -38,6 +38,9 @@ PUSHER_APP_KEY="pusher-app-key"
 PUSHER_APP_SECRET="pusher-app-secret"
 PUSHER_APP_CLUSTER="pusher-app-cluster"
 
+# Pantheon project machine-name for syncing purpose.
+PANTHEON_PROJECT_NAME='drupal-elm-starter'
+
 ##
 # External folders or files that need to be symlinked into the www folder
 # AFTER the make files have been processed.

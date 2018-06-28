@@ -18,6 +18,7 @@ Copy the example configuration file to config.sh:
 	$ cp default.config.sh config.sh
 
 Edit the configuration file, fill in the blanks.
+After deploying the project to Pantheon, actualize the `PANTHEON_PROJECT_NAME` variable as well.
 
 
 #### Run the install script
@@ -98,6 +99,16 @@ when you run the upgrade script.
 6. Makes a symlink within the /www/profiles directory to the
    /hedley 7. directory.
 7. Restore the backup of the sites/default folder.
+
+##### Sync from Pantheon
+
+To have real data on your local instance, you may use
+
+  $ ./import_and_sanitize.sh [environment]
+
+To re-initialize an already working and configured local website. Drush and Terminus are required for
+the command.
+The optional environment argument is `live` by default.
 
 ## Start a new project based on Drupal Elm Starter
 

@@ -1,5 +1,6 @@
 module Pages.Login.View exposing (view)
 
+import Gizra.Html exposing (emptyNode)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput, onSubmit)
@@ -7,7 +8,6 @@ import Pages.Login.Model exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Translate as Trans exposing (Language, translateString, translateText)
 import User.Model exposing (..)
-import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (errorString, viewError)
 
 

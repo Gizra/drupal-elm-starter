@@ -1,10 +1,10 @@
 module Error.View exposing (..)
 
 import Error.Model exposing (Error, ErrorType(..))
+import Gizra.Html exposing (emptyNode)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Translate as Trans exposing (Language)
-import Utils.Html exposing (emptyNode)
 import Utils.WebData exposing (viewError)
 
 
