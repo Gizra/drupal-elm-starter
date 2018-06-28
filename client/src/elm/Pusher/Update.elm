@@ -1,4 +1,4 @@
-port module Pusher.Update exposing (update, subscription)
+port module Pusher.Update exposing (subscription, update)
 
 import Config.Model exposing (BackendUrl)
 import Pusher.Model exposing (..)
@@ -68,9 +68,9 @@ update backendUrl msg model =
                         _ ->
                             Other state
             in
-                ( { model | connectionStatus = connectionStatus }
-                , Cmd.none
-                )
+            ( { model | connectionStatus = connectionStatus }
+            , Cmd.none
+            )
 
         Login pusherAppKey pusherChannel (AccessToken accessToken) ->
             let
@@ -82,9 +82,9 @@ update backendUrl msg model =
                     , eventNames = Pusher.Model.eventNames
                     }
             in
-                ( model
-                , pusherLogin pusherConfig
-                )
+            ( model
+            , pusherLogin pusherConfig
+            )
 
         Logout ->
             ( model, pusherLogout () )

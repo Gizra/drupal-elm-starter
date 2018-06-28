@@ -1,8 +1,8 @@
 module ItemManager.Utils
     exposing
         ( getItem
-        , wrapItemsDict
         , unwrapItemsDict
+        , wrapItemsDict
         )
 
 import Dict exposing (Dict)

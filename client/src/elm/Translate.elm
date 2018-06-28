@@ -1,8 +1,8 @@
 module Translate exposing (..)
 
 import Country exposing (Country(..))
-import Html exposing (Html, a, text, span, br)
-import Html.Attributes exposing (href, class)
+import Html exposing (Html, a, br, span, text)
+import Html.Attributes exposing (class, href)
 
 
 type Language
@@ -107,8 +107,8 @@ translateHtml language transId =
                     , hebrew = [ text "קראתי והסכמתי עם ", a [ href url ] [ text "התנאים וההגבלות" ] ]
                     }
     in
-        selectTranslation language translationSet
-            |> List.map (Html.map never)
+    selectTranslation language translationSet
+        |> List.map (Html.map never)
 
 
 {-| Translate as a String.
@@ -183,7 +183,7 @@ translateString language transId =
                         SignOut ->
                             { english = "Sign Out", german = "", hebrew = "" }
     in
-        selectTranslation language translationSet
+    selectTranslation language translationSet
 
 
 selectTranslation : Language -> TranslationSet a -> a

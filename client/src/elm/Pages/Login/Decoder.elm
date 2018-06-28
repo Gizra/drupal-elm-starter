@@ -21,9 +21,9 @@ encodeCredentials ( name, pass ) =
         base64 =
             Base64.encode (name ++ ":" ++ pass)
     in
-        case base64 of
-            Ok result ->
-                result
+    case base64 of
+        Ok result ->
+            result
 
-            Err err ->
-                ""
+        Err err ->
+            ""

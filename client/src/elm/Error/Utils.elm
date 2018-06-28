@@ -29,7 +29,7 @@ debugLog error =
         id =
             error.module_ ++ "." ++ error.location
     in
-        Debug.log id message
+    Debug.log id message
 
 
 

@@ -39,28 +39,28 @@ view currentDate language currentUser items model =
             else
                 Table.view config model.tableState acceptableItems
     in
-        div []
-            [ div
-                [ class "ui secondary pointing fluid menu" ]
-                [ h2
-                    [ class "ui header" ]
-                    [ translateText language <| Trans.Item Trans.Items ]
-                , div
-                    [ class "right menu" ]
-                    [ a
-                        [ class "ui active item" ]
-                        [ translateText language <| Trans.Item Trans.Overview ]
-                    ]
+    div []
+        [ div
+            [ class "ui secondary pointing fluid menu" ]
+            [ h2
+                [ class "ui header" ]
+                [ translateText language <| Trans.Item Trans.Items ]
+            , div
+                [ class "right menu" ]
+                [ a
+                    [ class "ui active item" ]
+                    [ translateText language <| Trans.Item Trans.Overview ]
                 ]
-            , div [ class "ui input" ]
-                [ input
-                    [ placeholder <| translateString language <| Trans.Item Trans.SearchByName
-                    , onInput SetQuery
-                    ]
-                    []
-                ]
-            , searchResult
             ]
+        , div [ class "ui input" ]
+            [ input
+                [ placeholder <| translateString language <| Trans.Item Trans.SearchByName
+                , onInput SetQuery
+                ]
+                []
+            ]
+        , searchResult
+        ]
 
 
 config : Table.Config ( ItemId, Item ) Msg
