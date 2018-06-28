@@ -47,41 +47,41 @@ viewForm language user model =
                 _ ->
                     emptyNode
     in
-        div []
-            [ Html.form
-                [ onSubmit TryLogin
-                , action "javascript:void(0);"
-                , class "ui form login-form"
-                ]
-                [ div [ class "field" ]
-                    [ input
-                        [ type_ "text"
-                        , name "username"
-                        , placeholder <| translateString language <| Trans.Login Trans.EnterYourUsername
-                        , onInput SetName
-                        , value model.loginForm.name
-                        ]
-                        []
-                    ]
-                , div [ class "field" ]
-                    [ input
-                        [ type_ "password"
-                        , placeholder <| translateString language <| Trans.Login Trans.EnterYourPassword
-                        , name "password"
-                        , onInput SetPassword
-                        , value model.loginForm.pass
-                        ]
-                        []
-                    ]
-
-                -- Submit button
-                , button
-                    [ disabled isLoading
-                    , class "ui large fluid primary button"
-                    ]
-                    [ span [ hidden <| not isLoading ] [ spinner ]
-                    , span [ hidden isLoading ] [ translateText language <| Trans.Login Trans.LoginVerb ]
-                    ]
-                ]
-            , error
+    div []
+        [ Html.form
+            [ onSubmit TryLogin
+            , action "javascript:void(0);"
+            , class "ui form login-form"
             ]
+            [ div [ class "field" ]
+                [ input
+                    [ type_ "text"
+                    , name "username"
+                    , placeholder <| translateString language <| Trans.Login Trans.EnterYourUsername
+                    , onInput SetName
+                    , value model.loginForm.name
+                    ]
+                    []
+                ]
+            , div [ class "field" ]
+                [ input
+                    [ type_ "password"
+                    , placeholder <| translateString language <| Trans.Login Trans.EnterYourPassword
+                    , name "password"
+                    , onInput SetPassword
+                    , value model.loginForm.pass
+                    ]
+                    []
+                ]
+
+            -- Submit button
+            , button
+                [ disabled isLoading
+                , class "ui large fluid primary button"
+                ]
+                [ span [ hidden <| not isLoading ] [ spinner ]
+                , span [ hidden isLoading ] [ translateText language <| Trans.Login Trans.LoginVerb ]
+                ]
+            ]
+        , error
+        ]

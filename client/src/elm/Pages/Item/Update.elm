@@ -2,10 +2,10 @@ module Pages.Item.Update exposing (update)
 
 import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
-import User.Model exposing (..)
+import Item.Model exposing (Item)
 import Pages.Item.Model exposing (Msg(..))
 import Pusher.Model exposing (PusherEventData(..))
-import Item.Model exposing (Item)
+import User.Model exposing (..)
 
 
 update : BackendUrl -> String -> User -> Msg -> Item -> ( Item, Cmd Msg, Maybe Page )

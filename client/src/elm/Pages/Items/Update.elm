@@ -2,9 +2,9 @@ module Pages.Items.Update exposing (update)
 
 import App.PageType exposing (Page(..))
 import Config.Model exposing (BackendUrl)
-import User.Model exposing (..)
-import Pages.Items.Model exposing (Model, Msg(..))
 import Item.Model exposing (ItemsDict)
+import Pages.Items.Model exposing (Model, Msg(..))
+import User.Model exposing (..)
 
 
 update : BackendUrl -> String -> User -> Msg -> ItemsDict -> Model -> ( Model, Cmd Msg, Maybe Page )
