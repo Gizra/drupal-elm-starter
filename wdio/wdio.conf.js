@@ -9,9 +9,6 @@ exports.config = {
     // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
-    specs: [
-        './test/specs/**/*.js'
-    ],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -43,18 +40,8 @@ exports.config = {
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
         maxInstances: 1,
-        browserName: 'chrome',
-        chromeOptions: {
-          binary: '/usr/bin/google-chrome-stable',
-          args: [
-            'headless',
-            // Use --disable-gpu to avoid an error from a missing Mesa
-            // library, as per
-            // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
-            'disable-gpu',
-          ],
-        },
-        name: '<<SPECNAME>>'
+        //
+        browserName: 'chrome'
     }],
     //
     // ===================
@@ -82,7 +69,7 @@ exports.config = {
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    baseUrl: 'http://server.local:3000',
+    baseUrl: 'http://localhost:3000',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 20000,
@@ -135,7 +122,8 @@ exports.config = {
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
-        ui: 'bdd'
+        ui: 'bdd',
+        timeout: 100000
     },
 
     // =====
@@ -157,9 +145,9 @@ exports.config = {
     //
     // Gets executed before test execution begins. At this point you can access all global
     // variables, such as `browser`. It is the perfect place to define custom commands.
-    before: function (capabilities, specs) {
-        require('./test/config/custom-commands')(browser, capabilities, specs)
-    },
+    before: function(capabilities, specs) {
+        require('./config/custom-commands')(browser, capabilities, specs)
+    }
 
     // Hook that gets executed before the suite starts
     // beforeSuite: function (suite) {
@@ -184,17 +172,6 @@ exports.config = {
     // },
     //
     // Runs after a WebdriverIO command gets executed
-    afterCommand: function(commandName, args, result, error) {
-        if (commandName == 'isVisible') {
-            // Prevent recursion.
-            return;
-        }
-
-        // Validate the Debug Errors page is not visible.
-        const hasErrors = browser.isVisible('.debug-errors');
-        const assert = require('assert');
-        assert.equal(hasErrors, false, "Debug errors appears, due to an error (most likely a decoder one)");
-    },
     // afterCommand: function (commandName, args, result, error) {
     // },
     //
@@ -219,4 +196,4 @@ exports.config = {
     // possible to defer the end of the process using a promise.
     // onComplete: function(exitCode) {
     // }
-}
+};

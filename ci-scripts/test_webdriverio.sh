@@ -17,7 +17,7 @@ source ci-scripts/helper_functions.sh
 
 print_message "Test WebDriverIO."
 mkdir -p /tmp/test_results
-cd "$ROOT_DIR"/client
+cd "$ROOT_DIR"/wdio
 
 # Backup verbatim config.
 WDIO_CONF=wdio.conf.travis.js

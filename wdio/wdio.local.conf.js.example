@@ -9,5 +9,9 @@ var wdioConf = require('./wdio.conf.js');
 exports.config = merge(wdioConf.config, {
   // Set a base URL in order to shorten url command calls.
   // If your url parameter starts with "/", then the base url gets prepended.
-  baseUrl: 'http://localhost:3000'
+  baseUrl: 'http://localhost:3000',
+
+  specs: [
+    './specs/**/*.js'
+  ]
 });

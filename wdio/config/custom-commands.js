@@ -1,5 +1,7 @@
 'use strict';
 
+const assert = require('assert');
+
 module.exports = function (browser, capabilities, specs) {
 
   /**
@@ -71,11 +73,56 @@ module.exports = function (browser, capabilities, specs) {
     }
   });
 
+  browser.addCommand('login', (user, password) => {
+    password = typeof password !== 'undefined' ? password : user;
+    assert(user, "login command must be passed a username");
+    browser.url('/#login');
+    browser.waitForVisible('.login-form');
+    browser.setValueSafe('input[name="username"]', user);
+    browser.setValueSafe('input[name="password"]', password);
+    browser.submitForm('.login-form');
+    browser.waitForVisible('.menu h4');
+  });
+
+  browser.addCommand('logout', () => {
+      browser.click('.left.menu > a:nth-child(4)');
+      browser.waitForVisible('.login-form');
+  });
+
+  /**
+   * Recursive function to ensure event dispatch on option select.
+   *
+   * This command makes sure that when selecting an option to trigger any event
+   * that is supposed to be triggered, this is because the normal
+   * "SelectByValue" and "Click" commands do select an option but it doesn't
+   * dispatch any event attached to the select list.
+   *
+   * @param {String} option
+   *   The option to be selected.
+   */
+  browser.addCommand('setSelectValue', (option) => {
+    browser.click(option);
+    browser.selectRefresh();
+  });
+
+  /**
+   * Workarounds
+   * https://github.com/webdriverio/webdriverio/issues/1922
+   */
+  browser.addCommand('selectRefresh', () => {
+    browser.execute(function() {
+      var selects = document.querySelectorAll('select');
+      [].forEach.call(selects, function(selectElement) {
+        var event = new Event('input');
+        selectElement.dispatchEvent(event);
+      });
+    });
+  });
+
   // Set the window size to avoid clipping things off.
   browser.windowHandleSize({
     width: 1500,
     height: 900
   });
 
-}
-
+};

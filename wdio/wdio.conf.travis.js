@@ -10,7 +10,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        './specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -32,19 +32,28 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
-    //
     capabilities: [{
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
-        //
-        browserName: 'chrome'
+        maxInstances: 1,
+        browserName: 'chrome',
+        chromeOptions: {
+          binary: '/usr/bin/google-chrome-stable',
+          args: [
+            'headless',
+            // Use --disable-gpu to avoid an error from a missing Mesa
+            // library, as per
+            // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+            'disable-gpu'
+          ],
+        },
+        name: '<<SPECNAME>>'
     }],
     //
     // ===================
@@ -58,7 +67,7 @@ exports.config = {
     sync: true,
     //
     // Level of logging verbosity: silent | verbose | command | data | result | error
-    logLevel: 'verbose',
+    logLevel: 'result',
     //
     // Enables colors for log output.
     coloredLogs: true,
@@ -72,10 +81,10 @@ exports.config = {
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://server.local:3000',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 20000,
     //
     // Default timeout in milliseconds for request
     // if Selenium Grid doesn't send response
@@ -106,7 +115,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['browserstack', 'selenium-standalone'],
+    services: ['selenium-standalone'],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -125,9 +134,9 @@ exports.config = {
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
-        ui: 'bdd'
+        ui: 'bdd',
+        timeout: 100000
     },
-    //
     // =====
     // Hooks
     // =====
@@ -148,8 +157,8 @@ exports.config = {
     // Gets executed before test execution begins. At this point you can access all global
     // variables, such as `browser`. It is the perfect place to define custom commands.
     before: function (capabilities, specs) {
-        require('./test/config/custom-commands')(browser, capabilities, specs)
-    },
+        require('./config/custom-commands')(browser, capabilities, specs)
+    }
 
     // Hook that gets executed before the suite starts
     // beforeSuite: function (suite) {
@@ -198,4 +207,4 @@ exports.config = {
     // possible to defer the end of the process using a promise.
     // onComplete: function(exitCode) {
     // }
-}
+};

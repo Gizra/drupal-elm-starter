@@ -5622,32 +5622,6 @@ wdio-sync@0.6.10:
     fibers "^1.0.9"
     object.assign "^4.0.3"
 
-webdriverio@^4.6.2:
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/webdriverio/-/webdriverio-4.6.2.tgz#dd095ee618896a21c8f1b9d4278736d85a64ca0f"
-  dependencies:
-    archiver "1.0.0"
-    babel-runtime "^6.9.2"
-    css-parse "~2.0.0"
-    css-value "~0.0.1"
-    deepmerge "^0.2.10"
-    ejs "^2.3.1"
-    gaze "^1.1.2"
-    glob "^7.0.5"
-    inquirer "^1.1.2"
-    json-stringify-safe "^5.0.1"
-    mkdirp "^0.5.1"
-    npm-install-package "^1.0.2"
-    optimist "^0.6.1"
-    q "~1.4.1"
-    request "2.79.0"
-    rgb2hex "~0.1.0"
-    supports-color "^3.1.2"
-    url "^0.11.0"
-    validator "^5.4.0"
-    wdio-dot-reporter "^0.0.6"
-    wgxpath "~1.0.0"
-
 weinre@^2.0.0-pre-I0Z7U9OV:
   version "2.0.0-pre-I0Z7U9OV"
   resolved "https://registry.yarnpkg.com/weinre/-/weinre-2.0.0-pre-I0Z7U9OV.tgz#fef8aa223921f7b40bbbbd4c3ed4302f6fd0a813"

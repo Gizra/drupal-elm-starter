@@ -24,3 +24,7 @@ cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 gulp &
 # But wait for the availability of the app.
 until (curl --output /dev/null --silent --head --fail http://localhost:3000); do sleep 1; done
+
+# Install WDIO.
+cd "$ROOT_DIR"/wdio || exit 1
+npm install
