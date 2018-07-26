@@ -44,9 +44,11 @@ else
 fi
 check_last_command
 
+check_features
+
 # -------------------------------------------------- #
 # Starting native webserver via Drush.
 # -------------------------------------------------- #
-cd www || exit 1
+cd "$ROOT_DIR"/server/www || exit 1
 drush runserver 127.0.0.1:8080 &
 until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done

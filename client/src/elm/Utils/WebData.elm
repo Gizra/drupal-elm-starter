@@ -1,4 +1,4 @@
-module Utils.WebData exposing (errorString, getError, sendWithHandler, whenSuccess, viewError)
+module Utils.WebData exposing (errorString, getError, sendWithHandler, viewError, whenSuccess)
 
 import Html exposing (..)
 import Http

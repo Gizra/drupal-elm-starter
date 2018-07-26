@@ -2,11 +2,11 @@ module ItemManager.Model exposing (..)
 
 import Dict exposing (Dict)
 import Http
+import Item.Model exposing (Item, ItemId, ItemsDict)
 import Pages.Item.Model
 import Pages.Items.Model
 import Pusher.Model exposing (PusherEvent)
 import RemoteData exposing (RemoteData(..), WebData)
-import Item.Model exposing (Item, ItemId, ItemsDict)
 
 
 {-| We track any Items we are currently subscribed to.

@@ -3,9 +3,9 @@ module Pages.Login.Test exposing (all)
 import Dict
 import Expect
 import Http
-import Pages.Login.Model exposing (Msg(HandleFetchedUser, HandleFetchedAccessToken), emptyModel)
+import Pages.Login.Model exposing (Msg(HandleFetchedAccessToken, HandleFetchedUser), emptyModel)
 import Pages.Login.Update exposing (update)
-import RemoteData exposing (RemoteData(NotAsked, Failure))
+import RemoteData exposing (RemoteData(Failure, NotAsked))
 import Test exposing (Test, describe, test)
 
 
@@ -42,12 +42,12 @@ fetchUnauthorized =
         ( updatedModel, cmds, ( webdata, accessToken ), _ ) =
             update url (HandleFetchedAccessToken (Err badRequest)) emptyModel
     in
-        describe "Unauthorized tests"
-            [ test "Receiving Unauthorized should result in error and no user" <|
-                \() -> Expect.equal (Failure badRequest) webdata
-            , test "Receiving Unauthorized should clear accesstoken" <|
-                \() -> Expect.equal "" accessToken
-            ]
+    describe "Unauthorized tests"
+        [ test "Receiving Unauthorized should result in error and no user" <|
+            \() -> Expect.equal (Failure badRequest) webdata
+        , test "Receiving Unauthorized should clear accesstoken" <|
+            \() -> Expect.equal "" accessToken
+        ]
 
 
 {-| Fetch User Data Tests.
@@ -79,12 +79,12 @@ fetchUserUnauthorized =
         ( updatedModel, cmds, ( webdata, accessToken ), _ ) =
             update url (HandleFetchedUser invalidToken (Err badRequest)) emptyModel
     in
-        describe "Invalid Token tests"
-            [ test "Receiving Unauthorized should result in no error and no user" <|
-                \() -> Expect.equal NotAsked webdata
-            , test "Receiving Unauthorized should clear accesstoken" <|
-                \() -> Expect.equal "" accessToken
-            ]
+    describe "Invalid Token tests"
+        [ test "Receiving Unauthorized should result in no error and no user" <|
+            \() -> Expect.equal NotAsked webdata
+        , test "Receiving Unauthorized should clear accesstoken" <|
+            \() -> Expect.equal "" accessToken
+        ]
 
 
 fetchUserFromBackendTests : Test

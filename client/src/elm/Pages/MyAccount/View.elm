@@ -21,9 +21,9 @@ view user =
                 _ ->
                     ( "", emptyNode )
     in
-        div [ class "ui centered card" ]
-            [ div [ class "image" ] [ avatar ]
-            , div [ class "content" ]
-                [ div [ class "header" ] [ text <| "Welcome " ++ name ]
-                ]
+    div [ class "ui centered card" ]
+        [ div [ class "image" ] [ avatar ]
+        , div [ class "content" ]
+            [ div [ class "header" ] [ text <| "Welcome " ++ name ]
             ]
+        ]

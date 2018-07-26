@@ -1,6 +1,6 @@
 module Config.View exposing (..)
 
-import Html exposing (div, h2, text, Html)
+import Html exposing (Html, div, h2, text)
 import Html.Attributes exposing (class)
 
 

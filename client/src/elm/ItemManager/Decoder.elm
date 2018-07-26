@@ -4,9 +4,9 @@ module ItemManager.Decoder
         , decodeItemsFromResponse
         )
 
-import Json.Decode exposing (at, Decoder)
-import Item.Model exposing (Item, ItemsDict)
 import Item.Decoder exposing (decodeItem, decodeItemsDict)
+import Item.Model exposing (Item, ItemsDict)
+import Json.Decode exposing (Decoder, at)
 
 
 decodeItemFromResponse : Decoder Item

@@ -1,4 +1,4 @@
-port module App.Update exposing (init, update, subscriptions)
+port module App.Update exposing (init, subscriptions, update)
 
 import App.Model exposing (..)
 import App.PageType exposing (Page(..))
@@ -23,7 +23,7 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
         ( config, cmds, activePage ) =
-            case (Dict.get flags.hostname Config.configs) of
+            case Dict.get flags.hostname Config.configs of
                 Just config ->
                     let
                         defaultCmds =
@@ -31,7 +31,7 @@ init flags =
                             ]
 
                         ( cmds, activePage_ ) =
-                            if (String.isEmpty flags.accessToken) then
+                            if String.isEmpty flags.accessToken then
                                 -- Check if we have already an access token.
                                 ( defaultCmds, Login )
                             else
@@ -39,10 +39,10 @@ init flags =
                                 , emptyModel.activePage
                                 )
                     in
-                        ( Success config
-                        , cmds
-                        , activePage_
-                        )
+                    ( Success config
+                    , cmds
+                    , activePage_
+                    )
 
                 Nothing ->
                     ( Failure "No config found"
@@ -50,14 +50,14 @@ init flags =
                     , emptyModel.activePage
                     )
     in
-        ( { emptyModel
-            | accessToken = flags.accessToken
-            , activePage = activePage
-            , config = config
-            , user = NotAsked
-          }
-        , Cmd.batch cmds
-        )
+    ( { emptyModel
+        | accessToken = flags.accessToken
+        , activePage = activePage
+        , config = config
+        , user = NotAsked
+      }
+    , Cmd.batch cmds
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -71,162 +71,162 @@ update msg model =
                 _ ->
                     ""
     in
-        case msg of
-            HandleOfflineEvent (Ok offline) ->
-                { model | offline = offline } ! []
+    case msg of
+        HandleOfflineEvent (Ok offline) ->
+            { model | offline = offline } ! []
 
-            HandleOfflineEvent (Err err) ->
-                model ! []
+        HandleOfflineEvent (Err err) ->
+            model ! []
 
-            Logout ->
-                let
-                    ( modelUpdated, pusherLogoutCmd ) =
-                        update (MsgPusher Pusher.Model.Logout) model
-                in
-                    ( { emptyModel
-                        | accessToken = ""
-                        , activePage = Login
-                        , config = model.config
-                        , pusher = modelUpdated.pusher
-                      }
-                    , Cmd.batch
-                        [ accessTokenPort ""
-                        , pusherLogoutCmd
-                        ]
-                    )
+        Logout ->
+            let
+                ( modelUpdated, pusherLogoutCmd ) =
+                    update (MsgPusher Pusher.Model.Logout) model
+            in
+            ( { emptyModel
+                | accessToken = ""
+                , activePage = Login
+                , config = model.config
+                , pusher = modelUpdated.pusher
+              }
+            , Cmd.batch
+                [ accessTokenPort ""
+                , pusherLogoutCmd
+                ]
+            )
 
-            MsgItemManager subMsg ->
-                case model.user of
-                    Success user ->
-                        let
-                            ( val, cmds, redirectPage, maybeError ) =
-                                ItemManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageItem
+        MsgItemManager subMsg ->
+            case model.user of
+                Success user ->
+                    let
+                        ( val, cmds, redirectPage, maybeError ) =
+                            ItemManager.Update.update model.currentDate backendUrl model.accessToken user subMsg model.pageItem
 
-                            modelUpdated =
-                                { model | pageItem = val }
+                        modelUpdated =
+                            { model | pageItem = val }
 
-                            ( modelUpdatedWithSetPage, setPageCmds ) =
-                                Maybe.map
-                                    (\page ->
-                                        update (SetActivePage page) modelUpdated
-                                    )
-                                    redirectPage
-                                    |> Maybe.withDefault ( modelUpdated, Cmd.none )
+                        ( modelUpdatedWithSetPage, setPageCmds ) =
+                            Maybe.map
+                                (\page ->
+                                    update (SetActivePage page) modelUpdated
+                                )
+                                redirectPage
+                                |> Maybe.withDefault ( modelUpdated, Cmd.none )
 
-                            modelUpdatedWithError =
-                                handleErrors maybeError modelUpdatedWithSetPage
-                        in
-                            ( modelUpdatedWithError
-                            , Cmd.batch
-                                [ Cmd.map MsgItemManager cmds
-                                , setPageCmds
-                                ]
-                            )
-
-                    _ ->
-                        -- If we don't have a user, we have nothing to do.
-                        model ! []
-
-            MsgPusher subMsg ->
-                let
-                    ( val, cmd ) =
-                        Pusher.Update.update backendUrl subMsg model.pusher
-                in
-                    ( { model | pusher = val }
-                    , Cmd.map MsgPusher cmd
-                    )
-
-            NoOp ->
-                model ! []
-
-            PageLogin msg ->
-                let
-                    ( val, cmds, ( webDataUser, accessToken ), maybeError ) =
-                        Pages.Login.Update.update backendUrl msg model.pageLogin
-
-                    ( pusherModelUpdated, pusherLoginCmd ) =
-                        pusherLogin model webDataUser accessToken
-
-                    modelUpdated =
-                        { model
-                            | pageLogin = val
-                            , accessToken = accessToken
-                            , pusher = pusherModelUpdated
-                            , user = webDataUser
-                        }
-
-                    ( modelUpdatedWithSetPage, setPageCmds ) =
-                        case webDataUser of
-                            -- If user was successfuly fetched, reditect to my
-                            -- account page.
-                            Success _ ->
-                                let
-                                    nextPage =
-                                        case modelUpdated.activePage of
-                                            Login ->
-                                                -- Redirect to the dashboard.
-                                                Dashboard
-
-                                            _ ->
-                                                -- Keep the active page.
-                                                modelUpdated.activePage
-                                in
-                                    update (SetActivePage nextPage) modelUpdated
-
-                            Failure _ ->
-                                -- Unset the wrong access token.
-                                update (SetActivePage Login) { modelUpdated | accessToken = "" }
-
-                            _ ->
-                                modelUpdated ! []
-
-                    modelUpdatedWithError =
-                        handleErrors maybeError modelUpdatedWithSetPage
-                in
+                        modelUpdatedWithError =
+                            handleErrors maybeError modelUpdatedWithSetPage
+                    in
                     ( modelUpdatedWithError
                     , Cmd.batch
-                        [ Cmd.map PageLogin cmds
-                        , accessTokenPort accessToken
+                        [ Cmd.map MsgItemManager cmds
                         , setPageCmds
-                        , pusherLoginCmd
                         ]
                     )
 
-            SetActivePage page ->
-                let
-                    activePage =
-                        setActivePageAccess model.user page
+                _ ->
+                    -- If we don't have a user, we have nothing to do.
+                    model ! []
 
-                    ( modelUpdated, command ) =
-                        -- For a few, we also delegate some initialization
-                        case activePage of
-                            Dashboard ->
-                                -- If we're showing a `Items` page, make sure we `Subscribe`
-                                update (MsgItemManager ItemManager.Model.FetchAll) model
+        MsgPusher subMsg ->
+            let
+                ( val, cmd ) =
+                    Pusher.Update.update backendUrl subMsg model.pusher
+            in
+            ( { model | pusher = val }
+            , Cmd.map MsgPusher cmd
+            )
 
-                            Item id ->
-                                -- If we're showing a `Item`, make sure we `Subscribe`
-                                update (MsgItemManager (ItemManager.Model.Subscribe id)) model
+        NoOp ->
+            model ! []
 
-                            _ ->
-                                ( model, Cmd.none )
-                in
-                    -- Close the sidebar in case it was opened.
-                    ( { modelUpdated
-                        | activePage = setActivePageAccess model.user activePage
-                        , sidebarOpen = False
-                      }
-                    , command
-                    )
+        PageLogin msg ->
+            let
+                ( val, cmds, ( webDataUser, accessToken ), maybeError ) =
+                    Pages.Login.Update.update backendUrl msg model.pageLogin
 
-            SetCurrentDate date ->
-                { model | currentDate = date } ! []
+                ( pusherModelUpdated, pusherLoginCmd ) =
+                    pusherLogin model webDataUser accessToken
 
-            Tick _ ->
-                model ! [ Task.perform SetCurrentDate Date.now ]
+                modelUpdated =
+                    { model
+                        | pageLogin = val
+                        , accessToken = accessToken
+                        , pusher = pusherModelUpdated
+                        , user = webDataUser
+                    }
 
-            ToggleSideBar ->
-                { model | sidebarOpen = not model.sidebarOpen } ! []
+                ( modelUpdatedWithSetPage, setPageCmds ) =
+                    case webDataUser of
+                        -- If user was successfuly fetched, reditect to my
+                        -- account page.
+                        Success _ ->
+                            let
+                                nextPage =
+                                    case modelUpdated.activePage of
+                                        Login ->
+                                            -- Redirect to the dashboard.
+                                            Dashboard
+
+                                        _ ->
+                                            -- Keep the active page.
+                                            modelUpdated.activePage
+                            in
+                            update (SetActivePage nextPage) modelUpdated
+
+                        Failure _ ->
+                            -- Unset the wrong access token.
+                            update (SetActivePage Login) { modelUpdated | accessToken = "" }
+
+                        _ ->
+                            modelUpdated ! []
+
+                modelUpdatedWithError =
+                    handleErrors maybeError modelUpdatedWithSetPage
+            in
+            ( modelUpdatedWithError
+            , Cmd.batch
+                [ Cmd.map PageLogin cmds
+                , accessTokenPort accessToken
+                , setPageCmds
+                , pusherLoginCmd
+                ]
+            )
+
+        SetActivePage page ->
+            let
+                activePage =
+                    setActivePageAccess model.user page
+
+                ( modelUpdated, command ) =
+                    -- For a few, we also delegate some initialization
+                    case activePage of
+                        Dashboard ->
+                            -- If we're showing a `Items` page, make sure we `Subscribe`
+                            update (MsgItemManager ItemManager.Model.FetchAll) model
+
+                        Item id ->
+                            -- If we're showing a `Item`, make sure we `Subscribe`
+                            update (MsgItemManager (ItemManager.Model.Subscribe id)) model
+
+                        _ ->
+                            ( model, Cmd.none )
+            in
+            -- Close the sidebar in case it was opened.
+            ( { modelUpdated
+                | activePage = setActivePageAccess model.user activePage
+                , sidebarOpen = False
+              }
+            , command
+            )
+
+        SetCurrentDate date ->
+            { model | currentDate = date } ! []
+
+        Tick _ ->
+            model ! [ Task.perform SetCurrentDate Date.now ]
+
+        ToggleSideBar ->
+            { model | sidebarOpen = not model.sidebarOpen } ! []
 
 
 {-| Determine is a page can be accessed by a user (anonymous or authenticated),
@@ -307,6 +307,6 @@ pusherLogin model webDataUser accessToken =
         ( updatedModel, pusherLoginCmd ) =
             update msg model
     in
-        -- Return the pusher part of the model, as the pusher login action
-        -- shouldn't change other parts.
-        ( updatedModel.pusher, pusherLoginCmd )
+    -- Return the pusher part of the model, as the pusher login action
+    -- shouldn't change other parts.
+    ( updatedModel.pusher, pusherLoginCmd )
