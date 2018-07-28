@@ -15,6 +15,7 @@ sudo service mysql stop
 sudo mv /var/lib/mysql /var/run/tmpfs
 sudo ln -s /var/run/tmpfs /var/lib/mysql
 sudo service mysql start
+check_last_command
 
 # -------------------------------------------------- #
 # Installing Drush.
@@ -50,5 +51,6 @@ check_features
 # Starting native webserver via Drush.
 # -------------------------------------------------- #
 cd "$ROOT_DIR"/server/www || exit 1
+drush status || exit 1
 drush runserver 127.0.0.1:8080 &
 until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
