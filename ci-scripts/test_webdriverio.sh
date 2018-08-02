@@ -17,17 +17,17 @@ source ci-scripts/helper_functions.sh
 
 print_message "Test WebDriverIO."
 mkdir -p /tmp/test_results
-cd "$ROOT_DIR"/wdio
+cd "$ROOT_DIR"/wdio/travis-conf
 
 # Backup verbatim config.
-WDIO_CONF=wdio.conf.travis.js
+WDIO_CONF=wdio.conf."$ENV".travis.js
 cp "$WDIO_CONF" "$WDIO_CONF".orig
 
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
 set -o pipefail
-for SPEC in specs/*js; do
+for SPEC in ../specs/"$ENV"/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
