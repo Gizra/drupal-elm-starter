@@ -31,11 +31,12 @@ stages:
 jobs:
   include:
     - stage: lint
-      env:
-        - CODE_REVIEW=1 REVIEW_STANDARD="Drupal"
-        - CODE_REVIEW=1 REVIEW_STANDARD="DrupalPractice"
-        - SHELL_REVIEW=1
-        - ELM_REVIEW=1
+      matrix:
+        env:
+          - CODE_REVIEW=1 REVIEW_STANDARD="Drupal"
+          - CODE_REVIEW=1 REVIEW_STANDARD="DrupalPractice"
+          - SHELL_REVIEW=1
+          - ELM_REVIEW=1
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_coder.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_elm_format.sh"
@@ -44,10 +45,11 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_elm_format.sh"
     - stage: test
-      env:
-        - BUILD_SERVER=1
-        - BUILD_CLIENT=1
-        - BUILD_WEBDRIVERIO=1 BUILD_SERVER=1 BUILD_GATLING=1
+      matrix:
+        env:
+          - BUILD_SERVER=1
+          - BUILD_CLIENT=1
+          - BUILD_WEBDRIVERIO=1 BUILD_SERVER=1 BUILD_GATLING=1
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
