@@ -15,6 +15,7 @@ source ci-scripts/helper_functions.sh
 # -------------------------------------------------- #
 # Run SimpleTest
 # -------------------------------------------------- #
+exit 1
 print_message "Run SimpleTest."
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 cd "$ROOT_DIR"/server/www
