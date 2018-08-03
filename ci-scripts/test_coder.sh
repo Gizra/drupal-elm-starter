@@ -5,7 +5,7 @@
 # Run the coder review.
 #
 # ---------------------------------------------------------------------------- #
-exit 1
+
 # Check the current build.
 if [ -z "${CODE_REVIEW+x}" ] || [ "$CODE_REVIEW" -ne 1 ]; then
  exit 0;
