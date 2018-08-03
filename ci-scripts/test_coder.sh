@@ -7,7 +7,7 @@
 # ---------------------------------------------------------------------------- #
 
 # Check the current build.
-fif [ -z "${CODE_REVIEW+x}" ] || [ "$CODE_REVIEW" -ne 1 ]; then
+if [ -z "${CODE_REVIEW+x}" ] || [ "$CODE_REVIEW" -ne 1 ]; then
  exit 0;
 fi
 
