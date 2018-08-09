@@ -24,8 +24,7 @@ cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 gulp &
 # But wait for the availability of the app.
 until (curl --output /dev/null --silent --head --fail http://localhost:3000); do
-  ((c++)) && ((c==60)) && exit 1
-  echo "."
+  ((c++)) && ((c==180)) && exit 1
   sleep 1
 done
 print_message "The webserver on port 3000 became available"
