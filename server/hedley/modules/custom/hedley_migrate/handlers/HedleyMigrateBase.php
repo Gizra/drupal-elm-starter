@@ -27,7 +27,7 @@ abstract class HedleyMigrateBase extends Migration {
       'user' => 'MigrateDestinationUser',
     ];
 
-    // Add default settings, only for nodes, terms and multifields.
+    // Add default settings, only for nodes, terms and users.
     if (empty($destination_classes[$this->entityType])) {
       return;
     }
@@ -61,10 +61,14 @@ abstract class HedleyMigrateBase extends Migration {
     if ($this->simpleMappings) {
       $this->addSimpleMappings(drupal_map_assoc($this->simpleMappings));
     }
-    foreach ($this->simpleMultipleMappings as $field) {
-      $this
-        ->addFieldMapping($field, $field)
-        ->separator('|');
+
+    // Add multiple simple mappings.
+    if (!empty($this->simpleMultipleMappings)) {
+      foreach ($this->simpleMultipleMappings as $field) {
+        $this
+          ->addFieldMapping($field, $field)
+          ->separator('|');
+      }
     }
 
     if ($this->entityType == 'node') {

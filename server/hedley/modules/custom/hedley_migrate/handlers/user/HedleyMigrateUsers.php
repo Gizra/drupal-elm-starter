@@ -19,14 +19,14 @@ class HedleyMigrateUsers extends HedleyMigrateBase {
     'email',
     'avatar',
   ];
-  protected $simpleMapping = [
+  protected $simpleMappings = [
     'name',
     'pass',
     'email',
   ];
 
   /**
-   * UnioMigrateUsers constructor.
+   * HedleyMigrateUsers constructor.
    *
    * {@inheritdoc}
    */
