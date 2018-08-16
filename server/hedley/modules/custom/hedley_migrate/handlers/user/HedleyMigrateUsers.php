@@ -10,33 +10,28 @@
  */
 class HedleyMigrateUsers extends HedleyMigrateBase {
 
-  public $entityType = 'user';
+  protected $entityType = 'user';
+  protected $bundle = 'user';
+  protected $csvColumns = [
+    'id',
+    'name',
+    'pass',
+    'email',
+    'avatar',
+  ];
+  protected $simpleMappings = [
+    'name',
+    'pass',
+    'email',
+  ];
 
   /**
-   * UnioMigrateUsers constructor.
+   * HedleyMigrateUsers constructor.
    *
    * {@inheritdoc}
    */
   public function __construct($arguments) {
     parent::__construct($arguments);
-    $this->description = t('Import users from the CSV.');
-
-    $columns = array(
-      ['name', t('Username')],
-      ['pass', t('User password')],
-      ['email', t('User email')],
-      ['avatar', t('User avatar')],
-    );
-
-    $source_file = $this->getMigrateDirectory() . '/csv/user.csv';
-    $options = array('header_rows' => 1);
-    $this->source = new MigrateSourceCSV($source_file, $columns, $options);
-
-    $this->destination = new MigrateDestinationUser();
-
-    $this->addFieldMapping('name', 'name');
-    $this->addFieldMapping('mail', 'email');
-    $this->addFieldMapping('pass', 'pass');
 
     $this->addFieldMapping('field_avatar', 'avatar');
     $this->addFieldMapping('field_avatar:file_replace')
@@ -47,17 +42,6 @@ class HedleyMigrateUsers extends HedleyMigrateBase {
 
     $this->addFieldMapping(('status'))
       ->defaultValue(1);
-
-    $this->map = new MigrateSQLMap($this->machineName,
-      array(
-        'name' => array(
-          'type' => 'varchar',
-          'length' => 255,
-          'not null' => TRUE,
-        ),
-      ),
-      MigrateDestinationUser::getKeySchema()
-    );
   }
 
 }

@@ -60,7 +60,7 @@ projects[devel][subdir] = "development"
 projects[devel][version] = "1.5"
 
 projects[migrate][subdir] = "development"
-projects[migrate][version] = "2.8"
+projects[migrate][version] = "2.11"
 
 projects[migrate_extras][subdir] = "development"
 projects[migrate_extras][version] = "2.5"
