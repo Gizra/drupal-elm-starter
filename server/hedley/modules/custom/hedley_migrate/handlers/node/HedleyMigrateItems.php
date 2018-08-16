@@ -17,6 +17,7 @@ class HedleyMigrateItems extends HedleyMigrateBase {
     'title',
     'field_image',
     'field_private_note',
+    'author',
   ];
   protected $simpleMappings = [
     'field_private_note',

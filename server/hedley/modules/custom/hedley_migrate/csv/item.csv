@@ -1,4 +1,4 @@
-id,title,field_image,field_private_note
-item1,Kitchen,kitchen.jpg,Secret note
-item2,West Garden,west-garden.jpg,
-item3,<script>alert('XSS');</script>XSS Test,kitchen.jpg,
+id,title,field_image,field_private_note,author
+item1,Kitchen,kitchen.jpg,Secret note,user1
+item2,West Garden,west-garden.jpg,,user2
+item3,<script>alert('XSS');</script>XSS Test,kitchen.jpg,,user3

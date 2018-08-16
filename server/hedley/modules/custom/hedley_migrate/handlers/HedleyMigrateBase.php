@@ -45,10 +45,8 @@ abstract class HedleyMigrateBase extends Migration {
     $destination_class = $destination_classes[$this->entityType];
     $this->destination = $this->entityType == 'user' ? new $destination_class() : new $destination_class($this->bundle);
 
-    $key_field = $this->bundle == 'user' ? 'name' : 'id';
-
     $key = [
-      $key_field => [
+      'id' => [
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
@@ -72,11 +70,15 @@ abstract class HedleyMigrateBase extends Migration {
     }
 
     if ($this->entityType == 'node') {
-      // Set the first user as the author.
+      // Set the author, just add "author" column in the CSV and reference the
+      // migration ID of the user, if no "author" column is present then it will
+      // default to user 1 which is the main admin, not "user1" in the
+      // migration.
       $this
         ->addFieldMapping('uid', 'author')
         ->sourceMigration('HedleyMigrateUsers')
         ->defaultValue(1);
+
       // Map the title field to the default title.
       if (in_array('title', $this->csvColumns)) {
         $this->addFieldMapping('title', 'title');
