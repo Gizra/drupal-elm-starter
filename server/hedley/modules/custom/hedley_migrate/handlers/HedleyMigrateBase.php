@@ -10,10 +10,45 @@
  */
 abstract class HedleyMigrateBase extends Migration {
 
+  /**
+   * The entity type. e.g. 'node', 'taxonomy_term'.
+   *
+   * @var string|null
+   */
   protected $entityType = NULL;
+
+  /**
+   * The entity's bundle. e.g. 'item', 'article'.
+   *
+   * @var string|null
+   */
   protected $bundle = NULL;
+
+  /**
+   * Defines the columns in the csv file.
+   *
+   * (please define in the order they appear in the file)
+   *
+   * @var array
+   */
   protected $csvColumns = [];
+
+  /**
+   * Fields for simple mapping.
+   *
+   * (one value, no reference to other entities in the migration)
+   *
+   * @var array
+   */
   protected $simpleMappings = [];
+
+  /**
+   * Fields for multiple simple mapping.
+   *
+   * (multi value, no reference to other entities in the migration)
+   *
+   * @var array
+   */
   protected $simpleMultipleMappings = [];
 
   /**
@@ -34,6 +69,8 @@ abstract class HedleyMigrateBase extends Migration {
 
     $this->description = t('Import @bundle.', ['@bundle' => $this->bundle]);
 
+    // The source file, also can be separated into folders using the
+    // "$this->entityType" var.
     $source_file = $this->getMigrateDirectory() . '/csv/' . $this->bundle . '.csv';
 
     $columns = [];
@@ -43,6 +80,9 @@ abstract class HedleyMigrateBase extends Migration {
     $this->source = new MigrateSourceCSV($source_file, $columns, ['header_rows' => 1]);
 
     $destination_class = $destination_classes[$this->entityType];
+
+    // The destination class's arguments change between user and the rest of
+    // the entities.
     $this->destination = $this->entityType == 'user' ? new $destination_class() : new $destination_class($this->bundle);
 
     $key = [
@@ -56,7 +96,7 @@ abstract class HedleyMigrateBase extends Migration {
     $this->map = new MigrateSQLMap($this->machineName, $key, $this->destination->getKeySchema($this->entityType));
 
     // Add simple mappings.
-    if ($this->simpleMappings) {
+    if (!empty($this->simpleMappings)) {
       $this->addSimpleMappings(drupal_map_assoc($this->simpleMappings));
     }
 
