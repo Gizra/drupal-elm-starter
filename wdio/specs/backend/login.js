@@ -1,19 +1,19 @@
 describe('login page', function() {
     it('should allow a user to login', function() {
-        browser.login('admin');
+        browser.backendLogin('admin');
 
         // Logout session.
-        browser.logout();
+        browser.backendLogout();
     });
 
     it('should not allow an anonymous user with wrong credentials to login', function() {
-        browser.url('/#login');
+        browser.url('/user/login');
 
-        browser.waitForVisible('.login-form');
-        browser.setValueSafe('[name="username"]', 'wrong-name');
-        browser.setValueSafe('[name="password"]', 'wrong-pass');
-        browser.submitForm('.login-form');
+        browser.waitForVisible('#user-login');
+        browser.setValueSafe('[name="name"]', 'wrong-name');
+        browser.setValueSafe('[name="pass"]', 'wrong-pass');
+        browser.submitForm('#user-login');
 
-        browser.waitForVisible('.login .ui.error.message');
+        browser.waitForVisible('.messages.error');
     });
 });

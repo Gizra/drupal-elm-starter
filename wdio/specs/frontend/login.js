@@ -1,9 +1,9 @@
 describe('login page', function() {
     it('should allow a user to login', function() {
-        browser.login('admin');
+        browser.frontendLogin('admin');
 
         // Logout session.
-        browser.logout();
+        browser.frontendLogout();
     });
 
     it('should not allow an anonymous user with wrong credentials to login', function() {

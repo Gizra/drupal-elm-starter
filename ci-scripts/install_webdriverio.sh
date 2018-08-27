@@ -4,7 +4,7 @@
 source ci-scripts/helper_functions.sh
 
 # Check the current build.
-if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
+if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ] && ["$ENV" == 'frontend']; then
  exit 0;
 fi
 

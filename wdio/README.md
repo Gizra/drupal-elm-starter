@@ -10,9 +10,9 @@ commands in which each has a dedicated `conf.js` file pointing to the right `bas
 ### Example of changing your local config to test the backend.
 ```javascript
 exports.config = merge(wdioConf.config, {
-  baseUrl: 'http://des.local',
+  baseUrl: 'http://localhost/drupal-elm-starter/www',
   specs: [
-    './specs/backend/**/*.js'
+    './specs/backend/*.js'
   ]
 });
 ```

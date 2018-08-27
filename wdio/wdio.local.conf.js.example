@@ -12,6 +12,6 @@ exports.config = merge(wdioConf.config, {
   baseUrl: 'http://localhost:3000',
 
   specs: [
-    './specs/**/*.js'
+    './specs/frontend/*.js'
   ]
 });
