@@ -8,7 +8,7 @@ if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
  exit 0;
 fi
 
-if ["$ENV" == 'frontend']; then
+if [ "$ENV" == 'frontend' ]; then
   # Install global packages.
   npm install -g elm@~0.18.0
   npm install -g bower@~1.8.2
