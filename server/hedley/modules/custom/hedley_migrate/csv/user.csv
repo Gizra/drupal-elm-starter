@@ -1,5 +1,5 @@
-name,pass,email,avatar
-alice,alice,alice@example.com,efratn.png
-john,john,john@example.com,davidhernandez.png
-bob,bob,bob@example.com,bricel.png
-carl,carl,carl@example.com,amitaibu.png
+id,name,pass,email,avatar
+user1,alice,alice,alice@example.com,efratn.png
+user2,john,john,john@example.com,davidhernandez.png
+user3,bob,bob,bob@example.com,bricel.png
+user4,carl,carl,carl@example.com,amitaibu.png
