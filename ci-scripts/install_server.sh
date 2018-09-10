@@ -49,6 +49,7 @@ cd "$ROOT_DIR"/server/www || exit 1
 drush status || exit 1
 drush runserver 127.0.0.1:8080 &
 # But wait for the availability of the app.
+c=0
 until (curl --output /dev/null --silent --head --fail http://127.0.0.1:8080); do
   ((c++)) && ((c==30)) && exit 1
   sleep 1
