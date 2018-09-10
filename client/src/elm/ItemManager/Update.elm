@@ -34,11 +34,11 @@ update currentDate backendUrl accessToken user msg model =
                         ( updatedModel, updatedCmds ) =
                             fetchItemFromBackend backendUrl accessToken id model
                     in
-                    ( updatedModel
-                    , updatedCmds
-                    , Nothing
-                    , noError
-                    )
+                        ( updatedModel
+                        , updatedCmds
+                        , Nothing
+                        , noError
+                        )
 
                 Loading ->
                     ( model, Cmd.none, Nothing, noError )
@@ -48,11 +48,11 @@ update currentDate backendUrl accessToken user msg model =
                         ( val, cmds ) =
                             fetchItemFromBackend backendUrl accessToken id model
                     in
-                    ( val
-                    , cmds
-                    , Nothing
-                    , noError
-                    )
+                        ( val
+                        , cmds
+                        , Nothing
+                        , noError
+                        )
 
                 Success _ ->
                     ( model, Cmd.none, Nothing, noError )
@@ -69,7 +69,7 @@ update currentDate backendUrl accessToken user msg model =
                 ( val, cmds ) =
                     fetchAllItemsFromBackend backendUrl accessToken model
             in
-            ( val, cmds, Nothing, noError )
+                ( val, cmds, Nothing, noError )
 
         MsgPagesItem id subMsg ->
             case getItem id model of
@@ -78,11 +78,11 @@ update currentDate backendUrl accessToken user msg model =
                         ( subModel, subCmd, redirectPage ) =
                             Pages.Item.Update.update backendUrl accessToken user subMsg item
                     in
-                    ( { model | items = Dict.insert id (Success subModel) model.items }
-                    , Cmd.map (MsgPagesItem id) subCmd
-                    , redirectPage
-                    , noError
-                    )
+                        ( { model | items = Dict.insert id (Success subModel) model.items }
+                        , Cmd.map (MsgPagesItem id) subCmd
+                        , redirectPage
+                        , noError
+                        )
 
                 _ ->
                     -- We've received a message for a Item which we either
@@ -100,11 +100,11 @@ update currentDate backendUrl accessToken user msg model =
                 ( subModel, subCmd, redirectPage ) =
                     Pages.Items.Update.update backendUrl accessToken user subMsg (unwrapItemsDict model.items) model.itemsPage
             in
-            ( { model | itemsPage = subModel }
-            , Cmd.map MsgPagesItems subCmd
-            , redirectPage
-            , noError
-            )
+                ( { model | itemsPage = subModel }
+                , Cmd.map MsgPagesItems subCmd
+                , redirectPage
+                , noError
+                )
 
         HandleFetchedItems (Ok items) ->
             ( { model | items = wrapItemsDict items }
@@ -128,11 +128,11 @@ update currentDate backendUrl accessToken user msg model =
                 updatedModel =
                     { model | items = Dict.insert itemId (Success item) model.items }
             in
-            ( updatedModel
-            , Cmd.none
-            , Nothing
-            , noError
-            )
+                ( updatedModel
+                , Cmd.none
+                , Nothing
+                , noError
+                )
 
         HandleFetchedItem itemId (Err error) ->
             ( { model | items = Dict.insert itemId (Failure error) model.items }
@@ -177,9 +177,9 @@ fetchItemFromBackend backendUrl accessToken itemId model =
                 |> withQueryParams [ ( "access_token", accessToken ) ]
                 |> sendWithHandler decodeItemFromResponse (HandleFetchedItem itemId)
     in
-    ( { model | items = Dict.insert itemId Loading model.items }
-    , command
-    )
+        ( { model | items = Dict.insert itemId Loading model.items }
+        , command
+        )
 
 
 fetchAllItemsFromBackend : BackendUrl -> String -> Model -> ( Model, Cmd Msg )
@@ -190,9 +190,9 @@ fetchAllItemsFromBackend backendUrl accessToken model =
                 |> withQueryParams [ ( "access_token", accessToken ) ]
                 |> sendWithHandler decodeItemsFromResponse HandleFetchedItems
     in
-    ( model
-    , command
-    )
+        ( model
+        , command
+        )
 
 
 subscriptions : Model -> Page -> Sub Msg

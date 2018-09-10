@@ -28,7 +28,7 @@ viewItems currentDate language user model =
         items =
             unwrapItemsDict model.items
     in
-    Html.map MsgPagesItems <| Pages.Items.View.view currentDate language user items model.itemsPage
+        Html.map MsgPagesItems <| Pages.Items.View.view currentDate language user items model.itemsPage
 
 
 {-| Show the Item page.

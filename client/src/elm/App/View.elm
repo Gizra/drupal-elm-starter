@@ -43,24 +43,24 @@ view model =
                         debugErrors =
                             showIf config.debug <| Error.View.view English model.errors
                     in
-                    div [ class "pushable" ]
-                        [ -- Sidebar menu - responsive only
-                          viewSidebar model Top
-                        , div
-                            mainAttributes
-                            [ debugErrors
+                        div [ class "pushable" ]
+                            [ -- Sidebar menu - responsive only
+                              viewSidebar model Top
                             , div
-                                [ class "ui grid container" ]
-                                -- Non-responsive menu
-                                [ viewSidebar model Left
+                                mainAttributes
+                                [ debugErrors
                                 , div
-                                    [ class "ui main grid" ]
-                                    [ viewTopMenu
-                                    , viewMainContent model
+                                    [ class "ui grid container" ]
+                                    -- Non-responsive menu
+                                    [ viewSidebar model Left
+                                    , div
+                                        [ class "ui main grid" ]
+                                        [ viewTopMenu
+                                        , viewMainContent model
+                                        ]
                                     ]
                                 ]
                             ]
-                        ]
 
         _ ->
             -- This should be instantaneous
@@ -100,46 +100,46 @@ viewSidebar model sidebar =
                         Left ->
                             [ ( "ui left fixed vertical inverted menu", True ) ]
             in
-            div
-                [ classList wrapperClasses ]
-                [ a
-                    [ class "item"
-                    , onClick <| SetActivePage MyAccount
-                    ]
-                    [ h4
-                        [ class "ui grey header" ]
-                        [ viewAvatar user
-                        , text user.name
+                div
+                    [ classList wrapperClasses ]
+                    [ a
+                        [ class "item"
+                        , onClick <| SetActivePage MyAccount
                         ]
-                    ]
-                , a
-                    [ class "item"
-                    , onClick <| SetActivePage Dashboard
-                    ]
-                    [ translateText model.language <| Trans.Sidebar Trans.Dashboard ]
-                , span
-                    [ class "item"
-                    ]
-                    [ translateText model.language <|
-                        Trans.Sidebar <|
-                            if model.offline then
-                                Trans.NotConnected
-                            else
-                                Trans.Connected
-                    , i
-                        [ classList
-                            [ ( "icon wifi", True )
-                            , ( "disabled", model.offline )
+                        [ h4
+                            [ class "ui grey header" ]
+                            [ viewAvatar user
+                            , text user.name
                             ]
                         ]
-                        []
+                    , a
+                        [ class "item"
+                        , onClick <| SetActivePage Dashboard
+                        ]
+                        [ translateText model.language <| Trans.Sidebar Trans.Dashboard ]
+                    , span
+                        [ class "item"
+                        ]
+                        [ translateText model.language <|
+                            Trans.Sidebar <|
+                                if model.offline then
+                                    Trans.NotConnected
+                                else
+                                    Trans.Connected
+                        , i
+                            [ classList
+                                [ ( "icon wifi", True )
+                                , ( "disabled", model.offline )
+                                ]
+                            ]
+                            []
+                        ]
+                    , a
+                        [ class "item"
+                        , onClick Logout
+                        ]
+                        [ translateText model.language <| Trans.Sidebar Trans.SignOut ]
                     ]
-                , a
-                    [ class "item"
-                    , onClick Logout
-                    ]
-                    [ translateText model.language <| Trans.Sidebar Trans.SignOut ]
-                ]
 
         _ ->
             emptyNode
@@ -201,19 +201,19 @@ viewMainContent model =
                             div []
                                 [ i [ class "notched circle loading icon" ] [] ]
     in
-    case model.user of
-        NotAsked ->
-            if String.isEmpty model.accessToken then
-                viewContent
-            else
-                -- User might be logged in, so no need to present the login form.
-                -- So we first just show a throbber
-                div []
-                    [ i [ class "icon loading spinner" ] []
-                    ]
+        case model.user of
+            NotAsked ->
+                if String.isEmpty model.accessToken then
+                    viewContent
+                else
+                    -- User might be logged in, so no need to present the login form.
+                    -- So we first just show a throbber
+                    div []
+                        [ i [ class "icon loading spinner" ] []
+                        ]
 
-        _ ->
-            viewContent
+            _ ->
+                viewContent
 
 
 {-| Get menu items classes. This function gets the active page and checks if

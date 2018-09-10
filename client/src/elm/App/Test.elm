@@ -79,28 +79,28 @@ viewDebugErrorTest =
                 , errors = errors
             }
     in
-    describe "Development errors appear on Debug mode"
-        [ test "no errors in enabled debug mode" <|
-            \() ->
-                view { modelWithDebug | errors = [] }
-                    |> Query.fromHtml
-                    |> Query.hasNot [ class "debug-errors" ]
-        , test "no errors in enabled debug mode" <|
-            \() ->
-                view { modelWithoutDebug | errors = [] }
-                    |> Query.fromHtml
-                    |> Query.hasNot [ class "debug-errors" ]
-        , test "errors in enabled debug mode" <|
-            \() ->
-                view modelWithDebug
-                    |> Query.fromHtml
-                    |> Query.has [ class "debug-errors" ]
-        , test "errors in disabled debug mode" <|
-            \() ->
-                view modelWithoutDebug
-                    |> Query.fromHtml
-                    |> Query.hasNot [ class "debug-errors" ]
-        ]
+        describe "Development errors appear on Debug mode"
+            [ test "no errors in enabled debug mode" <|
+                \() ->
+                    view { modelWithDebug | errors = [] }
+                        |> Query.fromHtml
+                        |> Query.hasNot [ class "debug-errors" ]
+            , test "no errors in enabled debug mode" <|
+                \() ->
+                    view { modelWithoutDebug | errors = [] }
+                        |> Query.fromHtml
+                        |> Query.hasNot [ class "debug-errors" ]
+            , test "errors in enabled debug mode" <|
+                \() ->
+                    view modelWithDebug
+                        |> Query.fromHtml
+                        |> Query.has [ class "debug-errors" ]
+            , test "errors in disabled debug mode" <|
+                \() ->
+                    view modelWithoutDebug
+                        |> Query.fromHtml
+                        |> Query.hasNot [ class "debug-errors" ]
+            ]
 
 
 all : Test

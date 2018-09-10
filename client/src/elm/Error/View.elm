@@ -25,15 +25,15 @@ viewError language error =
         prefix =
             text <| error.module_ ++ "." ++ error.location ++ ": "
     in
-    case error.error of
-        Http err ->
-            li []
-                [ prefix
-                , Utils.WebData.viewError language err
-                ]
+        case error.error of
+            Http err ->
+                li []
+                    [ prefix
+                    , Utils.WebData.viewError language err
+                    ]
 
-        Plain txt ->
-            li []
-                [ prefix
-                , text txt
-                ]
+            Plain txt ->
+                li []
+                    [ prefix
+                    , text txt
+                    ]

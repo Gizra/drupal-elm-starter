@@ -37,7 +37,7 @@ decodeTest =
                                 |> ItemUpdate
                         }
                 in
-                Expect.equal (Ok expectedResult) (decodeString decodePusherEvent json)
+                    Expect.equal (Ok expectedResult) (decodeString decodePusherEvent json)
         ]
 
 

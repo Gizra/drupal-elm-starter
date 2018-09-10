@@ -22,8 +22,8 @@ handleErrors maybeError model =
                         _ =
                             debugLog error
                     in
-                    error :: model.errors
+                        error :: model.errors
                 )
                 maybeError
     in
-    { model | errors = errors }
+        { model | errors = errors }
