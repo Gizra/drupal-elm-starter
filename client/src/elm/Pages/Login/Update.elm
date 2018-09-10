@@ -1,8 +1,7 @@
-module Pages.Login.Update
-    exposing
-        ( fetchUserFromBackend
-        , update
-        )
+module Pages.Login.Update exposing
+    ( fetchUserFromBackend
+    , update
+    )
 
 import Config.Model exposing (BackendUrl)
 import Error.Model exposing (Error)
@@ -54,11 +53,11 @@ update backendUrl msg model =
                             , httpError "Pages.Login.Update" "HandleFetchedUser" error
                             )
             in
-                ( model
-                , Cmd.none
-                , ( webdata, "" )
-                , errorType
-                )
+            ( model
+            , Cmd.none
+            , ( webdata, "" )
+            , errorType
+            )
 
         SetName name ->
             let
@@ -68,11 +67,11 @@ update backendUrl msg model =
                 loginForm_ =
                     { loginForm | name = name }
             in
-                ( { model | loginForm = loginForm_ }
-                , Cmd.none
-                , ( NotAsked, "" )
-                , noError
-                )
+            ( { model | loginForm = loginForm_ }
+            , Cmd.none
+            , ( NotAsked, "" )
+            , noError
+            )
 
         SetPassword pass ->
             let
@@ -82,11 +81,11 @@ update backendUrl msg model =
                 loginForm_ =
                     { loginForm | pass = pass }
             in
-                ( { model | loginForm = loginForm_ }
-                , Cmd.none
-                , ( NotAsked, "" )
-                , noError
-                )
+            ( { model | loginForm = loginForm_ }
+            , Cmd.none
+            , ( NotAsked, "" )
+            , noError
+            )
 
         TryLogin ->
             ( model
@@ -104,9 +103,9 @@ fetchAccessTokenFromBackend backendUrl loginForm =
         credentials =
             encodeCredentials ( loginForm.name, loginForm.pass )
     in
-        HttpBuilder.get (backendUrl ++ "/api/login-token")
-            |> withHeader "Authorization" ("Basic " ++ credentials)
-            |> sendWithHandler decodeAccessToken HandleFetchedAccessToken
+    HttpBuilder.get (backendUrl ++ "/api/login-token")
+        |> withHeader "Authorization" ("Basic " ++ credentials)
+        |> sendWithHandler decodeAccessToken HandleFetchedAccessToken
 
 
 {-| Get user data from backend.

@@ -1,4 +1,4 @@
-module Fixtures exposing (..)
+module Fixtures exposing (exampleConfig, exampleModel, exampleUser)
 
 {-| Some convenience functions to be used in unit tests.
 -}

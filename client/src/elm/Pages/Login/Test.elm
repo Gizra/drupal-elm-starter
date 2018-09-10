@@ -42,12 +42,12 @@ fetchUnauthorized =
         ( updatedModel, cmds, ( webdata, accessToken ), _ ) =
             update url (HandleFetchedAccessToken (Err badRequest)) emptyModel
     in
-        describe "Unauthorized tests"
-            [ test "Receiving Unauthorized should result in error and no user" <|
-                \() -> Expect.equal (Failure badRequest) webdata
-            , test "Receiving Unauthorized should clear accesstoken" <|
-                \() -> Expect.equal "" accessToken
-            ]
+    describe "Unauthorized tests"
+        [ test "Receiving Unauthorized should result in error and no user" <|
+            \() -> Expect.equal (Failure badRequest) webdata
+        , test "Receiving Unauthorized should clear accesstoken" <|
+            \() -> Expect.equal "" accessToken
+        ]
 
 
 {-| Fetch User Data Tests.
@@ -79,12 +79,12 @@ fetchUserUnauthorized =
         ( updatedModel, cmds, ( webdata, accessToken ), _ ) =
             update url (HandleFetchedUser invalidToken (Err badRequest)) emptyModel
     in
-        describe "Invalid Token tests"
-            [ test "Receiving Unauthorized should result in no error and no user" <|
-                \() -> Expect.equal NotAsked webdata
-            , test "Receiving Unauthorized should clear accesstoken" <|
-                \() -> Expect.equal "" accessToken
-            ]
+    describe "Invalid Token tests"
+        [ test "Receiving Unauthorized should result in no error and no user" <|
+            \() -> Expect.equal NotAsked webdata
+        , test "Receiving Unauthorized should clear accesstoken" <|
+            \() -> Expect.equal "" accessToken
+        ]
 
 
 fetchUserFromBackendTests : Test

@@ -5,6 +5,7 @@ import Html.Attributes exposing (class, href)
 import Translate as Trans exposing (Language, translateText)
 
 
+
 -- VIEW
 
 

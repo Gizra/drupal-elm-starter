@@ -7,6 +7,7 @@ import RemoteData exposing (RemoteData(..), WebData)
 import User.Model exposing (..)
 
 
+
 -- VIEW
 
 
@@ -21,9 +22,9 @@ view user =
                 _ ->
                     ( "", emptyNode )
     in
-        div [ class "ui centered card" ]
-            [ div [ class "image" ] [ avatar ]
-            , div [ class "content" ]
-                [ div [ class "header" ] [ text <| "Welcome " ++ name ]
-                ]
+    div [ class "ui centered card" ]
+        [ div [ class "image" ] [ avatar ]
+        , div [ class "content" ]
+            [ div [ class "header" ] [ text <| "Welcome " ++ name ]
             ]
+        ]

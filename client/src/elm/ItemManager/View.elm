@@ -1,8 +1,7 @@
-module ItemManager.View
-    exposing
-        ( viewItems
-        , viewPageItem
-        )
+module ItemManager.View exposing
+    ( viewItems
+    , viewPageItem
+    )
 
 import Date exposing (Date)
 import Gizra.Html exposing (emptyNode)
@@ -28,7 +27,7 @@ viewItems currentDate language user model =
         items =
             unwrapItemsDict model.items
     in
-        Html.map MsgPagesItems <| Pages.Items.View.view currentDate language user items model.itemsPage
+    Html.map MsgPagesItems <| Pages.Items.View.view currentDate language user items model.itemsPage
 
 
 {-| Show the Item page.

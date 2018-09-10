@@ -1,7 +1,4 @@
-module App.Utils
-    exposing
-        ( handleErrors
-        )
+module App.Utils exposing (handleErrors)
 
 import App.Model exposing (Model, Msg(..))
 import Error.Model exposing (Error)
@@ -22,8 +19,8 @@ handleErrors maybeError model =
                         _ =
                             debugLog error
                     in
-                        error :: model.errors
+                    error :: model.errors
                 )
                 maybeError
     in
-        { model | errors = errors }
+    { model | errors = errors }

@@ -1,8 +1,7 @@
-module Error.Model
-    exposing
-        ( Error
-        , ErrorType(..)
-        )
+module Error.Model exposing
+    ( Error
+    , ErrorType(..)
+    )
 
 import Http
 

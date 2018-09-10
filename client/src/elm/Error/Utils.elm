@@ -1,10 +1,9 @@
-module Error.Utils
-    exposing
-        ( debugLog
-        , httpError
-        , noError
-        , plainError
-        )
+module Error.Utils exposing
+    ( debugLog
+    , httpError
+    , noError
+    , plainError
+    )
 
 import Error.Model exposing (Error, ErrorType(..))
 import Http
@@ -29,7 +28,7 @@ debugLog error =
         id =
             error.module_ ++ "." ++ error.location
     in
-        Debug.log id message
+    Debug.log id message
 
 
 

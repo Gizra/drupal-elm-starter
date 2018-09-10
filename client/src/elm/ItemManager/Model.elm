@@ -1,4 +1,4 @@
-module ItemManager.Model exposing (..)
+module ItemManager.Model exposing (Model, Msg(..), emptyModel)
 
 import Dict exposing (Dict)
 import Http
