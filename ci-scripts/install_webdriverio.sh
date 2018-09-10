@@ -18,6 +18,7 @@ cp "$ROOT_DIR"/ci-scripts/LocalConfig.elm src/elm/LocalConfig.elm
 # Run gulp in the background.
 gulp &
 # But wait for the availability of the app.
+c=0
 until (curl --output /dev/null --silent --head --fail http://localhost:3000); do
   ((c++)) && ((c==180)) && exit 1
   sleep 1
