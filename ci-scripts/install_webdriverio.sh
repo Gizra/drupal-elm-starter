@@ -3,11 +3,6 @@
 # Load helper functionality.
 source ci-scripts/helper_functions.sh
 
-# Check the current build.
-if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
- exit 0;
-fi
-
 # Install global packages.
 npm install -g elm@~0.18.0
 npm install -g bower@~1.8.2

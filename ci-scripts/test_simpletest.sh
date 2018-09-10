@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-# We should not run the current test under the WebDriverIO build, but on the server builds.
-if [ "${BUILD_WEBDRIVERIO}" == 1 ]; then
- exit 0;
-fi
-if [ -z "${BUILD_SERVER+x}" ] || [ "$BUILD_SERVER" -ne 1 ]; then
- exit 0;
-fi
-
 # Load helper functionality.
 source ci-scripts/helper_functions.sh
 

@@ -6,11 +6,6 @@
 #
 # ---------------------------------------------------------------------------- #
 
-# Check the current build.
-if [ -z "${ELM_REVIEW+x}" ] || [ "$ELM_REVIEW" -ne 1 ]; then
- exit 0;
-fi
-
 source "$TRAVIS_BUILD_DIR"/server/travis.config.sh
 
 HAS_ERRORS=0
