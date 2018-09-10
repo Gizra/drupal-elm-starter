@@ -38,12 +38,12 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
     - stage: Lint
-      name: "Elm coding standard"
+      name: "Elm coding standard: elm-format"
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_elm_format.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_elm_format.sh"
     - stage: Test
-      name: "WebdriverI/O"
+      name: "Frontend browser-based tests: WebdriverI/O"
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
@@ -57,7 +57,7 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_simpletest.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_gatling.sh"
     - stage: Test
-      name: "Client unit tests: elm-test"
+      name: "Frontend unit tests: elm-test"
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
