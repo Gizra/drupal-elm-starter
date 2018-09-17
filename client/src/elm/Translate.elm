@@ -1,4 +1,4 @@
-module Translate exposing (..)
+module Translate exposing (HtmlTranslationId(..), Language(..), StringIdHttpError(..), StringIdItem(..), StringIdLogin(..), StringIdSidebar(..), StringTranslationId(..), TranslationSet, Url, allLanguages, languageFromCode, languageFromString, languageToCode, languageToString, selectTranslation, translateCountry, translateHtml, translateString, translateText)
 
 import Country exposing (Country(..))
 import Html exposing (Html, a, br, span, text)

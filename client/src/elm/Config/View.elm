@@ -1,7 +1,8 @@
-module Config.View exposing (..)
+module Config.View exposing (view)
 
 import Html exposing (Html, div, h2, text)
 import Html.Attributes exposing (class)
+
 
 
 -- A plain function that always returns the error message

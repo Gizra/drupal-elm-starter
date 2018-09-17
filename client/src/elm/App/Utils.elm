@@ -1,7 +1,4 @@
-module App.Utils
-    exposing
-        ( handleErrors
-        )
+module App.Utils exposing (handleErrors)
 
 import App.Model exposing (Model, Msg(..))
 import Error.Model exposing (Error)

@@ -1,4 +1,4 @@
-module Pusher.Model exposing (..)
+module Pusher.Model exposing (AccessToken(..), Cluster(..), ConnectionStatus(..), Model, Msg(..), PusherAppKey, PusherChannel, PusherConfig, PusherError, PusherEvent, PusherEventData(..), emptyModel, eventNames)
 
 import Item.Model exposing (Item, ItemId)
 

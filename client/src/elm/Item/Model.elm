@@ -1,9 +1,8 @@
-module Item.Model
-    exposing
-        ( Item
-        , ItemId
-        , ItemsDict
-        )
+module Item.Model exposing
+    ( Item
+    , ItemId
+    , ItemsDict
+    )
 
 import Dict exposing (Dict)
 

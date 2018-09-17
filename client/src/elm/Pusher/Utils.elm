@@ -1,7 +1,4 @@
-module Pusher.Utils
-    exposing
-        ( getClusterName
-        )
+module Pusher.Utils exposing (getClusterName)
 
 import Pusher.Model exposing (Cluster(..))
 

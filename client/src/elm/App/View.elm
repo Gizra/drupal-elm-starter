@@ -1,4 +1,4 @@
-module App.View exposing (..)
+module App.View exposing (classByPage, view, viewAvatar, viewMainContent, viewSidebar, viewTopMenu)
 
 import App.Model exposing (..)
 import App.PageType exposing (Page(..))
@@ -35,6 +35,7 @@ view model =
                                 [ class "pusher dimmed"
                                 , onClick ToggleSideBar
                                 ]
+
                             else
                                 [ class "pusher"
                                 ]
@@ -124,6 +125,7 @@ viewSidebar model sidebar =
                         Trans.Sidebar <|
                             if model.offline then
                                 Trans.NotConnected
+
                             else
                                 Trans.Connected
                     , i
@@ -205,6 +207,7 @@ viewMainContent model =
         NotAsked ->
             if String.isEmpty model.accessToken then
                 viewContent
+
             else
                 -- User might be logged in, so no need to present the login form.
                 -- So we first just show a throbber

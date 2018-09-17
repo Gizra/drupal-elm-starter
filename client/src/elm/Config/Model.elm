@@ -1,4 +1,4 @@
-module Config.Model exposing (..)
+module Config.Model exposing (BackendUrl, Model)
 
 import Pusher.Model exposing (PusherAppKey)
 

@@ -1,8 +1,7 @@
-module Pages.Login.Update
-    exposing
-        ( fetchUserFromBackend
-        , update
-        )
+module Pages.Login.Update exposing
+    ( fetchUserFromBackend
+    , update
+    )
 
 import Config.Model exposing (BackendUrl)
 import Error.Model exposing (Error)
