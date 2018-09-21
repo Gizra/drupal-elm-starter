@@ -1,10 +1,9 @@
-module Error.Utils
-    exposing
-        ( debugLog
-        , httpError
-        , noError
-        , plainError
-        )
+module Error.Utils exposing
+    ( debugLog
+    , httpError
+    , noError
+    , plainError
+    )
 
 import Error.Model exposing (Error, ErrorType(..))
 import Http

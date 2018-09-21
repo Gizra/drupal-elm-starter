@@ -34,6 +34,7 @@ init flags =
                             if String.isEmpty flags.accessToken then
                                 -- Check if we have already an access token.
                                 ( defaultCmds, Login )
+
                             else
                                 ( [ Cmd.map PageLogin <| Pages.Login.Update.fetchUserFromBackend config.backendUrl flags.accessToken ] ++ defaultCmds
                                 , emptyModel.activePage
@@ -242,14 +243,17 @@ setActivePageAccess user page =
         Success _ ->
             if page == Login then
                 AccessDenied
+
             else
                 page
 
         Failure _ ->
             if page == Login then
                 page
+
             else if page == PageNotFound then
                 page
+
             else
                 AccessDenied
 

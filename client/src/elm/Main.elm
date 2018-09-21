@@ -1,4 +1,4 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import App.Model exposing (Flags, Model, Msg)
 import App.Router exposing (..)

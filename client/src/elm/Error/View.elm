@@ -1,4 +1,4 @@
-module Error.View exposing (..)
+module Error.View exposing (view, viewError)
 
 import Error.Model exposing (Error, ErrorType(..))
 import Gizra.Html exposing (emptyNode)
@@ -12,6 +12,7 @@ view : Language -> List Error -> Html msg
 view language errors =
     if List.isEmpty errors then
         emptyNode
+
     else
         div [ class "debug-errors" ]
             [ h2 [] [ text "Debug Errors" ]

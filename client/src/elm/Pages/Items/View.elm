@@ -34,8 +34,10 @@ view currentDate language currentUser items model =
                     -- No items are present, so it means we are fethcing
                     -- them.
                     emptyNode
+
                 else
                     div [ class "ui segment" ] [ translateText language <| Trans.Item Trans.NoItemsFound ]
+
             else
                 Table.view config model.tableState acceptableItems
     in

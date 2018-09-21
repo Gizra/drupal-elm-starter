@@ -6,11 +6,6 @@
 #
 # ---------------------------------------------------------------------------- #
 
-# Check the current build.
-if [ -z "${CODE_REVIEW+x}" ] || [ "$CODE_REVIEW" -ne 1 ]; then
- exit 0;
-fi
-
 HAS_ERRORS=0
 
 ##
