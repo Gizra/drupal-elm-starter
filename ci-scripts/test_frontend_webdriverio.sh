@@ -22,9 +22,8 @@ WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
 set -o pipefail
-cd "$ROOT_DIR"/wdio
 
-for SPEC in ./specs/frontend/*js; do
+for SPEC in ../specs/frontend/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
