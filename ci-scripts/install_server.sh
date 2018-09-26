@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-# Check the current build.
-if [ -z "${BUILD_SERVER+x}" ] || [ "$BUILD_SERVER" -ne 1 ]; then
- exit 0;
-fi
-
 # Load helper functionality.
 source ci-scripts/helper_functions.sh
 # -------------------------------------------------- #
@@ -15,6 +10,7 @@ sudo service mysql stop
 sudo mv /var/lib/mysql /var/run/tmpfs
 sudo ln -s /var/run/tmpfs /var/lib/mysql
 sudo service mysql start
+check_last_command
 
 # -------------------------------------------------- #
 # Installing Drush.
@@ -50,5 +46,12 @@ check_features
 # Starting native webserver via Drush.
 # -------------------------------------------------- #
 cd "$ROOT_DIR"/server/www || exit 1
+drush status || exit 1
 drush runserver 127.0.0.1:8080 &
-until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+# But wait for the availability of the app.
+c=0
+until (curl --output /dev/null --silent --head --fail http://127.0.0.1:8080/user/login); do
+  ((c++)) && ((c==30)) && exit 1
+  sleep 1
+done
+print_message "The webserver on port 8080 became available"

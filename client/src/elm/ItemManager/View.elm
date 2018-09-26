@@ -1,8 +1,7 @@
-module ItemManager.View
-    exposing
-        ( viewItems
-        , viewPageItem
-        )
+module ItemManager.View exposing
+    ( viewItems
+    , viewPageItem
+    )
 
 import Date exposing (Date)
 import Gizra.Html exposing (emptyNode)

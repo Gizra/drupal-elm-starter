@@ -1,7 +1,4 @@
-module Utils.Html
-    exposing
-        ( divider
-        )
+module Utils.Html exposing (divider)
 
 import Html exposing (..)
 import Html.Attributes exposing (class)

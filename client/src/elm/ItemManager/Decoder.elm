@@ -1,8 +1,7 @@
-module ItemManager.Decoder
-    exposing
-        ( decodeItemFromResponse
-        , decodeItemsFromResponse
-        )
+module ItemManager.Decoder exposing
+    ( decodeItemFromResponse
+    , decodeItemsFromResponse
+    )
 
 import Item.Decoder exposing (decodeItem, decodeItemsDict)
 import Item.Model exposing (Item, ItemsDict)

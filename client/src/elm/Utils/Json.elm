@@ -1,11 +1,10 @@
-module Utils.Json
-    exposing
-        ( decodeDate
-        , decodeEmptyArrayAsEmptyDict
-        , decodeError
-        , decodeListAsDict
-        , decodeListAsDictByProperty
-        )
+module Utils.Json exposing
+    ( decodeDate
+    , decodeEmptyArrayAsEmptyDict
+    , decodeError
+    , decodeListAsDict
+    , decodeListAsDictByProperty
+    )
 
 import Date exposing (Date)
 import Dict exposing (Dict)

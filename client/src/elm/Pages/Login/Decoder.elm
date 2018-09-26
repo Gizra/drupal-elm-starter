@@ -1,4 +1,4 @@
-module Pages.Login.Decoder exposing (..)
+module Pages.Login.Decoder exposing (decodeAccessToken, decodeError, encodeCredentials)
 
 import Base64 exposing (encode)
 import Json.Decode as Decode

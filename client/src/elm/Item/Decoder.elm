@@ -1,8 +1,7 @@
-module Item.Decoder
-    exposing
-        ( decodeItem
-        , decodeItemsDict
-        )
+module Item.Decoder exposing
+    ( decodeItem
+    , decodeItemsDict
+    )
 
 import Item.Model exposing (..)
 import Json.Decode exposing (Decoder, andThen, dict, fail, field, int, list, map, map2, nullable, string, succeed)

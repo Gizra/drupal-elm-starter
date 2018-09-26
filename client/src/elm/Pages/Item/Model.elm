@@ -1,7 +1,4 @@
-module Pages.Item.Model
-    exposing
-        ( Msg(..)
-        )
+module Pages.Item.Model exposing (Msg(..))
 
 import App.PageType exposing (Page(..))
 import Pusher.Model exposing (PusherEventData)

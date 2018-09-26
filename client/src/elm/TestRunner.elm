@@ -1,4 +1,4 @@
-port module Main exposing (..)
+port module Main exposing (allTests, emit, main)
 
 import App.Test exposing (all)
 import Json.Encode exposing (Value)

@@ -1,11 +1,10 @@
-module App.Model
-    exposing
-        ( Flags
-        , Model
-        , Msg(..)
-        , Sidebar(..)
-        , emptyModel
-        )
+module App.Model exposing
+    ( Flags
+    , Model
+    , Msg(..)
+    , Sidebar(..)
+    , emptyModel
+    )
 
 import App.PageType exposing (Page(..))
 import Config.Model

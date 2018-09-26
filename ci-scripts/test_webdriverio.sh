@@ -6,11 +6,6 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-# Check the current build.
-if [ -z "${BUILD_WEBDRIVERIO+x}" ] || [ "$BUILD_WEBDRIVERIO" -ne 1 ]; then
- exit 0;
-fi
-
 # Load helper functionality.
 source ci-scripts/helper_functions.sh
 
