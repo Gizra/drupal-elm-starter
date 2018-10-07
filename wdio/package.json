@@ -6,10 +6,10 @@
   "dependencies": {
     "deepmerge": "^2.1.1",
     "wdio-browserstack-service": "^0.1.16",
-    "wdio-mocha-framework": "^0.6.2",
+    "wdio-mocha-framework": "^0.6.3",
     "wdio-selenium-standalone-service": "0.0.10",
     "wdio-spec-reporter": "0.1.5",
-    "webdriverio": "^4.13.1"
+    "webdriverio": "^4.13.2"
   },
   "engines": {
     "node": ">0.10.0"

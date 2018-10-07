@@ -28,4 +28,16 @@ exports.config = merge(wdioConf.config, {
     },
     name: '<<SPECNAME>>'
   }],
+
+  afterCommand: function(commandName, args, result, error) {
+    if (commandName == 'isVisible') {
+      // Prevent recursion.
+      return;
+    }
+
+    // Validate the Debug Errors page is not visible.
+    const hasErrors = browser.isVisible('.debug-errors');
+    const assert = require('assert');
+    assert.equal(hasErrors, false, "Debug errors appears, due to an error (most likely a decoder one)");
+  },
 });

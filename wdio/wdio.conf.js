@@ -57,6 +57,9 @@ exports.config = {
     // Level of logging verbosity: silent | verbose | command | data | result | error
     logLevel: 'error',
     //
+    // Don't show deprecation warnings.
+    deprecationWarnings: false,
+    //
     // Enables colors for log output.
     coloredLogs: true,
     //

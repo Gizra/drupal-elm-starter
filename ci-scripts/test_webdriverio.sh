@@ -12,23 +12,23 @@ source ci-scripts/helper_functions.sh
 
 print_message "Test WebDriverIO."
 mkdir -p /tmp/test_results
-cd "$ROOT_DIR"/wdio/travis-conf
+cd "$ROOT_DIR"/client
 
 # Backup verbatim config.
-WDIO_CONF=wdio.conf."$ENV".travis.js
+WDIO_CONF=wdio.conf.travis.js
 cp "$WDIO_CONF" "$WDIO_CONF".orig
 
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
 set -o pipefail
-for SPEC in ../specs/"$ENV"/*js; do
+for SPEC in test/specs/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
-  sed "s/<<SPECNAME>>/$SPEC_BASENAME/" < "$WDIO_CONF".orig > "$WDIO_CONF"
+  sed "s/<<SPECNAME>>/$SPEC_BASENAME/" < $WDIO_CONF.orig > "$WDIO_CONF"
   for i in $(seq 3); do
-    "$ROOT_DIR"/wdio/node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"  2>&1 | tee /tmp/"$SPEC_BASENAME"-"$i".txt
+    ./node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"  2>&1 | tee /tmp/"$SPEC_BASENAME"-"$i".txt
     WDIO_CMD_RET=$?
     if grep -E -i "(Debug errors appears, due to an error)" /tmp/"$SPEC_BASENAME"-"$i".txt; then
       WDIO_RET=1
