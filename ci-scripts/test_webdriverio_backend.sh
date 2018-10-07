@@ -30,7 +30,7 @@ for SPEC in ./specs/backend/*js; do
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 3 | cut -d '.' -f 1)
   sed "s/<<SPECNAME>>/$SPEC_BASENAME/" < ./travis-conf/$WDIO_CONF.orig > ./travis-conf/"$WDIO_CONF"
   for i in $(seq 3); do
-    ./node_modules/.bin/wdio ./travis-conf/"$WDIO_CONF" --spec "$SPEC"  2>&1 | tee /tmp/"$SPEC_BASENAME"-"$i".txt
+    ./node_modules/.bin/wdio ./travis-conf/"$WDIO_CONF" --spec "$SPEC" 2>&1 | tee /tmp/"$SPEC_BASENAME"-"$i".txt
     WDIO_CMD_RET=$?
     if grep -E -i "(Debug errors appears, due to an error)" /tmp/"$SPEC_BASENAME"-"$i".txt; then
       WDIO_RET=1
@@ -60,7 +60,7 @@ if [[ $WDIO_ALL_RET -ne 0 ]]; then
   export PATH="$HOME/.composer/vendor/bin:$PATH"
   drush cc drush
   drush watchdog-show
-  curl -D - http://server.local/
+  curl -D - http://127.0.0.1:8080
   print_error_message "List of failed specs"
   for SPEC in "${WDIO_FAILED_SPECS[@]}"
   do

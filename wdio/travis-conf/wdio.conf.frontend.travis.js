@@ -9,6 +9,6 @@ const wdioConf = require('./wdio.conf.travis.js');
 exports.config = merge(wdioConf.config, {
   baseUrl: 'http://localhost:3000',
   specs: [
-    '../specs/frontend/*.js'
+    './specs/frontend/*.js'
   ]
 });
