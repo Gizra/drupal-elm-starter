@@ -48,7 +48,6 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_frontend_webdriverio.sh"
     - stage: Test
       name: "Backend tests: SimpleTest and Gatling"
