@@ -3,9 +3,12 @@ set -e
 
 # ---------------------------------------------------------------------------- #
 #
-# Install client dependencies.
+# Install client dependencies and run gulp.
 #
 # ---------------------------------------------------------------------------- #
+
+# Load helper functionality.
+source ci-scripts/helper_functions.sh
 
 echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
