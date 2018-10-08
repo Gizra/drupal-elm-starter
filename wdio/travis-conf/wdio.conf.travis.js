@@ -16,6 +16,28 @@ exports.config = merge(wdioConf.config, {
     // 5 instances get started at a time.
     maxInstances: 1,
     browserName: 'chrome',
+    chromeOptions: {
+      binary: '/usr/bin/google-chrome-stable',
+      args: [
+        'headless',
+        // Use --disable-gpu to avoid an error from a missing Mesa
+        // library, as per
+        // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+        'disable-gpu'
+      ],
+    },
     name: '<<SPECNAME>>'
-  }]
+  }],
+
+  afterCommand: function(commandName, args, result, error) {
+    if (commandName === 'isVisible') {
+      // Prevent recursion.
+      return;
+    }
+
+    // Validate the Debug Errors page is not visible.
+    const hasErrors = browser.isVisible('.debug-errors');
+    const assert = require('assert');
+    assert.equal(hasErrors, false, "Debug errors appears, due to an error (most likely a decoder one)");
+  },
 });
