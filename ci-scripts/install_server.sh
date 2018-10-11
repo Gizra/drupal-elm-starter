@@ -9,6 +9,12 @@ print_message "Move MySQL datadir to RAM disk."
 sudo service mysql stop
 sudo mv /var/lib/mysql /var/run/tmpfs
 sudo ln -s /var/run/tmpfs /var/lib/mysql
+
+# -------------------------------------------------- #
+# Configure MySQL.
+# -------------------------------------------------- #
+print_message "Apply sane configuration to MySQL."
+cat ci-scripts/mysql.config.ini | sudo tee -a /etc/mysql/my.cnf
 sudo service mysql start
 check_last_command
 
