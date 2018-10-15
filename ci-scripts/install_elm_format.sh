@@ -7,4 +7,4 @@ set -e
 #
 # ---------------------------------------------------------------------------- #
 
-npm install -g elm-format@exp
+npm install -g elm-format@0.8.1
