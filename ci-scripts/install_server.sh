@@ -14,7 +14,7 @@ sudo ln -s /var/run/tmpfs /var/lib/mysql
 # Configure MySQL.
 # -------------------------------------------------- #
 print_message "Apply sane configuration to MySQL."
-sudo tee -a /etc/mysql/my.cnf < ci-scripts/mysql.config.ini
+sudo cat ci-scripts/mysql.config.ini | tee -a /etc/mysql/my.cnf
 sudo service mysql start
 check_last_command
 
