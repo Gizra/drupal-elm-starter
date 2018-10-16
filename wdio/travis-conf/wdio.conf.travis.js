@@ -23,23 +23,9 @@ exports.config = merge(wdioConf.config, {
         // Use --disable-gpu to avoid an error from a missing Mesa
         // library, as per
         // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
-        'disable-gpu',
-        // https://stackoverflow.com/questions/50642308/org-openqa-selenium-webdriverexception-unknown-error-devtoolsactiveport-file-d
-        'disable-dev-shm-usage'
-      ],
+        'disable-gpu'
+      ]
     },
     name: '<<SPECNAME>>'
   }],
-
-  afterCommand: function(commandName, args, result, error) {
-    if (commandName === 'isVisible') {
-      // Prevent recursion.
-      return;
-    }
-
-    // Validate the Debug Errors page is not visible.
-    const hasErrors = browser.isVisible('.debug-errors');
-    const assert = require('assert');
-    assert.equal(hasErrors, false, "Debug errors appears, due to an error (most likely a decoder one)");
-  },
 });
