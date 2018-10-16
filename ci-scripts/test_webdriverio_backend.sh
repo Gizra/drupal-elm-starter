@@ -17,7 +17,7 @@ npm install
 cd "$ROOT_DIR"/wdio/travis-conf
 
 # Backup verbatim config.
-WDIO_CONF=wdio.conf.backend.travis.js
+WDIO_CONF=wdio.conf.travis.js
 cp "$WDIO_CONF" "$WDIO_CONF".orig
 
 WDIO_ALL_RET=0
