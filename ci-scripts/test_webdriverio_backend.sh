@@ -23,13 +23,13 @@ cp "$WDIO_CONF" "$WDIO_CONF".orig
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
-for SPEC in specs/*js; do
+for SPEC in specs/backend/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 2 | cut -d '.' -f 1)
   sed "s/<<SPEC_NAME>>/$SPEC_BASENAME/" < ./travis-conf/$WDIO_CONF.orig > ./travis-conf/"$WDIO_CONF"
   for i in $(seq 3); do
-    ./node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"
+    "$ROOT_DIR"/wdio/node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"
     WDIO_RET=$?
     if [[ "$WDIO_RET" -eq 0 ]]; then
       # We give 3 chances to complete
