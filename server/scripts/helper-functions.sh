@@ -227,6 +227,13 @@ function composer_install {
   cd "$ROOT"/www/sites/default/files/composer
   composer install
   echo
+  
+  # Remove `.git` from composer packages, so they could be pushed to Pantheon.
+  # We can't use `composer install --prefer-dist` as some packages don't have a packaged version, and will fallback to
+  # `git clone`.
+  # See https://stackoverflow.com/a/36063839/750039
+  cd "$ROOT"/www/sites/all
+  find vendor -type d -name \.git -exec rm -rf \{\} \;
 
   cd "$ROOT"
 }
