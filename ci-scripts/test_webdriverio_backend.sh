@@ -31,7 +31,7 @@ for SPEC in specs/backend/*js; do
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 2 | cut -d '.' -f 1)
   sed "s/<<SPEC_NAME>>/$SPEC_BASENAME/" < ./travis-conf/$WDIO_CONF.orig > ./travis-conf/"$WDIO_CONF"
   for i in $(seq 3); do
-    "$ROOT_DIR"/wdio/node_modules/.bin/wdio "$WDIO_CONF" --spec "$SPEC"
+    "$ROOT_DIR"/wdio/node_modules/.bin/wdio ./travis-conf/"$WDIO_CONF" --spec "$SPEC"
     WDIO_RET=$?
     if [[ "$WDIO_RET" -eq 0 ]]; then
       # We give 3 chances to complete
