@@ -23,6 +23,8 @@ cp "$WDIO_CONF" "$WDIO_CONF".orig
 WDIO_ALL_RET=0
 declare -a WDIO_FAILED_SPECS
 set +o errexit
+cd "$ROOT_DIR"/wdio
+
 for SPEC in specs/backend/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
