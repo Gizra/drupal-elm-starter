@@ -51,7 +51,7 @@ done
 # If WDIO failed, check Watchdog and check if we can access the backend.
 if [[ $WDIO_ALL_RET -ne 0 ]]; then
   print_error_message "There are at least one failing specs. See debug details and list below"
-  cd "$ROOT_DIR"/www
+  cd "$ROOT_DIR"/server/www
   export PATH="$HOME/.composer/vendor/bin:$PATH"
   drush cc drush
   drush watchdog-show

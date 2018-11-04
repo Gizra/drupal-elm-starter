@@ -23,7 +23,9 @@ exports.config = merge(wdioConf.config, {
         // Use --disable-gpu to avoid an error from a missing Mesa
         // library, as per
         // https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
-        'disable-gpu'
+        'disable-gpu',
+        'no-sandbox',
+        'disable-dev-shm-usage',
       ]
     },
     name: '<<SPECNAME>>'
