@@ -51,8 +51,8 @@ jobs:
     - stage: Test
       name: "Frontend browser-based tests: WebdriverI/O"
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio_frontend.sh"
     - stage: Test
