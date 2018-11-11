@@ -4,17 +4,19 @@
   "version": "0.1.0",
   "description": "WDIO test for DES",
   "dependencies": {
-    "deepmerge": "^2.1.1",
-    "wdio-browserstack-service": "^0.1.16",
-    "wdio-mocha-framework": "^0.6.3",
-    "wdio-selenium-standalone-service": "0.0.10",
-    "wdio-spec-reporter": "0.1.5",
-    "webdriverio": "^4.13.2"
+    "deepmerge": "^1.5.1",
+    "wdio-mocha-framework": "0.5.8",
+    "wdio-spec-reporter": "0.0.5",
+    "webdriverio": "4.6.2",
+    "sleep": "5.1.1"
   },
   "engines": {
     "node": ">0.10.0"
   },
   "scripts": {
     "test": "wdio wdio.local.conf.js"
+  },
+  "devDependencies": {
+    "wdio-selenium-standalone-service": "0.0.10"
   }
 }

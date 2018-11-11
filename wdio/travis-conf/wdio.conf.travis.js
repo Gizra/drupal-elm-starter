@@ -30,4 +30,8 @@ exports.config = merge(wdioConf.config, {
     },
     name: '<<SPECNAME>>'
   }],
+  deprecationWarnings: false,
+  services: [
+    'selenium-standalone',
+  ]
 });
