@@ -10,7 +10,7 @@ set -e
 source ci-scripts/helper_functions.sh
 
 
-print_message "Test WebDriverIO."
+print_message "Test WebDriverIO for the frontend."
 mkdir -p /tmp/test_results
 cd "$ROOT_DIR"/wdio/travis-conf
 

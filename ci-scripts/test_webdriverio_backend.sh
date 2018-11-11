@@ -10,7 +10,7 @@ set -e
 source ci-scripts/helper_functions.sh
 
 
-print_message "Test WebDriverIO."
+print_message "Test WebDriverIO for the backend."
 cd "$ROOT_DIR"/wdio
 npm install
 
