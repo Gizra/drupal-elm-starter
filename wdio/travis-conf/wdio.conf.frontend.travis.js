@@ -7,6 +7,9 @@ const wdioConf = require('./wdio.conf.travis.js');
  * information.
  */
 exports.config = merge(wdioConf.config, {
+  before: function(capabilities, specs) {
+    require('./config/custom-frontend-commands')(browser, capabilities, specs)
+  },
   baseUrl: 'http://localhost:3000',
   specs: [
     './specs/frontend/*.js'

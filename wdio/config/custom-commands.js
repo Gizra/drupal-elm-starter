@@ -40,7 +40,7 @@ module.exports = function (browser, capabilities, specs) {
         .elementIdAttribute(elementId, 'value')
         .value;
 
-    let expected = ''
+    let expected = '';
 
     // Clear the input before entering new value.
     browser.elementIdClear(elementId);
@@ -71,38 +71,6 @@ module.exports = function (browser, capabilities, specs) {
         browser.elementIdClear(elementId);
       }
     }
-  });
-
-  browser.addCommand('frontendLogin', (user, password) => {
-    password = typeof password !== 'undefined' ? password : user;
-    assert(user, "login command must be passed a username");
-    browser.url('/#login');
-    browser.waitForVisible('.login-form');
-    browser.setValueSafe('input[name="username"]', user);
-    browser.setValueSafe('input[name="password"]', password);
-    browser.submitForm('.login-form');
-    browser.waitForVisible('.menu h4');
-  });
-
-  browser.addCommand('backendLogin', (user, password) => {
-    password = typeof password !== 'undefined' ? password : user;
-    assert(user, "login command must be passed a username");
-    browser.url('/user/login');
-    browser.waitForVisible('#user-login');
-    browser.setValueSafe('input[name="name"]', user);
-    browser.setValueSafe('input[name="pass"]', password);
-    browser.submitForm('#user-login');
-    browser.waitForVisible('#page-title');
-  });
-
-  browser.addCommand('frontendLogout', () => {
-      browser.click('.left.menu > a:nth-child(4)');
-      browser.waitForVisible('.login-form');
-  });
-
-  browser.addCommand('backendLogout', () => {
-    browser.url('/user/logout');
-    browser.waitForVisible('#site-name');
   });
 
   /**
