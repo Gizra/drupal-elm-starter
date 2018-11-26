@@ -31,7 +31,7 @@ for SPEC in specs/"$ENV"/*js; do
   print_message "Executing $SPEC"
   WDIO_RET=0
   SPEC_BASENAME=$(echo "$SPEC" | cut -d '/' -f 2 | cut -d '.' -f 1)
-  sed "s/<<SPEC_NAME>>/$SPEC_BASENAME/" < ./travis-conf/$WDIO_CONF.orig > ./travis-conf/"$WDIO_CONF"
+  sed "s/<<SPEC_NAME>>/$SPEC_BASENAME/" < ./travis-conf/"$WDIO_CONF".orig > ./travis-conf/"$WDIO_CONF"
   for i in $(seq 3); do
     "$ROOT_DIR"/wdio/node_modules/.bin/wdio ./travis-conf/"$WDIO_CONF" --spec "$SPEC"
     WDIO_RET=$?
