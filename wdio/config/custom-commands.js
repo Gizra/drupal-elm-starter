@@ -5,6 +5,21 @@ const assert = require('assert');
 module.exports = function (browser, capabilities, specs) {
 
   /**
+   * Require the right custom commands.
+   *
+   * We will determine that according to the first spec's type, this way we are
+   * sure we are never calling both custom commands files on the same tests,
+   * because there might be duplicated functions.
+   */
+  let firstSpec = specs[0];
+  if (firstSpec.search('backend')) {
+    require('./custom-backend-commands')(browser, capabilities, specs);
+  }
+  else if (firstSpec.search('frontend')) {
+    require('./custom-frontend-commands')(browser, capabilities, specs);
+  }
+
+  /**
    * Recursive function to ensure the correct text.
    *
    * This command is created in order to compensate the setValue() bug.
@@ -27,7 +42,8 @@ module.exports = function (browser, capabilities, specs) {
      * Tackle the even weirder decision of WebDriver.io trim the spaces
      * of every property value. Even the "value" property's value.
      * I understand this for class or href properties but not for value.
-     * You can see it here : https://github.com/webdriverio/webdriverio/blob/acdd79bff797b295d2196b3616facc9005b6f17d/lib/webdriverio.js#L463
+     * You can see it here :
+     * https://github.com/webdriverio/webdriverio/blob/acdd79bff797b295d2196b3616facc9005b6f17d/lib/webdriverio.js#L463
      *
      * @param {String} elementId
      *   ID of a WebElement JSON object of the current element.
