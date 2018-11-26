@@ -10,10 +10,10 @@ module.exports = function (browser, capabilities, specs) {
    * because there might be duplicated functions.
    */
   let firstSpec = specs[0];
-  if (firstSpec.search('backend')) {
+  if (firstSpec.search('backend') > 0) {
     require('./custom-backend-commands')(browser, capabilities, specs);
   }
-  else if (firstSpec.search('frontend')) {
+  else if (firstSpec.search('frontend') > 0) {
     require('./custom-frontend-commands')(browser, capabilities, specs);
   }
 
