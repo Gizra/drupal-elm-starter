@@ -76,3 +76,4 @@ cache:
   - client/elm-stuff/packages
   - client/sysconfcpus
   - /tmp/travis-cache
+  - wdio/node_modules
