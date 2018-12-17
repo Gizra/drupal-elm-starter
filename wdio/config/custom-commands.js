@@ -3,6 +3,21 @@
 module.exports = function (browser, capabilities, specs) {
 
   /**
+   * Require the right custom commands.
+   *
+   * We will determine that according to the first spec's type, this way we are
+   * sure we are never calling both custom commands files on the same tests,
+   * because there might be duplicated functions.
+   */
+  let firstSpec = specs[0];
+  if (firstSpec.search('backend') > 0) {
+    require('./custom-backend-commands')(browser, capabilities, specs);
+  }
+  else if (firstSpec.search('frontend') > 0) {
+    require('./custom-frontend-commands')(browser, capabilities, specs);
+  }
+
+  /**
    * Recursive function to ensure the correct text.
    *
    * This command is created in order to compensate the setValue() bug.
@@ -25,7 +40,8 @@ module.exports = function (browser, capabilities, specs) {
      * Tackle the even weirder decision of WebDriver.io trim the spaces
      * of every property value. Even the "value" property's value.
      * I understand this for class or href properties but not for value.
-     * You can see it here : https://github.com/webdriverio/webdriverio/blob/acdd79bff797b295d2196b3616facc9005b6f17d/lib/webdriverio.js#L463
+     * You can see it here :
+     * https://github.com/webdriverio/webdriverio/blob/acdd79bff797b295d2196b3616facc9005b6f17d/lib/webdriverio.js#L463
      *
      * @param {String} elementId
      *   ID of a WebElement JSON object of the current element.
@@ -38,7 +54,7 @@ module.exports = function (browser, capabilities, specs) {
         .elementIdAttribute(elementId, 'value')
         .value;
 
-    let expected = ''
+    let expected = '';
 
     // Clear the input before entering new value.
     browser.elementIdClear(elementId);
@@ -71,11 +87,40 @@ module.exports = function (browser, capabilities, specs) {
     }
   });
 
+  /**
+   * Recursive function to ensure event dispatch on option select.
+   *
+   * This command makes sure that when selecting an option to trigger any event
+   * that is supposed to be triggered, this is because the normal
+   * "SelectByValue" and "Click" commands do select an option but it doesn't
+   * dispatch any event attached to the select list.
+   *
+   * @param {String} option
+   *   The option to be selected.
+   */
+  browser.addCommand('setSelectValue', (option) => {
+    browser.click(option);
+    browser.selectRefresh();
+  });
+
+  /**
+   * Workarounds
+   * https://github.com/webdriverio/webdriverio/issues/1922
+   */
+  browser.addCommand('selectRefresh', () => {
+    browser.execute(function() {
+      var selects = document.querySelectorAll('select');
+      [].forEach.call(selects, function(selectElement) {
+        var event = new Event('input');
+        selectElement.dispatchEvent(event);
+      });
+    });
+  });
+
   // Set the window size to avoid clipping things off.
   browser.windowHandleSize({
     width: 1500,
     height: 900
   });
 
-}
-
+};
