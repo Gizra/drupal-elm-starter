@@ -8,7 +8,7 @@
     "sleep": "5.1.1",
     "wdio-mocha-framework": "0.6.4",
     "wdio-spec-reporter": "0.0.5",
-    "webdriverio": "^4.14.0"
+    "webdriverio": "^5.3.5"
   },
   "engines": {
     "node": ">0.10.0"
@@ -17,6 +17,6 @@
     "test": "wdio wdio.local.conf.js"
   },
   "devDependencies": {
-    "wdio-selenium-standalone-service": "0.0.10"
+    "wdio-selenium-standalone-service": "0.0.12"
   }
 }
