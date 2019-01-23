@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "description": "WDIO test for DES",
   "dependencies": {
+    "@wdio/cli": "^5.3.5",
     "deepmerge": "^1.5.1",
     "sleep": "5.1.1",
     "wdio-mocha-framework": "0.6.4",
