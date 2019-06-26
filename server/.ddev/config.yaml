@@ -20,7 +20,6 @@ hooks:
   - exec: drush site-install server -y --db-url=mysql://db:db@db/db --account-pass=admin
       --existing-config
   - exec: drush en server_migrate
-  - exec: drush sapi-c
   - exec: drush migrate:import --group=server
   - exec: composer global require drupal/coder:8.3.5
   - exec: composer global require dealerdirect/phpcodesniffer-composer-installer
