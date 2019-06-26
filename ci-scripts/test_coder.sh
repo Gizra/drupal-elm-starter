@@ -74,7 +74,7 @@ code_review () {
   fi
 }
 
-cd "$TRAVIS_BUILD_DIR/drupal" || exit 1
+cd "$TRAVIS_BUILD_DIR/server" || exit 1
 if [[ -d "web/modules/custom" ]];
 then
   echo
