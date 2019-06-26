@@ -54,7 +54,7 @@ done
 # If WDIO failed, check Watchdog and check if we can access the backend.
 if [[ $WDIO_ALL_RET -ne 0 ]]; then
   print_error_message "There is at least one failing spec. See debug details and list below"
-  cd "$ROOT_DIR"/drupal/web
+  cd "$ROOT_DIR"/server/web
   ddev exec drush cc drush
   ddev exec drush watchdog-show
   curl -D - "$(get_base_url)"
