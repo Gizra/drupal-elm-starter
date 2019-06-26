@@ -2,31 +2,24 @@
 
 ################################################################################
 #
-# This script will reset a local copy of Drupal 7 based on the Install Profile.
+# This script will reset a local copy of Drupal 8 based on the Install Profile.
 #
-# Do not change the content of this file, 
-# all configuration variables are in the config.sh file.
+# Do not change the content of this file.
 #
 ################################################################################
 
 
 # Define the root of the GIT repository.
-cd ${0%/*}/..
+cd "${0%/*}/.." || exit 1
 ROOT=$(pwd)
-cd $ROOT
+cd "$ROOT" || exit 1
 
 
 # Load the colors.
-source $ROOT/scripts/helper-colors.sh
+source "$ROOT/scripts/helper-colors.sh"
 
 # Load the helpers.
-source $ROOT/scripts/helper-functions.sh
-
-# Load the configuration.
-load_config_file
-
-# Check config
-check_config_file
+source "$ROOT/scripts/helper-functions.sh"
 
 
 ##
@@ -81,7 +74,7 @@ done
 
 
 # Check if we have an installation
-if [ ! -f "$ROOT"/www/modules/system/system.info ]; then
+if [ ! -f "$ROOT"/web/core/modules/system/system.info.yml ]; then
   echo
   echo -e  "${BGRED}                                                                 ${RESTORE}"
   echo -e "${BGLRED}  No Drupal installation detected!                              ${RESTORE}"
@@ -120,7 +113,7 @@ echo
 if [ ! $UNATTENDED ]; then
   echo -e -n "${LRED}Are you sure?${RESTORE} (Y/n) "
   read -e -n 1 -r
-  if [[ ! $REPLY =~ ^[Y]$ ]]; then
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo
     echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
     echo -e "${BGLYELLOW}  Reset aborted!                                                 ${RESTORE}"
@@ -135,20 +128,14 @@ fi
 # Cleanup the www/sites/default directory.
 delete_sites_default_content
 
-# Install the installation profile.
-install_drupal_profile
-
-# Composer install
-composer_install
+# Installs the site.
+start_ddev
 
 # Setup the files directory.
 create_sites_default_files_directory
 
 # Enable the development modules.
 enable_development_modules
-
-# Update settings.php.
-update_settings
 
 # Run post script (if any).
 run_post_script "reset"
@@ -160,9 +147,9 @@ fi
 
 
 # Check if we have a working bootstrap.
-cd $ROOT/www
-BOOTSTRAP_SUCCESS=`drush status grep "Drupal bootstrap" | grep "Successful"`
-cd $ROOT
+cd "$ROOT/web" || exit 1
+BOOTSTRAP_SUCCESS=$(ddev exec drush status | grep "Drupal bootstrap" | grep "Successful")
+cd "$ROOT" || exit 1
 
 if [ ! "$BOOTSTRAP_SUCCESS" ]; then
   echo
@@ -176,6 +163,7 @@ fi
 
 
 # If we managed to get to here, the reset was a success.
+BASE_DOMAIN_URL="$(get_base_url)"
 LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
 echo
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"

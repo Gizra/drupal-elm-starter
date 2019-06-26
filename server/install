@@ -1,33 +1,26 @@
 #!/bin/bash
+set -e
 
 ################################################################################
 #
-# This script will setup a local copy of Drupal 7
+# This script will setup a local copy of Drupal 8
 # based on the Installation Profile.
 #
-# Do not change the content of this file, 
-# all configuration variables are in the config.sh file.
+# Do not change the content of this file.
 #
 ################################################################################
-
+START_TIME=$(date +%s)
 
 # Define the root of the GIT repository.
-cd ${0%/*}
+cd "${0%/*}" || exit 1
 ROOT=$(pwd)
-cd $ROOT
+cd "$ROOT" || exit 1
 
 # Load the colors.
-source $ROOT/scripts/helper-colors.sh
+source "$ROOT/scripts/helper-colors.sh"
 
 # Load the helpers.
-source $ROOT/scripts/helper-functions.sh
-
-# Load the configuration.
-load_config_file
-
-# Check config
-check_config_file
-
+source "$ROOT/scripts/helper-functions.sh"
 
 ##
 # Function to explain the script arguments.
@@ -38,7 +31,7 @@ function arguments_usage {
   echo
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
   echo -e "${BGLCYAN}  $TITLE  ${RESTORE}"
-  echo -e  "${BGCYAN}  This will install the platform as defined in the config file.  ${RESTORE}"
+  echo -e  "${BGCYAN}  This will install the platform into a ddev-based container.    ${RESTORE}"
   echo -e  "${BGCYAN}  If the platform is already installed, it will be removed and   ${RESTORE}"
   echo -e  "${BGCYAN}  reinstalled.                                                   ${RESTORE}"
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
@@ -46,7 +39,6 @@ function arguments_usage {
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
   echo -e  "${BGCYAN}  OPTIONS:                                                       ${RESTORE}"
   echo -e  "${BGCYAN}    -h   Show this message.                                      ${RESTORE}"
-  echo -e  "${BGCYAN}    -d   Load demo content after the installation.               ${RESTORE}"
   echo -e  "${BGCYAN}    -l   Open a new tab in your default browser and login to     ${RESTORE}"
   echo -e  "${BGCYAN}         your project as the Administrator.                      ${RESTORE}"
   echo -e  "${BGCYAN}    -y   Answer automatically yes to the confirmation questions.  ${RESTORE}"
@@ -63,9 +55,6 @@ do
     h)
       arguments_usage
       exit 1
-      ;;
-    d)
-      DEMO_CONTENT=1
       ;;
     l)
       AUTO_LOGIN=1
@@ -92,12 +81,6 @@ echo -e  "${BGBLUE}  > This will delete the database, contrib code and files.   
 echo -e  "${BGBLUE}  > This will recreate the environment                           ${RESTORE}"
 echo -e  "${BGBLUE}    (download Drupal + contrib modules & themes).                ${RESTORE}"
 echo -e  "${BGBLUE}  $INFO  ${RESTORE}"
-if [ $DEMO_CONTENT ] || [ $AUTO_LOGIN ]; then
-  echo -e  "${BGBLUE}                                                                 ${RESTORE}"
-fi
-if [ $DEMO_CONTENT ]; then
-  echo -e  "${BGBLUE}  • Demo content will be loaded into the platform.               ${RESTORE}"
-fi
 if [ $AUTO_LOGIN ]; then
   echo -e  "${BGBLUE}  • A browser tab will open and log you in as Administrator.     ${RESTORE}"
 fi
@@ -118,56 +101,29 @@ if [ ! $UNATTENDED ]; then
   echo
 fi
 
-
-# Cleanup contrib modules, themes & libraries from the profile directory.
+# Clean up composer-based code.
 delete_profile_contrib
 
-# Cleanup the sites/default content.
-delete_sites_default_content
+# Clean up old settings.
+delete_settings
 
-# Cleanup the www directory.
-delete_www_content
-
-# Run the build script (drush make + extra's).
-drupal_make
-
-# Symlink extra modules (if any).
-symlink_externals
-
-
-# Install the Drupal profile as defined in the config.sh file.
-install_drupal_profile
-
-# Composer install
+# Re-bootstrap source code.
 composer_install
 
-# Setup the files directory.
-create_sites_default_files_directory
+# Start ddev.
+start_ddev
 
-# Enable the development modules.
-enable_development_modules
-
-# Update settings.php.
+# settings.php customization.
 update_settings
 
 # Run post script (if any).
-run_post_script "install"
-
-# Load demo content if required.
-if [ $DEMO_CONTENT ]; then
-  import_demo_content
-fi
-
-
-# Check if we have a working bootstrap.
-check_drupal_bootstrap
-
+(run_post_script "install") || true
 
 # If we managed to get to here: the installation was successful!
+BASE_DOMAIN_URL="$(get_base_url)"
 LINK_INFO=$(fill_string_spaces "> Visit the site : ${BGLGREEN}$BASE_DOMAIN_URL${BGGREEN}" 89)
 echo
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
-echo -e "${BGLGREEN}  Installation complete!                                         ${RESTORE}"
 echo -e  "${BGGREEN}  $LINK_INFO  ${RESTORE}"
 echo -e  "${BGGREEN}                                                                 ${RESTORE}"
 echo
@@ -178,6 +134,7 @@ if [ $AUTO_LOGIN ]; then
   drupal_login
 fi
 
-
-# DONE!
+END_TIME=$(date +%s)
+EXEC_TIME=$((END_TIME-START_TIME))
+echo -e "${GREEN} The installation is done in ${EXEC_TIME} seconds${RESTORE}"
 exit 0

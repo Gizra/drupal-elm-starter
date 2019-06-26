@@ -1,0 +1,22 @@
+uuid: 889a4c23-db99-4ca0-9aab-23a3e867bf36
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - thunder_admin
+_core:
+  default_config_hash: YKGaT-4bUFEhMzS8Gd8zqhj8cPmP9gw_YFAL8Mu6BNM
+id: thunder_admin_content
+theme: thunder_admin
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

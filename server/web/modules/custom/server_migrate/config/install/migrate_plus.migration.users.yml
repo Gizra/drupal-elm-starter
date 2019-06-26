@@ -1,0 +1,24 @@
+id: user
+label: 'User'
+migration_group: server
+migration_tags:
+  - users
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/users.csv
+  header_row_count: 1
+  keys:
+    - '_id'
+destination:
+  plugin: 'entity:user'
+process:
+  name: _email
+  mail: _email
+  password:
+    plugin: default_value
+    default_value: 1234
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate

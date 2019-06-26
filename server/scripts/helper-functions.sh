@@ -7,13 +7,6 @@
 ################################################################################
 
 ##
-# Before doing anything, make sure that new Drush commands will be recognized.
-##
-if [[ -d "$ROOT"/www ]]; then
-  drush -q -r "$ROOT"/www cc drush
-fi
-
-##
 # Load the configuration file.
 # Will exit with an error message if the configuration file does not exists!
 ##
@@ -31,65 +24,32 @@ function load_config_file {
     exit 1
   fi
 
+  # Preserve a few key variables, so they can come from
+  # external source like this:
+  # export PANTHEON_BRANCH="moo" && ./deploy-do-env.sh
+  # Or via another shellscript, see deploy-to-qa.sh
+  PROTECTED_VARS=(PANTHEON_BRANCH PANTHEON_ENV MAIN_REPO_BRANCH)
+  for VAR in "${PROTECTED_VARS[@]}";
+  do
+    if [ -n "${!VAR}" ];
+    then
+      VAR_BACKUP="$VAR"_BACKUP
+      export "$VAR_BACKUP=${!VAR}"
+    fi
+  done
+
   # Include the configuration file.
   source "$ROOT"/config.sh
-}
 
-
-##
-# Check the configuration from the config file.
-#
-# This checks:
-# - If the configured profile exists.
-##
-function check_config_file {
-  # Check if the $PROFILE_NAME is defined.
-  if [ ! "$PROFILE_NAME" ]; then
-    echo
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo -e "${BGLRED}  ERROR: No profile in the config file!                          ${RESTORE}"
-    echo -e  "${BGRED}  > Check and add the profile name in the ${BGLRED}config.sh${BGRED} file.        ${RESTORE}"
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo
-    exit 1
-  fi
-
-  # Check if there is a folder with the $PROFILE_NAME.
-  if [ ! -d "$ROOT"/"$PROFILE_NAME" ]; then
-    TITLE=$(fill_string_spaces "ERROR: No profile with the name $PROFILE_NAME" 61)
-    echo
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo -e "${BGLRED}  $TITLE  ${RESTORE}"
-    echo -e  "${BGRED}  > Check the profile name in the ${BGLRED}config.sh${BGRED} file.                ${RESTORE}"
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo
-    exit 1
-  fi
-}
-
-
-##
-# Check if there's a working drupal's bootstrap in the www dir.
-#
-#  Will exit with an error message if the bootstrap does not exists!
-##
-function check_drupal_bootstrap {
-  cd "$ROOT"/www
-  BOOTSTRAP_SUCCESS=$(drush status grep "Drupal bootstrap" | grep "Successful")
-  cd "$ROOT"
-
-  if [ ! "$BOOTSTRAP_SUCCESS" ]; then
-    echo
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo -e "${BGLRED}  No working Drupal installation!                                ${RESTORE}"
-    echo -e  "${BGRED}  > Drupal Bootstrap could not complete successfully.            ${RESTORE}"
-    echo -e  "${BGRED}  > An upgrade can only be run on a working environment.         ${RESTORE}"
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo -e  "${BGRED}  Run the ${BGLRED}./install${BGRED} command to install the platform.             ${RESTORE}"
-    echo -e  "${BGRED}                                                                 ${RESTORE}"
-    echo
-    exit 1
-  fi
+  # Restore the key variables.
+  for VAR in "${PROTECTED_VARS[@]}";
+  do
+    VAR_BACKUP="$VAR"_BACKUP
+    if [ -n "${!VAR_BACKUP}" ];
+    then
+      export "$VAR=${!VAR_BACKUP}"
+    fi
+  done
 }
 
 
@@ -101,30 +61,39 @@ function check_drupal_bootstrap {
 # Uses (requests) sudo powers if needed!
 ##
 function delete_sites_default_content {
-  # Cleanup the www/sites/default content.
-  if [ -d "$ROOT"/www/sites ]; then
+  # Cleanup the web/sites/default content.
+  if [ -d "$ROOT"/web/sites ]; then
     echo -e "${LBLUE}> Cleaning up the sites/default directory${RESTORE}"
-    chmod 777 "$ROOT"/www/sites/default
-    rm -rf "$ROOT"/www/sites/default/files
-    rm -f "$ROOT"/www/sites/default/settings.php
+    chmod 777 "$ROOT"/web/sites/default
+    rm -rf "$ROOT"/web/sites/default/files
     echo
   fi
 
   # Backup in case of we need sudo powers to get rid of the files directory.
-  if [ -d "$ROOT"/www/sites/default/files ]; then
+  if [ -d "$ROOT"/web/sites/default/files ]; then
     echo -e "${LBLUE}> Cleaning up the sites/default/files directory with sudo power!${RESTORE}"
-    sudo rm -rf "$ROOT"/www/sites/default/files
-    echo
-  fi
-
-  # Backup in case of we need sudo powers to get rid of the settings.php directory.
-  if [ -f "$ROOT"/www/sites/default/settings.php ]; then
-    echo -e "${LBLUE}> Cleaning up the sites/default/settings.php file with sudo power!${RESTORE}"
-    sudo rm -rf "$ROOT"/www/sites/default/settings.php
+    sudo rm -rf "$ROOT"/web/sites/default/files
     echo
   fi
 }
 
+##
+# Cleanup the settings
+#
+# Uses (requests) sudo powers if needed!
+##
+function delete_settings {
+  if [ -d "$ROOT"/web/sites ]; then
+    chmod 777 "$ROOT"/web/sites/default
+    rm -f "$ROOT"/web/sites/default/settings.php
+    # Backup in case of we need sudo powers to get rid of the settings.php directory.
+    if [ -f "$ROOT"/web/sites/default/settings.php ]; then
+      echo -e "${LBLUE}> Cleaning up the sites/default/settings.php file with sudo power!${RESTORE}"
+      sudo rm -rf "$ROOT"/web/sites/default/settings.php
+      echo
+    fi
+  fi
+}
 
 ##
 # Cleanup the profile/ directory:
@@ -135,55 +104,33 @@ function delete_sites_default_content {
 ##
 function delete_profile_contrib {
   # Cleanup the contrib modules
-  if [ -d "$ROOT"/"$PROFILE_NAME"/modules/contrib ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/contrib directory${RESTORE}"
-    rm -rf "$ROOT"/"$PROFILE_NAME"/modules/contrib
-    echo
-  fi
-
-  # Cleanup the development modules
-  if [ -d "$ROOT"/"$PROFILE_NAME"/modules/development ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/modules/development directory${RESTORE}"
-    rm -rf "$ROOT"/"$PROFILE_NAME"/modules/development
+  if [ -d "$ROOT/web/modules/contrib/" ]; then
+    echo -e "${LBLUE}> Cleaning up the $ROOT/web/modules/contrib directory${RESTORE}"
+    rm -rf "$ROOT/web/modules/development"
     echo
   fi
 
   # Cleanup the contrib themes
-  if [ -d "$ROOT"/"$PROFILE_NAME"/themes/contrib ]; then
+  if [ -d "$ROOT/web/themes/contrib" ]; then
     echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/themes/contrib directory${RESTORE}"
-    rm -rf "$ROOT"/"$PROFILE_NAME"/themes/contrib
+    rm -rf "$ROOT/web/themes/contrib"
     echo
   fi
 
-  # Cleanup the libraries folder
-  if [ -d "$ROOT"/"$PROFILE_NAME"/libraries ]; then
-    echo -e "${LBLUE}> Cleaning up the $PROFILE_NAME/libraries directory${RESTORE}"
-    rm -rf "$ROOT"/"$PROFILE_NAME"/libraries
-    echo
-  fi
-}
-
-
-##
-# Delete all the content within the /www folder.
-##
-function delete_www_content {
-  if [ -d "$ROOT"/www/sites/default ]; then
-    chmod 777 "$ROOT"/www/sites/default
-  fi
-
-  if [ -d "$ROOT"/www/sites ]; then
-    echo -e "${LBLUE}> Cleaning up the www directory${RESTORE}"
-    rm -rf "$ROOT"/www/
+  # Cleanup the profiles folder
+  if [ -d "$ROOT/web/profiles/contrib" ]; then
+    echo -e "${LBLUE}> Cleaning up the $ROOT/web/profiles/contrib directory${RESTORE}"
+    rm -rf "$ROOT/web/profiles/contrib"
     echo
   fi
 
-  # Create the www directory if necessary.
-  if [ ! -d "$ROOT"/www ]; then
-    echo -e "${LBLUE}> Creating an empty www directory${RESTORE}"
-    mkdir "$ROOT"/www
+  # Cleanup the core folder
+  if [ -d "$ROOT/web/core" ]; then
+    echo -e "${LBLUE}> Cleaning up the $ROOT/web/core directory${RESTORE}"
+    rm -rf "$ROOT/web/core"
     echo
   fi
+
 }
 
 
@@ -198,42 +145,21 @@ function drupal_make {
 
 
 ##
-# Install the profile as configured in the config.sh file.
-##
-function install_drupal_profile {
-  echo -e "${LBLUE}> Install Drupal with the $PROFILE_NAME install profile${RESTORE}"
-
-  cd "$ROOT"/www
-  drush si -y "$PROFILE_NAME" \
-    --locale=en \
-    --site-name="$PROFILE_TITLE" \
-    --account-name="$ADMIN_USERNAME" \
-    --account-pass="$ADMIN_PASSWORD" \
-    --account-mail="$ADMIN_EMAIL" \
-    --db-url="mysql://$MYSQL_USERNAME:$MYSQL_PASSWORD@$MYSQL_HOSTNAME/$MYSQL_DB_NAME" \
-    --uri="$BASE_DOMAIN_URL"
-  echo
-
-  cd "$ROOT"
-}
-
-
-##
 # Composer install.
 ##
 function composer_install {
   echo -e "${LBLUE}> Composer install${RESTORE}"
 
-  cd "$ROOT"/www/sites/default/files/composer
-  composer install
+  cd "$ROOT"
+  COMPOSER_MEMORY_LIMIT=-1 composer install
   echo
-  
+
   # Remove `.git` from composer packages, so they could be pushed to Pantheon.
   # We can't use `composer install --prefer-dist` as some packages don't have a packaged version, and will fallback to
   # `git clone`.
   # See https://stackoverflow.com/a/36063839/750039
-  cd "$ROOT"/www/sites/all
-  find vendor -type d -name \.git -exec rm -rf \{\} \;
+  cd "$ROOT"/web
+  (find . -type d -name \.git -exec rm -rf \{\} \;) || true
 
   cd "$ROOT"
 }
@@ -243,15 +169,15 @@ function composer_install {
 # on the sites/default/files directory.
 ##
 function create_sites_default_files_directory {
-  if [ ! -d "$ROOT"/www/sites/default/files ]; then
+  if [ ! -d "$ROOT"/web/sites/default/files ]; then
     echo -e "${LBLUE}> Create the files directory (sites/default/files directory)${RESTORE}"
-    mkdir -p "$ROOT"/www/sites/default/files
+    mkdir -p "$ROOT"/web/sites/default/files
   fi
 
   echo -e "${LBLUE}> Set the file permissions on the sites/default/files directory${RESTORE}"
-  chmod -R 777 "$ROOT"/www/sites/default/files
-  umask 000 "$ROOT"/www/sites/default/files
-  chmod -R g+s "$ROOT"/www/sites/default/files
+  chmod -R 777 "$ROOT"/web/sites/default/files
+  umask 000 "$ROOT"/web/sites/default/files
+  chmod -R g+s "$ROOT"/web/sites/default/files
   echo
 }
 
@@ -261,39 +187,48 @@ function create_sites_default_files_directory {
 ##
 function enable_development_modules {
   echo -e "${LBLUE}> Enabling the development modules${RESTORE}"
-  cd "$ROOT"/www
-  drush en -y devel views_ui field_ui
+  cd "$ROOT"/web
+  ddev exec drush pm-enable -y devel
   cd "$ROOT"
   echo
 }
 
 ##
-# Do dummy content migration.
+# Start containers for the local development.
 ##
-function import_demo_content {
-  echo -e "${LBLUE}> Importing demo data${RESTORE}"
-  cd "$ROOT"/www
-
-  # Check if migrate module is available
-  MIGRATE_UI=$(drush pm-list --pipe --type=module | grep "^migrate_ui$")
-  MIGRATE_EXTRAS=$(drush pm-list --pipe --type=module | grep "^migrate_extras$")
-  if [ "$MIGRATE_UI" ] && [ "$MIGRATE_EXTRAS" ]; then
-    drush en -y hedley_migrate
-    drush en -y migrate migrate_ui migrate_extras
-    drush mi --all --user=1
-  else
-    echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
-    echo -e "${BGLYELLOW}  Migrate and or Migrate Extras module(s) are not available!     ${RESTORE}"
-    echo -e  "${BGYELLOW}  You need to include:                                           ${RESTORE}"
-    echo -e  "${BGYELLOW}    - migrate                                                    ${RESTORE}"
-    echo -e  "${BGYELLOW}    - migrate_extras                                             ${RESTORE}"
-    echo -e  "${BGYELLOW}  modules in the drupal-org.make file                            ${RESTORE}"
-    echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
-  fi
-
+function start_ddev {
+  echo -e "${LBLUE}> Starting local development environment${RESTORE}"
   cd "$ROOT"
+  ddev remove || true
+  ddev config global --instrumentation-opt-in=false
+  ddev start || exit 1
+  cd "$ROOT"
+  echo -e "${LBLUE}> The local site instance configuration is ready${RESTORE}"
   echo
 }
+
+##
+# Update settings.php.
+#
+# Various settings.php customization.
+##
+function update_settings {
+  echo -e "${LBLUE}> Updating settings${RESTORE}"
+  SETTINGS="$ROOT/web/sites/default/settings.php"
+  chmod 777 "$SETTINGS"
+
+  {
+    echo ""
+    echo "/**"
+    echo " * Config Sync settings."
+    echo " */"
+    echo "\$config_directories[CONFIG_SYNC_DIRECTORY] = '../config/sync';"
+  } >> "$SETTINGS"
+
+  # Protect the settings from changes, to prevent drupal's warning.
+  chmod 755 "$SETTINGS"
+}
+
 
 ##
 # Fill string with spaces until required length.
@@ -315,6 +250,13 @@ function fill_string_spaces {
   echo "$STRING$SPACES"
 }
 
+##
+# Determines the base URL of the site in the container.
+#
+##
+function get_base_url() {
+  ddev describe -j | php -r "\$details = json_decode(file_get_contents('php://stdin')); print_r(\$details->raw->urls[0]);"
+}
 
 ##
 # Login to Drupal as Administrator using the one time login link.
@@ -324,82 +266,14 @@ function fill_string_spaces {
 # the Administrator.
 ##
 function drupal_login {
-  cd www
-  drush uli --uri="$BASE_DOMAIN_URL"
-  cd ..
-}
-
-##
-# Symlink external folders into www folder.
-#
-# This will use the SYMLINKS array from the config.sh file and create
-# the symlinks relative to the www folder in the folder structure.
-##
-function symlink_externals {
-  echo -e "${LBLUE}> Symlinking external directories & files${RESTORE}"
-  if [ ${#SYMLINKS[@]} -eq 0 ]; then
-    echo "No directories or files to symlink."
-    echo
-    return 1
+  cd web
+  BASE_URL="$(get_base_url)"
+  URL=$(ddev exec drush uli --uri "$BASE_URL")
+  if ! hash python 2>/dev/null; then
+    echo -e "${GREEN} $URL ${RESTORE}"
+  else
+    python -mwebbrowser "$URL"
   fi
-
-  # Loop trough the symlinks configuration.
-  for SOURCETARGET in "${SYMLINKS[@]}"; do
-    mapfile -t paths < <(echo "$SOURCETARGET" | tr ">" "\n")
-    path_source=${paths[0]}
-    path_target="$ROOT/www/${paths[1]}"
-    basepath_target=${path_target%/*}
-
-    # check if the source exists
-    if [ ! -e "$path_source" ] && [ ! -L "$path_source" ]; then
-      echo "Source does not exists"
-      echo "  ($path_source)"
-      continue
-    fi
-
-    # Check if the target does not exist.
-    if [ -e "$path_target" ] || [ -L "$path_target" ]; then
-      echo "Target already exists"
-      echo "  ($path_target)"
-      continue
-    fi
-
-    # create basepath of the target if does not already exists.
-    if [ ! -d "$basepath_target" ]; then
-      mkdir -p "$basepath_target"
-    fi
-
-    # Create the symlink
-    ln -s "$path_source" "$path_target"
-    echo "Created symlink for $path_source"
-    echo "  > as $path_target"
-
-  done
-  echo
-}
-
-##
-# Update settings.php.
-#
-# Write Pusher settings to settings.php.
-##
-function update_settings {
-  SETTINGS="$ROOT/www/sites/default/settings.php"
-  chmod 777 "$SETTINGS"
-
-  {
-    echo ""
-    echo "/**"
-    echo " * Pusher settings."
-    echo " */"
-    echo "\$conf['hedley_pusher_app_id'] = '$PUSHER_APP_ID';"
-    echo "\$conf['hedley_pusher_app_key'] = '$PUSHER_APP_KEY';"
-    echo "\$conf['hedley_pusher_app_secret'] = '$PUSHER_APP_SECRET';"
-    echo "\$conf['hedley_pusher_app_cluster'] = '$PUSHER_APP_CLUSTER';"
-  } >> "$SETTINGS"
-
-  # Protect the settings from changes, to prevent drupal's warning.
-  chmod 755 "$SETTINGS"
 }
 
 ##
@@ -409,6 +283,7 @@ function update_settings {
 #   The kind of post script to run.
 ##
 function run_post_script {
+  echo -e "${LBLUE}> Post-install hooks${RESTORE}"
   if [ ! "$1" ]; then
     return 1
   fi

@@ -8,5 +8,5 @@ Apart from this, the recommended way to debug a certain part, is to setup the en
 Examples:
 
 ```
-export BUILD_CLIENT=1 && TRAVIS_BUILD_DIR=/path/to/repo && bash ci/test_client.sh
+export BUILD_SERVER=1 && TRAVIS_BUILD_DIR=/path/to/repo && bash ci/test_server.sh
 ```

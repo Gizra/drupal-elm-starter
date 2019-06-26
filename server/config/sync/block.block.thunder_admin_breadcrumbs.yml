@@ -1,0 +1,22 @@
+uuid: 024cb5e4-c847-4f7a-a749-2d922f6a1ad5
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - thunder_admin
+_core:
+  default_config_hash: Fyvdn9S-OlAtzpOPLPC2wOvvtgJdixby9je1EmJhyR4
+id: thunder_admin_breadcrumbs
+theme: thunder_admin
+region: header
+weight: -2
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  provider: system
+  label_display: '0'
+visibility: {  }

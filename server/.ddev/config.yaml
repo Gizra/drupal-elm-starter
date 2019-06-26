@@ -1,0 +1,27 @@
+APIVersion: v1.8.0
+name: server
+type: drupal8
+docroot: web
+php_version: "7.3"
+webserver_type: nginx-fpm
+router_http_port: "8288"
+router_https_port: "8243"
+xdebug_enabled: false
+additional_hostnames: []
+additional_fqdns: []
+mariadb_version: "10.2"
+nfs_mount_enabled: false
+provider: default
+hooks:
+  post-import-db:
+  - exec: drush config-set system.site name "Drupal Elm Starter Server"
+  - exec: drush cr
+  post-start:
+  - exec: drush site-install server -y --db-url=mysql://db:db@db/db --account-pass=admin
+      --existing-config
+  - exec: drush en server_migrate
+  - exec: drush sapi-c
+  - exec: drush migrate:import --group=server
+  - exec: composer global require drupal/coder:8.3.5
+  - exec: composer global require dealerdirect/phpcodesniffer-composer-installer
+
