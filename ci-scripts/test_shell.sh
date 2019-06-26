@@ -18,13 +18,13 @@ code_review () {
 }
 
 cd "$TRAVIS_BUILD_DIR" || exit 1
-SCRIPTS=$(find ci-scripts drupal/scripts -name '*.sh')
+SCRIPTS=$(find ci-scripts server/scripts -name '*.sh')
 for FILE in $SCRIPTS;  do
   code_review "$FILE"
 done
 
-code_review drupal/install
-code_review drupal/scripts/reset
+code_review server/install
+code_review server/scripts/reset
 
 exit $HAS_ERRORS
 
