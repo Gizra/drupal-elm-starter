@@ -1,20 +1,13 @@
 sudo: required
 language: php
 php:
-- 7.0
+- 7.3
 addons:
   hosts:
     - server.local
   chrome: stable
-env:
-  global:
-  - secure: GX8KrT3dB0JMAKGCp6ktBkSFb0X1KWxkS5tpKHjpohBnI/vqzmhqNcnJyGIE3SFIZIyH4HKfJPJc+eYogvbQ+YGk5HgaKTN5/pcPgKPt5V0xIUzt9xGpWH5bh0WD7Kws1TW+TGAm4aCaGDPHa+o+JCDzF5cdxldeF0NhVNhYLauVQCrSR1MYJk911LXzfaOYDZJZ53TMTtLb83GB5U7Z6pvzKKXd/D4ywfk49VgooSak45dMHKCOuPv/XF3OZDe2JQnZBQVqhf7irpdcBoyWPO1XQddxTPvuZ6ZR3oq42XWx2CQt/6w/ItaZZRS8qtaqZ+/dPxwRBnhQ39bMX6XIPmuvVAO1ikjbINcUzomITN0A0Au0Rex2m4KfQqQWIghM8oEAvoGKx7vm9bmyqON3oiIlBaQXUuyw6azbf0+UBppvCAN7MVpjJIuIpblFScqSRPJlRAZanSFyZ5TWb3yK/54kxKHPeU0+7rcd6yYeeDLpUIFbP7GhzCwPZ+VkfCN8FOOh9Y7aWCHW7BMK6S5s92lnXZvJpOYnih00tdmMrkcsyqWyLMxeMYxuyluxbD52mW4f5MlLefZ5CbFXdXndoPJEDTpLXL4EoAQiBJY5kDNjw2O0VFNHNzhvi+a06alfub4tN1TU4QFNoA43owlVUDjqdRzMhJjUE0AHQpzyrwo=
 services:
 - docker
-before_install:
-- export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-- openssl aes-256-cbc -K $encrypted_b2dc5bc8fb77_key -iv $encrypted_b2dc5bc8fb77_iv
-  -in gdrive-service-account.json.enc -out gdrive-service-account.json -d
 
 stages:
   - lint
@@ -37,43 +30,15 @@ jobs:
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_shell.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_shell.sh"
-    - stage: Lint
-      name: "Elm coding standard: elm-format"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_elm_format.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_elm_format.sh"
     - stage: Test
-      name: "Backend browser-based tests: WebdriverI/O"
+      name: "Drupal browser-based tests: WebdriverI/O"
       env:
-      - TEST_WEBDRIVERIO=backend
+        - TEST_WEBDRIVERIO=backend
       script:
       - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
       - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
       - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
-    - stage: Test
-      name: "Frontend browser-based tests: WebdriverI/O"
-      env:
-      - TEST_WEBDRIVERIO=frontend
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
-    - stage: Test
-      name: "Backend tests: SimpleTest and Gatling"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_simpletest.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_gatling.sh"
-    - stage: Test
-      name: "Frontend unit tests: elm-test"
-      script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
 
 cache:
   directories:
-  - client/elm-stuff/packages
-  - client/sysconfcpus
-  - /tmp/travis-cache
-  - wdio/node_modules
+    - "wdio/node_modules"

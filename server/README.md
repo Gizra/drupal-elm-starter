@@ -1,4 +1,4 @@
-# Unsdg Drupal 8 project
+# Drupal Elm Starter - Server project
 
 ## Requirements
 
