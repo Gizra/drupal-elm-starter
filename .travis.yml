@@ -1,17 +1,20 @@
 sudo: required
 language: php
 php:
-- 7.3
+  - 7.3
 addons:
   hosts:
     - server.local
   chrome: stable
 services:
-- docker
+  - docker
 
 stages:
   - lint
   - test
+
+before_install:
+  - export PATH="$HOME/.config/composer/vendor/bin:$HOME/.composer/vendor/bin:$HOME/vendor/bin:$TRAVIS_BUILD_DIR/vendor/bin:$PATH"
 
 jobs:
   include:
