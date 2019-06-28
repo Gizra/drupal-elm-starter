@@ -1,2 +1,2 @@
-_id,_first_name,_last_name,_position,_email
-1,Joe,Doe,Director,joe@example.com
+_id,_first_name,_last_name,_position,_email,_pw
+1,Joe,Doe,Director,joe@example.com,1234

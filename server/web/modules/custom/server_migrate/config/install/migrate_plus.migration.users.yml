@@ -11,12 +11,17 @@ source:
     - '_id'
 destination:
   plugin: 'entity:user'
+  md5_passwords: true
 process:
   name: _email
   mail: _email
-  password:
+  pass:
+    plugin: callback
+    callable: md5
+    source: _pw
+  status:
     plugin: default_value
-    default_value: 1234
+    default_value: 1
 
 dependencies:
   enforced:
