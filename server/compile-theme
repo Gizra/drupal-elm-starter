@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd web/themes/custom/theme_server
-make compile

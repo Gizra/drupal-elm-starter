@@ -38,5 +38,3 @@ print_message "Install Drupal."
 cd "$ROOT_DIR"/server || exit 1
 ./install -y
 check_last_command
-./compile-theme
-check_last_command

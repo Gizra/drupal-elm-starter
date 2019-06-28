@@ -69,7 +69,10 @@
         "drupal/twig_xdebug": "^1.0",
         "drupal/drupal-extension": "^3.1",
         "symfony/css-selector": "^2.8",
-        "phpunit/phpunit": "^6"
+        "phpunit/phpunit": "^6",
+        "consolidation/robo": "^1.0.0",
+        "leafo/scssphp": "~0.1",
+        "henrikbjorn/lurker": "1.*"
     },
     "conflict": {
         "drupal/drupal": "*"

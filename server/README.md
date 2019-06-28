@@ -20,6 +20,21 @@ Export active configuration into code:
 ddev exec drush cex
 ```
 
+## Theme development
+
+On the host machine, execute:
+```
+vendor/consolidation/robo/robo watch:theme-debug
+```
+
+Then the modifications of the theme will be on-the-fly compiled. The `-debug` suffix ensures that the CSS code remains human-readable.
+
+The directory structure:
+ - `assets/` - put everything there that's not stylesheet and needs postprocessing (images, fonts, etc)
+ - `dist/` - `.gitignore`-ed path where the compiled / optimized files live, the theme should refer the assets from that directory.
+
+Generally for theme development, it's advisable to entirely turn off caching:
+https://www.drupal.org/node/2598914
 
 ## Add new modules
 
