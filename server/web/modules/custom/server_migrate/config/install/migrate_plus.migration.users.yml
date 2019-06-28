@@ -1,4 +1,4 @@
-id: user
+id: migrate_plus.migration.users
 label: 'User'
 migration_group: server
 migration_tags:

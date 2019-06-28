@@ -1,7 +1,7 @@
 const Page = require('../../page_objects/page');
 
-describe('homepage', () => {
-    it('should not contain any warning or error message', () => {
+describe('login page', () => {
+    it('should allow the migrated user to authenticate', () => {
         let page = new Page();
         page.login('joe@example.com');
         page.visit('/');
