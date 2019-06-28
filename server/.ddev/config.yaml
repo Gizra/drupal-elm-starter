@@ -21,7 +21,7 @@ hooks:
       --existing-config
   - exec: drush en server_migrate
   - exec: drush cr
-  - exec: drush migrate:import --group server
+  - exec: drush migrate:import --all
   - exec: composer global require drupal/coder:8.3.5
   - exec: composer global require dealerdirect/phpcodesniffer-composer-installer
 use_dns_when_possible: true
