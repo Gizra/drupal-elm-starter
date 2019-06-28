@@ -14,7 +14,7 @@ chmod +x docker-compose
 sudo mv docker-compose /usr/local/bin
 
 print_message "Upgrade Docker."
-sudo apt -q update -y
+sudo apt -q update -y || true
 sudo apt -q install --only-upgrade docker-ce -y
 
 # -------------------------------------------------- #
