@@ -26,7 +26,7 @@ hooks:
   - exec: composer global require dealerdirect/phpcodesniffer-composer-installer
 use_dns_when_possible: true
 timezone: ""
-
+omit_containers: ["dba", "ddev-ssh-agent"]
 
 # This config.yaml was created with ddev version v1.9.1 
 # webimage: drud/ddev-webserver:v1.9.0
