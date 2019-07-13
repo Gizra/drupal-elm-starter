@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+# Define the root of the GIT repository.
+cd "${0%/*}" || exit 1
+ROOT=$(pwd)
+cd "$ROOT" || exit 1
+
+# No-DDEV mode.
+export NATIVE_INSTALL=1
+
+source "./install" "$@"

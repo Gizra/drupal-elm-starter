@@ -31,7 +31,11 @@ function arguments_usage {
   echo
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
   echo -e "${BGLCYAN}  $TITLE  ${RESTORE}"
-  echo -e  "${BGCYAN}  This will install the platform into a ddev-based container.    ${RESTORE}"
+  if [ -z "$NATIVE_INSTALL" ]; then
+    echo -e  "${BGCYAN}  This will install the platform into a ddev-based container.    ${RESTORE}"
+  else
+    echo -e  "${BGCYAN}  This will install the platform into a local database.    ${RESTORE}"
+  fi
   echo -e  "${BGCYAN}  If the platform is already installed, it will be removed and   ${RESTORE}"
   echo -e  "${BGCYAN}  reinstalled.                                                   ${RESTORE}"
   echo -e  "${BGCYAN}                                                                 ${RESTORE}"
@@ -110,8 +114,17 @@ delete_settings
 # Re-bootstrap source code.
 composer_install
 
-# Start ddev.
-start_ddev
+if [ -z "$NATIVE_INSTALL" ]
+then
+  # Start ddev.
+  start_ddev
+else
+  # Load the helpers.
+  source "$ROOT/scripts/native-helper-functions.sh"
+  load_config_file
+  native_site_install
+fi
+
 
 # Frontend
 "$ROOT"/vendor/consolidation/robo/robo compile:theme

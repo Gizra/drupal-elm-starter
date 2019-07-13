@@ -133,17 +133,6 @@ function delete_profile_contrib {
 
 }
 
-
-##
-# Download & extract Drupal core + contrib based on the make files.
-##
-function drupal_make {
-  echo -e "${LBLUE}> Run the build script (scripts/build)${RESTORE}"
-  bash "$ROOT"/scripts/build
-  echo
-}
-
-
 ##
 # Composer install.
 ##
@@ -153,15 +142,6 @@ function composer_install {
   cd "$ROOT"
   COMPOSER_MEMORY_LIMIT=-1 composer install
   echo
-
-  # Remove `.git` from composer packages, so they could be pushed to Pantheon.
-  # We can't use `composer install --prefer-dist` as some packages don't have a packaged version, and will fallback to
-  # `git clone`.
-  # See https://stackoverflow.com/a/36063839/750039
-  cd "$ROOT"/web
-  (find . -type d -name \.git -exec rm -rf \{\} \;) || true
-
-  cd "$ROOT"
 }
 
 ##
@@ -199,7 +179,9 @@ function enable_development_modules {
 function start_ddev {
   echo -e "${LBLUE}> Starting local development environment${RESTORE}"
   cd "$ROOT"
-  ddev remove || true
+  if [[ -f .ddev/docker-compose.yaml ]]; then
+    ddev remove || true
+  fi
   ddev config global --instrumentation-opt-in=false
   ddev start || exit 1
   cd "$ROOT"
