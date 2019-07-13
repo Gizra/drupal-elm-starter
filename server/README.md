@@ -27,7 +27,7 @@ Known issues / cons compared to DDEV:
  - The hostname must be configured properly manually to resolve to 127.0.0.1 .
  - The webserver must be configured properly manually to serve the `web/` directory.
  - You must re-configure WDIO in order to be able to reach your local site, out of the box it tries to connect to DDEV.
-   See `/wdio/wdio.local.conf.js` for help.
+   See `/wdio/wdio.local.example.conf.js` for help.
 
 ## Configuration management
 
