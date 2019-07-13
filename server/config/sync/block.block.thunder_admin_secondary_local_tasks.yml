@@ -1,0 +1,22 @@
+uuid: b62ccdd8-1e8b-4b4e-a007-a4824b92855a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - thunder_admin
+_core:
+  default_config_hash: wijMU9XnWKMF269Sf6l1pJ8I1jlXrLIrpiuC0b5-lA0
+id: thunder_admin_secondary_local_tasks
+theme: thunder_admin
+region: pre_content
+weight: 0
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  provider: core
+  label_display: '0'
+  primary: false
+  secondary: true
+visibility: {  }

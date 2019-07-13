@@ -23,5 +23,8 @@ for FILE in $SCRIPTS;  do
   code_review "$FILE"
 done
 
+code_review server/install
+code_review server/scripts/reset
+
 exit $HAS_ERRORS
 

@@ -1,84 +1,20 @@
 #!/bin/bash
 
 #########################################################################################
+# YOU DO NOT NEED TO TAKE CARE OF THIS FILE IN CASE OF DDEV-BASED INSTALLATION.
 #
-# Configuration used in the different scripts.
+# Configuration used for the native installation.
 #
 # Copy this file in the same directory, the filename of the copy should be "config.sh".
 #
 #########################################################################################
 
 
-# The profile used to install the platform.
-PROFILE_NAME="hedley"
-# The human name of the install profile
-PROFILE_TITLE="Hedley"
-
-
 # Modify the URL below to match your local domain the site will be accessible on.
-BASE_DOMAIN_URL="http://localhost/drupal-elm-starter/server/www"
-
-
-# Modify the login details below to be the desired
-# login details for the Drupal Administrator account.
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="admin"
-ADMIN_EMAIL="admin@example.com"
-
+BASE_DOMAIN_URL="drupal-elm-starter.local"
 
 # Modify the MySQL settings below so they will match your own.
 MYSQL_USERNAME="root"
-MYSQL_PASSWORD="root"
-MYSQL_HOSTNAME="127.0.0.1"
+MYSQL_PASSWORD=""
+MYSQL_HOSTNAME="localhost"
 MYSQL_DB_NAME="drupal_elm_starter"
-
-# Pusher credentials.
-PUSHER_APP_ID="pusher-app-id"
-PUSHER_APP_KEY="pusher-app-key"
-PUSHER_APP_SECRET="pusher-app-secret"
-PUSHER_APP_CLUSTER="pusher-app-cluster"
-
-# Pantheon project machine-name for syncing purpose.
-PANTHEON_PROJECT_NAME='drupal-elm-starter'
-
-##
-# External folders or files that need to be symlinked into the www folder
-# AFTER the make files have been processed.
-#
-# The variable is an array, add each with an unique index number.
-# Each line should contain the source path > target path.
-# The target path needs to be relative to the www folder (Drupal root).
-#
-# Example:
-#   SYMLINKS[0]="path/to/the/source/folder>subpath/of/the/www-folder"
-##
-# SYMLINKS[0]="/var/www/library/foldername>sites/all/library/foldername"
-# SYMLINKS[1]="/var/www/shared/filename.php>sites/all/modules/filename.php"
-
-
-
-##
-# Post script functions.
-#
-# These functions are called when the corresponding script has finshed and
-# before the final check of the platform (and optional auto login).
-#
-# Add commands that need to be run per script.
-# The colors, as defined in the scripts/helper-colors.sh file, can be used to
-# highlight echoed text.
-#
-# Following variables can be used (created depending on the script arguments):
-# - $DEMO_CONTENT (0/1) : Should the demo content be loaded into the platform.
-# - $AUTO_LOGIN (0/1)   : Will the script open a browser window and log in as an
-#                         administrator.
-# - $UNATTENDED (0/1)   : Is the script run unattended.
-##
-
-# Post install script.
-# function post_install {}
-
-# Post upgrade script.
-# function post_upgrade {}
-
-# Post reset script.
-# function post_reset {}

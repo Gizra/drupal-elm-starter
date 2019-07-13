@@ -1,0 +1,74 @@
+uuid: 0d78b5e2-1a51-488c-ad9a-c0d815034308
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.user.user.user_picture
+    - image.style.thumbnail
+  module:
+    - field_layout
+    - image
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    enabled: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          e89e3ac5-deea-4cab-809d-0b21c9a0806b:
+            uuid: e89e3ac5-deea-4cab-809d-0b21c9a0806b
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:user:user:user_picture'
+              formatter:
+                type: image
+                settings:
+                  image_style: thumbnail
+                  image_link: content
+                third_party_settings: {  }
+                label: hidden
+            additional: {  }
+            weight: 0
+          bda5bec8-eea3-4d95-9205-bfc43c77960a:
+            uuid: bda5bec8-eea3-4d95-9205-bfc43c77960a
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:user:user:member_for'
+            additional: {  }
+            weight: 1
+        third_party_settings: {  }
+_core:
+  default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
+id: user.user.default
+targetEntityType: user
+bundle: user
+mode: default
+content:
+  member_for:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  user_picture:
+    type: image
+    weight: 0
+    region: content
+    settings:
+      image_style: thumbnail
+      image_link: content
+    third_party_settings: {  }
+    label: hidden
+hidden: {  }

@@ -1,0 +1,22 @@
+uuid: 8a0a4ab7-4d43-4bfc-b94d-fe3c25831ed5
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - thunder_admin
+_core:
+  default_config_hash: viE0tXBEASw3du6evrm13niC7z5XEJ_2Ic4_M6otXj8
+id: thunder_admin_messages
+theme: thunder_admin
+region: highlighted
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  provider: system
+  label_display: '0'
+visibility: {  }

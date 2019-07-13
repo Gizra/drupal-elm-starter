@@ -1,0 +1,29 @@
+id: server_migrate_user
+label: 'User'
+migration_group: server
+migration_tags:
+  - users
+source:
+  plugin: csv
+  path: modules/custom/server_migrate/csv_files/users.csv
+  header_row_count: 1
+  keys:
+    - '_id'
+destination:
+  plugin: 'entity:user'
+  md5_passwords: true
+process:
+  name: _email
+  mail: _email
+  pass:
+    plugin: callback
+    callable: md5
+    source: _pw
+  status:
+    plugin: default_value
+    default_value: 1
+
+dependencies:
+  enforced:
+    module:
+      - server_migrate

@@ -1,0 +1,14 @@
+uuid: 7d8c1a6b-210b-417a-9db1-0d8b5b6226ad
+name: 'Drupal Elm Starter - Server'
+mail: admin@example.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI
