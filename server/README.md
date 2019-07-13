@@ -2,11 +2,32 @@
 
 ## Requirements
 
-## Drupal Site installation
+## Drupal Site installation (DDEV)
+
+ * Preferred, supported.
 
 ```bash
 ./install
 ```
+
+## Alternative install path (non-DDEV)
+
+The project has an alternative way to install the project, using the native OS. This is preferred if Docker has poor
+performance (OSX - virtual machine issues). Also it can be used if the performance is really critical for a certain
+task, to avoid the overhead of the containerization.
+
+ * Copy `default.config.sh` to `config.sh`
+ * Execute:
+   ```bash
+    ./native-install
+   ```
+
+Known issues / cons compared to DDEV:
+ - Drush version needs to be at least version 9, no check is made for that.
+ - The hostname must be configured properly manually to resolve to 127.0.0.1 .
+ - The webserver must be configured properly manually to serve the `web/` directory.
+ - You must re-configure WDIO in order to be able to reach your local site, out of the box it tries to connect to DDEV.
+   See `/wdio/wdio.local.conf.js` for help.
 
 ## Configuration management
 
