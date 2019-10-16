@@ -17,6 +17,7 @@ print_message "Upgrade Docker."
 sudo apt-get -y remove docker docker-engine docker.io containerd runc || true
 sudo apt-key fingerprint 0EBFCD88
 sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+# Allow apt update to fail, potentially only some sources are not accessible.
 sudo apt -q update -y || true
 sudo apt -q install --only-upgrade docker-ce -y
 
