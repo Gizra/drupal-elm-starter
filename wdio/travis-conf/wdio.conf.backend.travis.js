@@ -52,7 +52,7 @@ exports.config = {
         // 5 instances get started at a time.
         maxInstances: 1,
         browserName: 'chrome',
-        chromeOptions: {
+        'goog:chromeOptions': {
           binary: '/usr/bin/google-chrome-stable',
           args: [
             '--headless',
