@@ -40,5 +40,5 @@ cp "$ROOT_DIR/ci-scripts/global_config.yaml" ~/.ddev/
 print_message "Install Drupal."
 
 cd "$ROOT_DIR"/server || exit 1
-./install -y || ddev logs
+./install -y || ./install -y || ddev logs
 check_last_command
