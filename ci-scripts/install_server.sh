@@ -22,6 +22,15 @@ sudo apt -q update -y || true
 sudo apt -q install --only-upgrade docker-ce -y
 
 # -------------------------------------------------- #
+# Installing mkcert.
+# -------------------------------------------------- #
+print_message "Install mkcert."
+wget -nv https://github.com/FiloSottile/mkcert/releases/download/v1.4.0/mkcert-v1.4.0-linux-amd64
+sudo mv mkcert-v1.4.0-linux-amd64 /usr/bin/mkcert
+chmod +x /usr/bin/mkcert
+mkcert -install
+
+# -------------------------------------------------- #
 # Installing ddev.
 # -------------------------------------------------- #
 print_message "Install ddev."
