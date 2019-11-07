@@ -17,6 +17,7 @@ performance (OSX - virtual machine issues). Also it can be used if the performan
 task, to avoid the overhead of the containerization.
 
  * Copy `default.config.sh` to `config.sh`
+ * Review the content of `config.sh`
  * Execute:
    ```bash
     ./native-install

@@ -2,7 +2,7 @@
 
  - npm 5.x or newer
  - node 8.x
- - Google Chrome stable channel
+ - [Google Chrome](https://www.google.com/chrome/) stable channel
  - [Chromedriver](http://chromedriver.chromium.org/)
  
 ## Test environment

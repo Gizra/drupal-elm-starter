@@ -1,11 +1,11 @@
 sudo: required
 language: php
+dist: bionic
 php:
   - 7.3
 addons:
   hosts:
     - server.local
-  chrome: stable
 services:
   - docker
 
