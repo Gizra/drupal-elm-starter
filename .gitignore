@@ -43,6 +43,13 @@ Thumbs.db
 .settings/
 .idea
 
+# WDIO #
+########
+node_modules
+geckodriver
+errorShots
+wdio.local.conf.js
+
 # Google Drive secrets #
 # ######################
 gdrive-service-account.json

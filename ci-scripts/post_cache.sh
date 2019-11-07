@@ -18,6 +18,14 @@ if [[ ! -d "$TRAVIS_CACHE_DIR"/node_modules && -d "$ROOT_DIR"/client/node_module
   cp -r "$ROOT_DIR"/client/node_modules "$TRAVIS_CACHE_DIR"
 fi
 
+# Populates cache if needed.
+if [[ ! -d "$TRAVIS_CACHE_DIR"/wdio/node_modules && -d "$ROOT_DIR"/wdio/node_modules ]]; then
+  echo "Populating NPM cache for WDIO"
+  mkdir "$TRAVIS_CACHE_DIR"/wdio
+  cp -r "$ROOT_DIR"/wdio/node_modules "$TRAVIS_CACHE_DIR"/wdio
+fi
+
+
 if [[ ! -d "$TRAVIS_CACHE_DIR"/www && -d "$ROOT_DIR"/server/www ]]; then
   echo "Populating Drupal cache from server"
   # --no-dereference will cause that we skip Hedley profile entirely.

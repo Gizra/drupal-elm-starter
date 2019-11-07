@@ -29,13 +29,3 @@ The unit tests are written in Elm via [Elm Test](https://github.com/elm-communit
 ```
 npm test
 ```
-
-## WebdriverIO tests
-
-1. Run `gulp`
-1. Follow [steps 2-4](http://webdriver.io/guide.html)
-1. `cp wdio.local.conf.js.example wdio.local.conf.js` and set your local configurations.
-1. Execute tests with `./node_modules/.bin/wdio wdio.local.conf.js`
-
-Beware that you do not need to (should not) execute a standalone Selenium Server alongside WDIO to run the tests.
-To simulate Travis test execution, see `../ci-scripts/README.md`

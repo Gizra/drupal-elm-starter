@@ -41,11 +41,16 @@ echo "$CURRENT_NPM_HASH" > "$NPM_HASH_FILE"
 if [[ "$PREVIOUS_NPM_HASH" == "$CURRENT_NPM_HASH" && -d "$TRAVIS_CACHE_DIR"/node_modules ]]; then
   echo "NPM build hash matches, copying node_modules ($PREVIOUS_NPM_HASH == $CURRENT_NPM_HASH)"
   cp -r "$TRAVIS_CACHE_DIR"/node_modules "$ROOT_DIR"/client
+  cp -r "$TRAVIS_CACHE_DIR"/wdio/node_modules "$ROOT_DIR"/wdio
 else
   echo "NPM build hash does not match, purging cache ($PREVIOUS_NPM_HASH <> $CURRENT_NPM_HASH)"
   if [ -d "$TRAVIS_CACHE_DIR"/node_modules ]; then
     chmod -R +w "$TRAVIS_CACHE_DIR"/node_modules
     rm -rf "$TRAVIS_CACHE_DIR"/node_modules
+  fi
+  if [ -d "$TRAVIS_CACHE_DIR"/wdio ]; then
+    chmod -R +w "$TRAVIS_CACHE_DIR"/wdio
+    rm -rf "$TRAVIS_CACHE_DIR"/wdio
   fi
 fi
 

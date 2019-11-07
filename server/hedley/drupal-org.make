@@ -3,13 +3,13 @@ api = 2
 
 ; Modules
 projects[admin_menu][subdir] = "contrib"
-projects[admin_menu][version] = "3.0-rc5"
+projects[admin_menu][version] = "3.0-rc6"
 
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.6"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.12"
+projects[ctools][version] = "1.14"
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/2067997-reload-plugins-class-7.patch"
 
 projects[composer_manager][subdir] = "contrib"
@@ -32,7 +32,7 @@ projects[entity_validator][subdir] = "contrib"
 projects[entity_validator][version] = "1.2"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.12"
@@ -50,14 +50,14 @@ projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.18"
+projects[views][version] = "3.20"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.4"
+projects[views_bulk_operations][version] = "3.5"
 
 ; Development
 projects[devel][subdir] = "development"
-projects[devel][version] = "1.5"
+projects[devel][version] = "1.6"
 
 projects[migrate][subdir] = "development"
 projects[migrate][version] = "2.11"

@@ -1,0 +1,22 @@
+{
+  "name": "WDIO-test",
+  "private": false,
+  "version": "0.1.0",
+  "description": "WDIO test for DES",
+  "dependencies": {
+    "deepmerge": "^1.5.1",
+    "sleep": "5.1.1",
+    "wdio-mocha-framework": "0.6.4",
+    "wdio-spec-reporter": "0.0.5",
+    "webdriverio": "^4.14.0"
+  },
+  "engines": {
+    "node": ">0.10.0"
+  },
+  "scripts": {
+    "test": "wdio wdio.local.conf.js"
+  },
+  "devDependencies": {
+    "wdio-selenium-standalone-service": "0.0.10"
+  }
+}

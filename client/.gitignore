@@ -7,11 +7,5 @@ bower_components
 # For local tests
 libsysconfcpus
 
-# WebDriverIO
-*.jar
-geckodriver
-errorShots/
-
 # Ignore the local config file.
 LocalConfig.elm
-wdio.local.conf.js

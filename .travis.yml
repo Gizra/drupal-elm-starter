@@ -43,12 +43,21 @@ jobs:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_elm_format.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_elm_format.sh"
     - stage: Test
-      name: "Frontend browser-based tests: WebdriverI/O"
+      name: "Backend browser-based tests: WebdriverI/O"
+      env:
+      - TEST_WEBDRIVERIO=backend
       script:
-        - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
+      - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
+      - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
+      - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
+    - stage: Test
+      name: "Frontend browser-based tests: WebdriverI/O"
+      env:
+      - TEST_WEBDRIVERIO=frontend
+      script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
+        - "$TRAVIS_BUILD_DIR/ci-scripts/install_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
-        - "$TRAVIS_BUILD_DIR/ci-scripts/test_client.sh"
         - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
     - stage: Test
       name: "Backend tests: SimpleTest and Gatling"
@@ -67,3 +76,4 @@ cache:
   - client/elm-stuff/packages
   - client/sysconfcpus
   - /tmp/travis-cache
+  - wdio/node_modules
