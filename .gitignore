@@ -53,3 +53,7 @@ wdio.local.conf.js
 # Google Drive secrets #
 # ######################
 gdrive-service-account.json
+
+# Deployment-related secret #
+#############################
+deployment-robot-key
