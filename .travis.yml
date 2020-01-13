@@ -12,6 +12,7 @@ services:
 stages:
   - lint
   - test
+  - deploy
 
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$HOME/.composer/vendor/bin:$HOME/vendor/bin:$TRAVIS_BUILD_DIR/vendor/bin:$PATH"
@@ -41,6 +42,12 @@ jobs:
       - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
       - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
       - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
+    - stage: Deploy
+      name: "Deployment to Pantheon"
+      if: branch = 8.x
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
+        - "$TRAVIS_BUILD_DIR/pantheon-unsdg/deploy-to-qa.sh"
 
 cache:
   bundler: true
