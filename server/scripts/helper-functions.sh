@@ -241,7 +241,7 @@ function fill_string_spaces {
 ##
 function drupal_login {
   cd web
-  URL=$(ddev exec drush uli --uri)
+  URL=$(ddev exec drush uli)
   if ! hash python 2>/dev/null; then
     echo -e "${GREEN} $URL ${RESTORE}"
   else
