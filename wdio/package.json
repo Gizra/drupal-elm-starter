@@ -3,16 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "test.js",
-  "dependencies": {
-    "@wdio/runner": "^5.4.17",
-    "webdriverio": "^5.4.8"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@wdio/cli": "^5.4.8",
-    "@wdio/local-runner": "^5.4.8",
-    "@wdio/mocha-framework": "^5.4.8",
-    "@wdio/spec-reporter": "^5.6.0",
-    "@wdio/sync": "^5.4.6"
+    "@wdio/cli": "^5.17.0",
+    "@wdio/local-runner": "^5.17.0",
+    "@wdio/mocha-framework": "^5.16.15",
+    "@wdio/spec-reporter": "^5.16.11",
+    "@wdio/sync": "^5.17.0"
   },
   "scripts": {
     "test": "wdio"
