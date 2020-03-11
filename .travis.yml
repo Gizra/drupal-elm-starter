@@ -45,9 +45,14 @@ jobs:
     - stage: Deploy
       name: "Deployment to Pantheon"
       if: branch = 227-deployment
+      env:
+        - PANTHEON_ENV=dev
+        - PANTHEON_BRANCH=master
+        - MAIN_REPO_BRANCH=8.x
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
-        - "$TRAVIS_BUILD_DIR/pantheon-drupal-elm-starter/deploy-to-qa.sh"
+        - "$TRAVIS_BUILD_DIR/pantheon-drupal-elm-starter/deploy-to-env.sh"
+        -
 
 cache:
   bundler: true
