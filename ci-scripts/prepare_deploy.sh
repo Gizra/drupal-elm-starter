@@ -8,7 +8,7 @@ source "$TRAVIS_BUILD_DIR/server/scripts/helper-functions.sh"
 phpenv config-rm xdebug.ini
 
 # Make Git operations possible.
-cp .pantheon_deploy_key ~/.ssh/id_rsa
+cp deployment-robot-key ~/.ssh/id_rsa
 
 # Make Terminus available.
 cd ~ || exit 1
