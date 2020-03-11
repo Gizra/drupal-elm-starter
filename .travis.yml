@@ -54,7 +54,6 @@ jobs:
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
         - "$TRAVIS_BUILD_DIR/pantheon-drupal-elm-starter/deploy-to-env.sh"
-        -
 
 cache:
   bundler: true
