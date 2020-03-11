@@ -9,7 +9,7 @@ if [[ -f  "$ROOT"/scripts/helper-colors.sh ]];
 then
   source "$ROOT"/scripts/helper-colors.sh
 else
-  source "$ROOT"/drupal/scripts/helper-colors.sh
+  source "$ROOT"/server/scripts/helper-colors.sh
 fi
 
 # Load the helpers.
@@ -18,7 +18,7 @@ if [[ -f  "$ROOT"/scripts/helper-functions.sh ]];
 then
   source "$ROOT"/scripts/helper-functions.sh
 else
-  source "$ROOT"/drupal/scripts/helper-functions.sh
+  source "$ROOT"/server/scripts/helper-functions.sh
 fi
 source "$ROOT"/ci-scripts/helper-functions.sh
 
@@ -161,7 +161,7 @@ function commitAndPushChanges() {
   rm -fR web/profiles || true
   rm -fR web/modules || true
   rm -fR web/themes || true
-  cp -fR github-repo/drupal/* .
+  cp -fR github-repo/server/* .
   cp -fR github-repo/deploy-* .
 
   cd "$ROOT" || exit
