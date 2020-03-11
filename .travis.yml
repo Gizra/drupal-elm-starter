@@ -53,7 +53,7 @@ jobs:
         - MAIN_REPO_BRANCH=8.x
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
-        - "$TRAVIS_BUILD_DIR/pantheon-drupal-elm-starter/deploy-to-env.sh"
+        - /tmp/pantheon-drupal-elm-starter/deploy-to-env.sh"
 
 cache:
   bundler: true
