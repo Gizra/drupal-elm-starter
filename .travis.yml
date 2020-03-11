@@ -44,10 +44,10 @@ jobs:
       - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
     - stage: Deploy
       name: "Deployment to Pantheon"
-      if: branch = 8.x
+      if: branch = 227-deployment
       script:
         - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
-        - "$TRAVIS_BUILD_DIR/pantheon-unsdg/deploy-to-qa.sh"
+        - "$TRAVIS_BUILD_DIR/pantheon-drupal-elm-starter/deploy-to-qa.sh"
 
 cache:
   bundler: true
