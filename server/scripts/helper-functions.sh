@@ -233,14 +233,6 @@ function fill_string_spaces {
 }
 
 ##
-# Determines the base URL of the site in the container.
-#
-##
-function get_base_url() {
-  ddev describe -j | php -r "\$details = json_decode(file_get_contents('php://stdin')); print_r(\$details->raw->urls[0]);"
-}
-
-##
 # Login to Drupal as Administrator using the one time login link.
 #
 # This command does the login for you when the build script is done.
@@ -249,8 +241,7 @@ function get_base_url() {
 ##
 function drupal_login {
   cd web
-  BASE_URL="$(get_base_url)"
-  URL=$(ddev exec drush uli --uri "$BASE_URL")
+  URL=$(ddev exec drush uli)
   if ! hash python 2>/dev/null; then
     echo -e "${GREEN} $URL ${RESTORE}"
   else
