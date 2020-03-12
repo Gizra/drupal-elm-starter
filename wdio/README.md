@@ -19,7 +19,7 @@ commands in which each has a dedicated `conf.js` file pointing to the right `bas
 During the test exexution, both Chromedriver and WDIO processes must be up and running.
 
 Or alternatively via the Travis scripts:
-1. `export TRAVIS_BUILD_DIR=/home/user/gizra/unsdg`
+1. `export TRAVIS_BUILD_DIR=/home/user/gizra/drupal-elm-starter`
 1. `ci-scripts/install_webdriverio.sh`
 1. `ci-scripts/test_webdriverio.sh`
 

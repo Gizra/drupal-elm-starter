@@ -12,8 +12,11 @@ services:
 stages:
   - lint
   - test
+  - deploy
 
 before_install:
+  - openssl aes-256-cbc -K $encrypted_b2dc5bc8fb77_key -iv $encrypted_b2dc5bc8fb77_iv
+      -in deployment-robot-key.enc -out deployment-robot-key -d
   - export PATH="$HOME/.config/composer/vendor/bin:$HOME/.composer/vendor/bin:$HOME/vendor/bin:$TRAVIS_BUILD_DIR/vendor/bin:$PATH"
 
 jobs:
@@ -41,6 +44,16 @@ jobs:
       - "$TRAVIS_BUILD_DIR/ci-scripts/install_server.sh"
       - "$TRAVIS_BUILD_DIR/ci-scripts/install_webdriverio.sh"
       - "$TRAVIS_BUILD_DIR/ci-scripts/test_webdriverio.sh"
+    - stage: Deploy
+      name: "Deployment to Pantheon"
+      if: branch = 227-deployment
+      env:
+        - PANTHEON_ENV=dev
+        - PANTHEON_BRANCH=master
+        - MAIN_REPO_BRANCH=8.x
+      script:
+        - "$TRAVIS_BUILD_DIR/ci-scripts/prepare_deploy.sh"
+        - "/tmp/pantheon-drupal-elm-starter/deploy-to-env.sh"
 
 cache:
   bundler: true
@@ -49,3 +62,7 @@ cache:
     - "$HOME/.composer/cache"
     - "$HOME/.drush/cache"
     - "$TRAVIS_BUILD_DIR/wdio/node_modules"
+
+env:
+  global:
+    secure: tbKmOpRU36QwBXwINlpx0A3KHXZR5si1Q16lyR3JCzfl786FA0vBlGrnKB9BSaU/T/0Nv3vRyj3xhfueH8MK8w/VChMIklJGMYR/RatQHBq28gu4FMfXNCmEcknFMfH5Ep2+UCKFrxN8NrqVGrA2e/P7iy9Sh/Db11zJSw9SaP6DiLyBBHfVwefRT3lHZKSbftTlzCH7nlFmRqlAdodvD78Qd0H4wsZKnMwncHOXvuZVJjaokZgpJIBy/iG36dDZirk1sami8oYNW5Jh/xXcweBr7MWGC07lxgfKVGt/WQQnFRiNugHksBOFQ34ZNDWtCul1ivLplPn/47ckHVJrJD2iHPkILq3gHCMlB0g8bjTN1XKCr+ed/JPZtn+sMlQTFJDhr8b0ofsDVXC4RL5Q17fOy2mEfviNPpwnWu0JUgWWQKiYrowmkkozTFOpIV4byNHSl0pulcaMAXxH0keJA3Nb0QVBj0HWUE90iPZGRPGxjYsrWJxs2BL/r5MP793/WtaAB13jsytfqeme0CdVRowXCFjU5w3dryi4qWTtxK6edruwr/iSt3frXlNXSfoOSVjEdyQyUWo/aUyZEG/vzJNT+SFfSoF5ty1a5XJMdUunecigsrxABBxRTqlPupGD6HTmNXB8AGz70/FjME+y4n8pf6bJj+ehrA7g62zhVIU=
