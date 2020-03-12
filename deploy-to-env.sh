@@ -132,8 +132,8 @@ function commitAndPushChanges() {
   rm -fR web/profiles || true
   rm -fR web/modules || true
   rm -fR web/themes || true
-  cp -fR "$TRAVIS_BUILD_DIR/server/*" .
-  cp -fR "$TRAVIS_BUILD_DIR/deploy-*" .
+  cp -fR "$TRAVIS_BUILD_DIR"/server/* .
+  cp -fR "$TRAVIS_BUILD_DIR"/deploy-* .
 
   cd "$ROOT" || exit
   # Get the last date and commit has of the commit that is going to be deployed.
