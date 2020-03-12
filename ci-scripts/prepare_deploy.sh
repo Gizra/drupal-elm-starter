@@ -26,6 +26,7 @@ GIT_HOST="codeserver.dev.abc11525-c334-436c-a62e-5a47febc6c26.drush.in"
 ssh-keyscan -p 2222 $GIT_HOST >> ~/.ssh/known_hosts
 git clone ssh://codeserver.dev.abc11525-c334-436c-a62e-5a47febc6c26@$GIT_HOST:2222/~/repository.git /tmp/pantheon-drupal-elm-starter
 
-# Refresh configuration
+# Refresh configuration and scripts.
 cd /tmp/pantheon-drupal-elm-starter || exit 1
 cp "$TRAVIS_BUILD_DIR"/ci-scripts/travis.config.sh config.sh
+cp "$TRAVIS_BUILD_DIR"/*.sh .

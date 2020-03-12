@@ -123,45 +123,17 @@ function requireDeploymentApproval() {
 }
 
 ##
-# Clones the origin repository into github-repo folder.
-##
-function cloneRepo() {
-  echo "Resetting pantheon-repo to $PANTHEON_BRANCH branch..."
-  cd /tmp/pantheon-drupal-elm-starter
-  git clean -f -d .
-  git fetch
-  git reset --hard origin/"$PANTHEON_BRANCH"
-  git checkout -B "$PANTHEON_BRANCH"
-
-  cd github-repo
-  if [ -z ${DEPLOY_TAG+x} ];
-  then
-    git fetch origin "$MAIN_REPO_BRANCH"
-    git reset --hard origin/"$MAIN_REPO_BRANCH"
-  else
-    git fetch origin "$DEPLOY_TAG"
-    git reset --hard origin/"$DEPLOY_TAG"
-  fi
-  if [[ -n $(git status -s) ]]; then
-    git status
-    echo -e -n "${RED} > The GitHub repository is still dirty, giving up"
-    cd "$ROOT"
-    exit 1
-  fi
-  cd "$ROOT"
-}
-
-##
 # Copies the data from the repository into the Pantheon repo and commit the
 # changes.
 ##
 function commitAndPushChanges() {
+  cd /tmp/pantheon-drupal-elm-starter || exit 1
   rm -fR config/sync || true
   rm -fR web/profiles || true
   rm -fR web/modules || true
   rm -fR web/themes || true
-  cp -fR github-repo/server/* .
-  cp -fR github-repo/deploy-* .
+  cp -fR "$TRAVIS_BUILD_DIR/server/*" .
+  cp -fR "$TRAVIS_BUILD_DIR/deploy-*" .
 
   cd "$ROOT" || exit
   # Get the last date and commit has of the commit that is going to be deployed.
@@ -170,7 +142,6 @@ function commitAndPushChanges() {
   cd ..
 
   updateDependencies
-  compileTheme
   cleanGit
 
   # If there's nothing to commit, let's abort the process.
