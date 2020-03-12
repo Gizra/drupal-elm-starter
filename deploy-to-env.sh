@@ -134,22 +134,21 @@ function cloneRepo() {
   git checkout -B "$PANTHEON_BRANCH"
 
   cd github-repo
-    if [ -z ${DEPLOY_TAG+x} ];
-    then
-      git fetch origin "$MAIN_REPO_BRANCH"
-      git reset --hard origin/"$MAIN_REPO_BRANCH"
-    else
-      git fetch origin "$DEPLOY_TAG"
-      git reset --hard origin/"$DEPLOY_TAG"
-    fi
-    if [[ -n $(git status -s) ]]; then
-      git status
-      echo -e -n "${RED} > The GitHub repository is still dirty, giving up"
-      cd "$ROOT"
-      exit 1
-    fi
-    cd "$ROOT"
+  if [ -z ${DEPLOY_TAG+x} ];
+  then
+    git fetch origin "$MAIN_REPO_BRANCH"
+    git reset --hard origin/"$MAIN_REPO_BRANCH"
+  else
+    git fetch origin "$DEPLOY_TAG"
+    git reset --hard origin/"$DEPLOY_TAG"
   fi
+  if [[ -n $(git status -s) ]]; then
+    git status
+    echo -e -n "${RED} > The GitHub repository is still dirty, giving up"
+    cd "$ROOT"
+    exit 1
+  fi
+  cd "$ROOT"
 }
 
 ##
