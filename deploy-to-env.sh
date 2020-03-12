@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-cd "$ROOT"
+cd "$ROOT" || exit 1
 
 # Load the colors.
 # shellcheck source=scripts/helper-colors.sh
@@ -46,7 +46,7 @@ function deploy() {
   then
     requireDeploymentApproval
   fi
-  COMMIT_RESULT=$(commitAndPushChanges)
+  commitAndPushChanges
 
   doFreshInstall
   syncConfigs
@@ -65,7 +65,7 @@ function sanityChecks() {
   make --version 1> /dev/null 2> /dev/null || exit_msg "make not found."
   grep --version 1> /dev/null 2> /dev/null || exit_msg "grep not found."
 
-  CURRENT_BRANCH=$(git branch | grep \* | cut -c3-)
+  CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
   if [ "$CURRENT_BRANCH" != "$PANTHEON_BRANCH" ] ; then
     exit_msg "You are in $CURRENT_BRANCH but you need to be in $PANTHEON_BRANCH branch to deploy."
   fi
@@ -139,7 +139,7 @@ function commitAndPushChanges() {
   # Get the last date and commit has of the commit that is going to be deployed.
   LAST_COMMIT_DATE=$(git log -1 --format=%cd)
   LAST_COMMIT_HASH=$(git log -1 --format=%h)
-  cd ..
+  cd /tmp/pantheon-drupal-elm-starter || exit 1
 
   updateDependencies
   cleanGit
@@ -179,7 +179,7 @@ function updateDependencies() {
 # In the current directory, strips the .git modules in subfolders.
 ##
 function cleanGit() {
-  (find -path ./github-repo -prune -o -print | grep "\.git" | grep -v "^./.git"  |  xargs rm -rf) || true
+  (find . -type d | grep "\.git" | grep -v "^./.git" | xargs rm -rf) || true
 }
 
 ##
