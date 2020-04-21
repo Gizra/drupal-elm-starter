@@ -8,5 +8,5 @@ set -e
 # ---------------------------------------------------------------------------- #
 
 cd "$TRAVIS_BUILD_DIR"
-composer global require drupal/coder
-phpcs --config-set installed_paths ~/.config/composer/vendor/drupal/coder/coder_sniffer
+COMPOSER_MEMORY_LIMIT=-1 composer global require drupal/coder:8.3.5
+phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer

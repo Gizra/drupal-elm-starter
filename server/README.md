@@ -1,153 +1,86 @@
-# Drupal 7 - Install Profile Hedley
+# Drupal Elm Starter - Server project
 
-This is a starting base to create Drupal 7 websites using an install profile.
+## Requirements
 
+## Drupal Site installation (DDEV)
 
-## Installation
+ * Preferred, supported.
 
-**Warning:** you need to setup [Drush](https://github.com/drush-ops/drush)
-first or the installation and update scripts will not work.
-
-Clone the project from [GitHub](https://github.com/Gizra/drupal-elm-stater).
-
-
-#### Create config file
-
-Copy the example configuration file to config.sh:
-
-	$ cp default.config.sh config.sh
-
-Edit the configuration file, fill in the blanks.
-After deploying the project to Pantheon, actualize the `PANTHEON_PROJECT_NAME` variable as well.
-
-
-#### Run the install script
-
-Run the install script from within the root of the repository:
-
-	$ ./install
-
-You can login automatically when the installation is done. Add the -l argument
-when you run the install script.
-
-  $ ./install -l
-
-
-#### Configure web server
-
-Create a vhost for your webserver, point it to the `REPOSITORY/ROOT/www` folder.
-(Restart/reload your webserver).
-
-Add the local domain to your ```/etc/hosts``` file.
-
-Open the URL in your favorite browser.
-
-
-
-## Reinstall
-
-You can Reinstall the platform any type by running the install script.
-
-	$ ./install
-
-
-#### The install script will perform following steps:
-
-1. Delete the /www folder.
-2. Recreate the /www folder.
-3. Download and extract all contrib modules, themes & libraries to the proper
-   subfolders of the profile.
-4. Download and extract Drupal 7 core in the /www folder
-5. Create an empty sites/default/files directory
-6. Makes a symlink within the /www/profiles directory to the /hedley
-   directory.
-7. Run the Drupal installer (Drush) using the Hedley profile.
-
-#### Warning!
-
-* The install script will not preserve the data located in the
-  sites/default/files directory.
-* The install script will clear the database during the installation.
-
-**You need to take backups before you run the install script!**
-
-
-
-## Upgrade
-
-It is also possible to upgrade Drupal core and contributed modules and themes
-without destroying the data in tha database and the sites/default directory.
-
-Run the upgrade script:
-
-	$ ./upgrade
-
-You can login automatically when the upgrade is finished. Add the -l argument
-when you run the upgrade script.
-
-  $ ./upgrade -l
-
-
-#### The upgrade script will perform following steps:
-
-1. Create a backup of the sites/default folder.
-2. Delete the /www folder.
-3. Recreate the /www folder.
-4. Download and extract all contrib modules, themes & libraries to the proper
-   subfolders of the profile.
-5. Download and extract Drupal 7 core in the /www folder.
-6. Makes a symlink within the /www/profiles directory to the
-   /hedley 7. directory.
-7. Restore the backup of the sites/default folder.
-
-##### Sync from Pantheon
-
-To have real data on your local instance, you may use
-
-  $ ./import_and_sanitize.sh [environment]
-
-To re-initialize an already working and configured local website. Drush and Terminus are required for
-the command.
-The optional environment argument is `live` by default.
-
-## Start a new project based on Drupal Elm Starter
-
-### In a nutshell
- * Edit `server/travis.config.sh` and actualize `GH_REPO` variable based on
-   the new URL
- * Actualize/re-encrypt Google Drive credentials in `gdrive-service-account.json.enc`
- * Actualize/re-ecrypt GitHub credentials in `.travis.yml`
-
-For the last two points, see the longer version below.
-
-### Google Drive integration
-WDIO test failures are automatically uploaded to Google Drive. The credentials
-in this public repository are encrypted by Travis. If you don't fork the
-project, but copy it, you need to re-add and encrypt your credentials,
-the process of updating `gdrive-service-account.json.enc` is described at
-https://github.com/prasmussen/gdrive/#service-account
-and https://developers.google.com/identity/protocols/OAuth2ServiceAccount .
-Encrypting the retrieved JSON file can be done via `travis encrypt-file`, 
-then, you can commit the changes to the repository. As a last step,
-enable Google Drive API for the given service account at
-the API Manager: https://console.developers.google.com/apis/api/drive/
-for the given project what's associated with the service account.
-
-Beware that Travis cannot encrypt multiple files for the same project.
-If you need encrypted files for another purpose for your project, follow
-the instructions at
-https://docs.travis-ci.com/user/encrypting-files/#Encrypting-multiple-files .
-
-### GitHub integration
-The uploaded WDIO test failure videos are exposed via GitHub comment. For
-this purpose, you need personal access token of a user who is able to comment
-on the related pull requests.
-Get an access token with basic repository, issue and pull request access
-granted:
-https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
-
-Then:
+```bash
+./install
 ```
-travis encrypt GH_TOKEN="<personaltoken>"
+
+## Alternative install path (non-DDEV)
+
+The project has an alternative way to install the project, using the native OS. This is preferred if Docker has poor
+performance (OSX - virtual machine issues). Also it can be used if the performance is really critical for a certain
+task, to avoid the overhead of the containerization.
+
+ * Copy `default.config.sh` to `config.sh`
+ * Review the content of `config.sh`
+ * Execute:
+   ```bash
+    ./native-install
+   ```
+
+Known issues / cons compared to DDEV:
+ - Drush version needs to be at least version 9, no check is made for that.
+ - The hostname must be configured properly manually to resolve to 127.0.0.1 .
+ - The webserver must be configured properly manually to serve the `web/` directory.
+ - You must re-configure WDIO in order to be able to reach your local site, out of the box it tries to connect to DDEV.
+   See `/wdio/wdio.local.example.conf.js` for help.
+
+## Configuration management
+
+Import configuration from code:
 ```
-In the end, you can commit the changes to the repository.
+ddev exec drush cim
+```
+
+Export active configuration into code:
+```
+ddev exec drush cex
+```
+
+## Theme development
+
+On the host machine, execute:
+```
+vendor/consolidation/robo/robo watch:theme-debug
+```
+
+Then the modifications of the theme will be on-the-fly compiled. The `-debug` suffix ensures that the CSS code remains human-readable.
+
+The directory structure:
+ - `assets/` - put everything there that's not stylesheet and needs postprocessing (images, fonts, etc)
+ - `dist/` - `.gitignore`-ed path where the compiled / optimized files live, the theme should refer the assets from that directory.
+
+Generally for theme development, it's advisable to entirely turn off caching:
+https://www.drupal.org/node/2598914
+
+## Add new modules
+
+With `composer require ...` you can download new dependencies to your 
+installation.
+
+```
+composer require drupal/devel:~1.0
+```
+
+## How can I apply patches to downloaded modules?
+
+If you need to apply patches (depending on the project being modified, a pull 
+request is often a better solution), you can do so with the 
+[composer-patches](https://github.com/cweagans/composer-patches) plugin.
+
+To add a patch to drupal module foobar insert the patches section in the extra 
+section of composer.json:
+```json
+"extra": {
+    "patches": {
+        "drupal/foobar": {
+            "Patch description": "URL or local path to patch"
+        }
+    }
+}
+```

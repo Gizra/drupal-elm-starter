@@ -1,0 +1,12 @@
+global-styling:
+  version: 1.0
+  css:
+    theme:
+      css/style.css: {}
+      css/media.css: {}
+      css/admin-tabs.css: {}
+global-scripts:
+  js:
+    js/scripts.js: {}
+  dependencies:
+    - core/jquery

@@ -24,14 +24,8 @@ function check_last_command() {
   fi
 }
 
-# Make sure Features are in a default state after installation.
-function check_features() {
-  cd "$TRAVIS_BUILD_DIR"/server/www || exit 1
-  if drush features-list --format=csv | grep Overridden ; then
-  echo "----"
-  print_error_message "The features are overridden, aborting the execution"
-    exit 99
-  fi
+function get_base_url() {
+  ddev describe -j | php -r "\$details = json_decode(file_get_contents('php://stdin')); print_r(\$details->raw->httpurl);"
 }
 
 export ROOT_DIR="$TRAVIS_BUILD_DIR"

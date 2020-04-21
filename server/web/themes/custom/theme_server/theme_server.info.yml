@@ -1,0 +1,16 @@
+name: Theme Server
+type: theme
+description: 'Theme Server'
+package: Server
+core: 8.x
+libraries:
+  - theme_server/global-styling
+  - theme_server/global-scripts
+
+base theme: classy
+
+regions:
+  header: Header
+  language_switcher: Language Switcher
+  content: Content
+  footer: Footer

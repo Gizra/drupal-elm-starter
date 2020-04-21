@@ -1,22 +1,27 @@
 {
-  "name": "WDIO-test",
-  "private": false,
-  "version": "0.1.0",
-  "description": "WDIO test for DES",
-  "dependencies": {
-    "deepmerge": "^1.5.1",
-    "sleep": "5.1.1",
-    "wdio-mocha-framework": "0.6.4",
-    "wdio-spec-reporter": "0.0.5",
-    "webdriverio": "^4.14.0"
-  },
-  "engines": {
-    "node": ">0.10.0"
+  "name": "diy-stress-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@wdio/cli": "^5.17.0",
+    "@wdio/local-runner": "^5.17.0",
+    "@wdio/mocha-framework": "^5.16.15",
+    "@wdio/spec-reporter": "^5.16.11",
+    "@wdio/sync": "^5.17.0"
   },
   "scripts": {
-    "test": "wdio wdio.local.conf.js"
+    "test": "wdio"
   },
-  "devDependencies": {
-    "wdio-selenium-standalone-service": "0.0.10"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gizra/diy-stress-test.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gizra/diy-stress-test/issues"
+  },
+  "homepage": "https://github.com/Gizra/diy-stress-test#readme"
 }
